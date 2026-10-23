@@ -1,0 +1,11 @@
+services:
+  planner:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      PM_ALLOW_PAID_CALLS: "false"
+    volumes:
+      - project-data:/app/data
+volumes:
+  project-data:

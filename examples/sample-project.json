@@ -1,0 +1,1304 @@
+{
+  "id": "89d746b877c747368595a4a08530ddba",
+  "goal": {
+    "objective": "Launch a fictional e-commerce website"
+  },
+  "created_at": "2026-10-23T02:56:31.575068+00:00",
+  "revisions": [
+    {
+      "id": "3899a1c232514d44a64e4203703ffcf3",
+      "number": 1,
+      "created_at": "2026-10-23T02:56:31.575068+00:00",
+      "constraints": {
+        "days": 60,
+        "budget": 20000.0,
+        "team_size": 4
+      },
+      "change": "Initial plan",
+      "plan": {
+        "title": "Northstar · E-commerce launch",
+        "tasks": [
+          {
+            "id": "T1",
+            "title": "Discovery & acceptance criteria",
+            "deliverable": "01 · Define",
+            "duration": 4,
+            "people": 1,
+            "daily_rate": 200.0,
+            "fixed_cost": 0.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T2",
+            "title": "Storefront experience design",
+            "deliverable": "02 · Design",
+            "duration": 7,
+            "people": 1,
+            "daily_rate": 220.0,
+            "fixed_cost": 0.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T3",
+            "title": "Product catalog & content",
+            "deliverable": "02 · Design",
+            "duration": 8,
+            "people": 1,
+            "daily_rate": 160.0,
+            "fixed_cost": 400.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T4",
+            "title": "Storefront implementation",
+            "deliverable": "03 · Build",
+            "duration": 14,
+            "people": 2,
+            "daily_rate": 220.0,
+            "fixed_cost": 300.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T5",
+            "title": "Payments & order workflow",
+            "deliverable": "03 · Build",
+            "duration": 8,
+            "people": 1,
+            "daily_rate": 240.0,
+            "fixed_cost": 250.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T6",
+            "title": "Quality, security & accessibility checks",
+            "deliverable": "04 · Validate",
+            "duration": 7,
+            "people": 2,
+            "daily_rate": 180.0,
+            "fixed_cost": 0.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T7",
+            "title": "Launch readiness & release",
+            "deliverable": "05 · Launch",
+            "duration": 4,
+            "people": 1,
+            "daily_rate": 200.0,
+            "fixed_cost": 300.0,
+            "source": "demo_estimate"
+          }
+        ],
+        "dependencies": [
+          {
+            "predecessor": "T1",
+            "successor": "T2"
+          },
+          {
+            "predecessor": "T1",
+            "successor": "T3"
+          },
+          {
+            "predecessor": "T2",
+            "successor": "T4"
+          },
+          {
+            "predecessor": "T3",
+            "successor": "T4"
+          },
+          {
+            "predecessor": "T4",
+            "successor": "T5"
+          },
+          {
+            "predecessor": "T5",
+            "successor": "T6"
+          },
+          {
+            "predecessor": "T6",
+            "successor": "T7"
+          }
+        ],
+        "milestones": [
+          {
+            "title": "Scope agreed",
+            "task_id": "T1"
+          },
+          {
+            "title": "Storefront built",
+            "task_id": "T4"
+          },
+          {
+            "title": "Launch ready",
+            "task_id": "T7"
+          }
+        ],
+        "assumptions": [
+          "DEMO: fixed fictional e-commerce template, not model-generated or goal-specific.",
+          "Elapsed planning days; no holidays or weekends modeled.",
+          "Rates are fictional USD per person-day; estimates need team validation.",
+          "All team members are interchangeable; hosting and taxes require separate estimates.",
+          "Constraint-only revisions retain scope, durations and rates; no automatic cost cutting."
+        ],
+        "questions": [
+          "Which commerce platform and payment regions are required?",
+          "Who approves scope, product content and launch readiness?"
+        ],
+        "risks": [
+          {
+            "title": "Payment onboarding delays",
+            "probability": "medium",
+            "impact": "high",
+            "mitigation": "Start provider verification during discovery.",
+            "source": "demo_estimate"
+          }
+        ],
+        "operations": [
+          {
+            "tool": "validate_wbs"
+          },
+          {
+            "tool": "schedule"
+          },
+          {
+            "tool": "budget"
+          },
+          {
+            "tool": "resources"
+          },
+          {
+            "tool": "review"
+          }
+        ]
+      },
+      "results": {
+        "validate_wbs": {
+          "order": [
+            "T1",
+            "T2",
+            "T3",
+            "T4",
+            "T5",
+            "T6",
+            "T7"
+          ],
+          "task_count": 7,
+          "dependency_count": 7
+        },
+        "schedule": {
+          "cpm_days": 45,
+          "days": 45,
+          "deadline": 60,
+          "feasible": true,
+          "slack_days": 15,
+          "critical_path": [
+            "T1",
+            "T3",
+            "T4",
+            "T5",
+            "T6",
+            "T7"
+          ],
+          "tasks": [
+            {
+              "id": "T1",
+              "start": 0,
+              "end": 4,
+              "early_start": 0,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T2",
+              "start": 4,
+              "end": 11,
+              "early_start": 4,
+              "float": 1,
+              "critical": false
+            },
+            {
+              "id": "T3",
+              "start": 4,
+              "end": 12,
+              "early_start": 4,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T4",
+              "start": 12,
+              "end": 26,
+              "early_start": 12,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T5",
+              "start": 26,
+              "end": 34,
+              "early_start": 26,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T6",
+              "start": 34,
+              "end": 41,
+              "early_start": 34,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T7",
+              "start": 41,
+              "end": 45,
+              "early_start": 41,
+              "float": 0,
+              "critical": true
+            }
+          ],
+          "milestones": [
+            {
+              "title": "Scope agreed",
+              "day": 4
+            },
+            {
+              "title": "Storefront built",
+              "day": 26
+            },
+            {
+              "title": "Launch ready",
+              "day": 45
+            }
+          ],
+          "daily_people": [
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1
+          ],
+          "method": "CPM lower bound + greedy pooled-resource leveling; elapsed planning days"
+        },
+        "budget": {
+          "items": [
+            {
+              "task_id": "T1",
+              "labor": 800.0,
+              "fixed": 0.0,
+              "total": 800.0
+            },
+            {
+              "task_id": "T2",
+              "labor": 1540.0,
+              "fixed": 0.0,
+              "total": 1540.0
+            },
+            {
+              "task_id": "T3",
+              "labor": 1280.0,
+              "fixed": 400.0,
+              "total": 1680.0
+            },
+            {
+              "task_id": "T4",
+              "labor": 6160.0,
+              "fixed": 300.0,
+              "total": 6460.0
+            },
+            {
+              "task_id": "T5",
+              "labor": 1920.0,
+              "fixed": 250.0,
+              "total": 2170.0
+            },
+            {
+              "task_id": "T6",
+              "labor": 2520.0,
+              "fixed": 0.0,
+              "total": 2520.0
+            },
+            {
+              "task_id": "T7",
+              "labor": 800.0,
+              "fixed": 300.0,
+              "total": 1100.0
+            }
+          ],
+          "total": 16270.0,
+          "limit": 20000,
+          "remaining": 3730.0,
+          "feasible": true,
+          "currency": "USD",
+          "basis": "duration × people × estimated daily rate + fixed costs"
+        },
+        "resources": {
+          "person_days": 73,
+          "capacity_person_days": 240,
+          "deadline_utilization": 0.3042,
+          "peak_people": 2,
+          "team_size": 4,
+          "assumption": "Interchangeable team members; skill availability is not modeled"
+        },
+        "review": {
+          "feasible": true,
+          "findings": [],
+          "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+        },
+        "execution": {
+          "prompt_version": "planner-v1",
+          "model_calls": 0,
+          "reported_tokens": 0,
+          "model": null,
+          "max_model_calls": 3,
+          "max_output_tokens_per_call": 4000
+        }
+      },
+      "decisions": [
+        {
+          "agent": "Demo fixture",
+          "message": "No LLM called. Reused fictional e-commerce work packages.",
+          "timestamp": "2026-10-23T02:56:31.575068+00:00"
+        },
+        {
+          "agent": "Deterministic reviewer",
+          "message": "{\"feasible\": true, \"findings\": [], \"verified\": \"Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts.\"}",
+          "timestamp": "2026-10-23T02:56:31.575068+00:00"
+        }
+      ],
+      "trace": [
+        {
+          "tool": "validate_wbs",
+          "status": "ok",
+          "output": {
+            "order": [
+              "T1",
+              "T2",
+              "T3",
+              "T4",
+              "T5",
+              "T6",
+              "T7"
+            ],
+            "task_count": 7,
+            "dependency_count": 7
+          },
+          "duration_ms": 0.0
+        },
+        {
+          "tool": "schedule",
+          "status": "ok",
+          "output": {
+            "cpm_days": 45,
+            "days": 45,
+            "deadline": 60,
+            "feasible": true,
+            "slack_days": 15,
+            "critical_path": [
+              "T1",
+              "T3",
+              "T4",
+              "T5",
+              "T6",
+              "T7"
+            ],
+            "tasks": [
+              {
+                "id": "T1",
+                "start": 0,
+                "end": 4,
+                "early_start": 0,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T2",
+                "start": 4,
+                "end": 11,
+                "early_start": 4,
+                "float": 1,
+                "critical": false
+              },
+              {
+                "id": "T3",
+                "start": 4,
+                "end": 12,
+                "early_start": 4,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T4",
+                "start": 12,
+                "end": 26,
+                "early_start": 12,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T5",
+                "start": 26,
+                "end": 34,
+                "early_start": 26,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T6",
+                "start": 34,
+                "end": 41,
+                "early_start": 34,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T7",
+                "start": 41,
+                "end": 45,
+                "early_start": 41,
+                "float": 0,
+                "critical": true
+              }
+            ],
+            "milestones": [
+              {
+                "title": "Scope agreed",
+                "day": 4
+              },
+              {
+                "title": "Storefront built",
+                "day": 26
+              },
+              {
+                "title": "Launch ready",
+                "day": 45
+              }
+            ],
+            "daily_people": [
+              1,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1,
+              1,
+              1
+            ],
+            "method": "CPM lower bound + greedy pooled-resource leveling; elapsed planning days"
+          },
+          "duration_ms": 0.0
+        },
+        {
+          "tool": "budget",
+          "status": "ok",
+          "output": {
+            "items": [
+              {
+                "task_id": "T1",
+                "labor": 800.0,
+                "fixed": 0.0,
+                "total": 800.0
+              },
+              {
+                "task_id": "T2",
+                "labor": 1540.0,
+                "fixed": 0.0,
+                "total": 1540.0
+              },
+              {
+                "task_id": "T3",
+                "labor": 1280.0,
+                "fixed": 400.0,
+                "total": 1680.0
+              },
+              {
+                "task_id": "T4",
+                "labor": 6160.0,
+                "fixed": 300.0,
+                "total": 6460.0
+              },
+              {
+                "task_id": "T5",
+                "labor": 1920.0,
+                "fixed": 250.0,
+                "total": 2170.0
+              },
+              {
+                "task_id": "T6",
+                "labor": 2520.0,
+                "fixed": 0.0,
+                "total": 2520.0
+              },
+              {
+                "task_id": "T7",
+                "labor": 800.0,
+                "fixed": 300.0,
+                "total": 1100.0
+              }
+            ],
+            "total": 16270.0,
+            "limit": 20000,
+            "remaining": 3730.0,
+            "feasible": true,
+            "currency": "USD",
+            "basis": "duration × people × estimated daily rate + fixed costs"
+          },
+          "duration_ms": 0.0
+        },
+        {
+          "tool": "resources",
+          "status": "ok",
+          "output": {
+            "person_days": 73,
+            "capacity_person_days": 240,
+            "deadline_utilization": 0.3042,
+            "peak_people": 2,
+            "team_size": 4,
+            "assumption": "Interchangeable team members; skill availability is not modeled"
+          },
+          "duration_ms": 0.0
+        },
+        {
+          "tool": "review",
+          "status": "ok",
+          "output": {
+            "feasible": true,
+            "findings": [],
+            "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+          },
+          "duration_ms": 0.0
+        }
+      ],
+      "sources": [],
+      "provider": "demo"
+    },
+    {
+      "id": "018a0075012c49ae89ffae2c99f52309",
+      "number": 2,
+      "created_at": "2026-10-23T02:56:31.575068+00:00",
+      "constraints": {
+        "days": 46,
+        "budget": 15000.0,
+        "team_size": 4
+      },
+      "change": "Reduce budget and deadline; retain scope",
+      "plan": {
+        "title": "Northstar · E-commerce launch",
+        "tasks": [
+          {
+            "id": "T1",
+            "title": "Discovery & acceptance criteria",
+            "deliverable": "01 · Define",
+            "duration": 4,
+            "people": 1,
+            "daily_rate": 200.0,
+            "fixed_cost": 0.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T2",
+            "title": "Storefront experience design",
+            "deliverable": "02 · Design",
+            "duration": 7,
+            "people": 1,
+            "daily_rate": 220.0,
+            "fixed_cost": 0.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T3",
+            "title": "Product catalog & content",
+            "deliverable": "02 · Design",
+            "duration": 8,
+            "people": 1,
+            "daily_rate": 160.0,
+            "fixed_cost": 400.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T4",
+            "title": "Storefront implementation",
+            "deliverable": "03 · Build",
+            "duration": 14,
+            "people": 2,
+            "daily_rate": 220.0,
+            "fixed_cost": 300.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T5",
+            "title": "Payments & order workflow",
+            "deliverable": "03 · Build",
+            "duration": 8,
+            "people": 1,
+            "daily_rate": 240.0,
+            "fixed_cost": 250.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T6",
+            "title": "Quality, security & accessibility checks",
+            "deliverable": "04 · Validate",
+            "duration": 7,
+            "people": 2,
+            "daily_rate": 180.0,
+            "fixed_cost": 0.0,
+            "source": "demo_estimate"
+          },
+          {
+            "id": "T7",
+            "title": "Launch readiness & release",
+            "deliverable": "05 · Launch",
+            "duration": 4,
+            "people": 1,
+            "daily_rate": 200.0,
+            "fixed_cost": 300.0,
+            "source": "demo_estimate"
+          }
+        ],
+        "dependencies": [
+          {
+            "predecessor": "T1",
+            "successor": "T2"
+          },
+          {
+            "predecessor": "T1",
+            "successor": "T3"
+          },
+          {
+            "predecessor": "T2",
+            "successor": "T4"
+          },
+          {
+            "predecessor": "T3",
+            "successor": "T4"
+          },
+          {
+            "predecessor": "T4",
+            "successor": "T5"
+          },
+          {
+            "predecessor": "T5",
+            "successor": "T6"
+          },
+          {
+            "predecessor": "T6",
+            "successor": "T7"
+          }
+        ],
+        "milestones": [
+          {
+            "title": "Scope agreed",
+            "task_id": "T1"
+          },
+          {
+            "title": "Storefront built",
+            "task_id": "T4"
+          },
+          {
+            "title": "Launch ready",
+            "task_id": "T7"
+          }
+        ],
+        "assumptions": [
+          "DEMO: fixed fictional e-commerce template, not model-generated or goal-specific.",
+          "Elapsed planning days; no holidays or weekends modeled.",
+          "Rates are fictional USD per person-day; estimates need team validation.",
+          "All team members are interchangeable; hosting and taxes require separate estimates.",
+          "Constraint-only revisions retain scope, durations and rates; no automatic cost cutting."
+        ],
+        "questions": [
+          "Which commerce platform and payment regions are required?",
+          "Who approves scope, product content and launch readiness?"
+        ],
+        "risks": [
+          {
+            "title": "Payment onboarding delays",
+            "probability": "medium",
+            "impact": "high",
+            "mitigation": "Start provider verification during discovery.",
+            "source": "demo_estimate"
+          }
+        ],
+        "operations": [
+          {
+            "tool": "validate_wbs"
+          },
+          {
+            "tool": "schedule"
+          },
+          {
+            "tool": "budget"
+          },
+          {
+            "tool": "resources"
+          },
+          {
+            "tool": "review"
+          }
+        ]
+      },
+      "results": {
+        "validate_wbs": {
+          "order": [
+            "T1",
+            "T2",
+            "T3",
+            "T4",
+            "T5",
+            "T6",
+            "T7"
+          ],
+          "task_count": 7,
+          "dependency_count": 7
+        },
+        "schedule": {
+          "cpm_days": 45,
+          "days": 45,
+          "deadline": 46,
+          "feasible": true,
+          "slack_days": 1,
+          "critical_path": [
+            "T1",
+            "T3",
+            "T4",
+            "T5",
+            "T6",
+            "T7"
+          ],
+          "tasks": [
+            {
+              "id": "T1",
+              "start": 0,
+              "end": 4,
+              "early_start": 0,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T2",
+              "start": 4,
+              "end": 11,
+              "early_start": 4,
+              "float": 1,
+              "critical": false
+            },
+            {
+              "id": "T3",
+              "start": 4,
+              "end": 12,
+              "early_start": 4,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T4",
+              "start": 12,
+              "end": 26,
+              "early_start": 12,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T5",
+              "start": 26,
+              "end": 34,
+              "early_start": 26,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T6",
+              "start": 34,
+              "end": 41,
+              "early_start": 34,
+              "float": 0,
+              "critical": true
+            },
+            {
+              "id": "T7",
+              "start": 41,
+              "end": 45,
+              "early_start": 41,
+              "float": 0,
+              "critical": true
+            }
+          ],
+          "milestones": [
+            {
+              "title": "Scope agreed",
+              "day": 4
+            },
+            {
+              "title": "Storefront built",
+              "day": 26
+            },
+            {
+              "title": "Launch ready",
+              "day": 45
+            }
+          ],
+          "daily_people": [
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            1,
+            1,
+            1,
+            1
+          ],
+          "method": "CPM lower bound + greedy pooled-resource leveling; elapsed planning days"
+        },
+        "budget": {
+          "items": [
+            {
+              "task_id": "T1",
+              "labor": 800.0,
+              "fixed": 0.0,
+              "total": 800.0
+            },
+            {
+              "task_id": "T2",
+              "labor": 1540.0,
+              "fixed": 0.0,
+              "total": 1540.0
+            },
+            {
+              "task_id": "T3",
+              "labor": 1280.0,
+              "fixed": 400.0,
+              "total": 1680.0
+            },
+            {
+              "task_id": "T4",
+              "labor": 6160.0,
+              "fixed": 300.0,
+              "total": 6460.0
+            },
+            {
+              "task_id": "T5",
+              "labor": 1920.0,
+              "fixed": 250.0,
+              "total": 2170.0
+            },
+            {
+              "task_id": "T6",
+              "labor": 2520.0,
+              "fixed": 0.0,
+              "total": 2520.0
+            },
+            {
+              "task_id": "T7",
+              "labor": 800.0,
+              "fixed": 300.0,
+              "total": 1100.0
+            }
+          ],
+          "total": 16270.0,
+          "limit": 15000.0,
+          "remaining": -1270.0,
+          "feasible": false,
+          "currency": "USD",
+          "basis": "duration × people × estimated daily rate + fixed costs"
+        },
+        "resources": {
+          "person_days": 73,
+          "capacity_person_days": 184,
+          "deadline_utilization": 0.3967,
+          "peak_people": 2,
+          "team_size": 4,
+          "assumption": "Interchangeable team members; skill availability is not modeled"
+        },
+        "review": {
+          "feasible": false,
+          "findings": [
+            "Only 1 days of schedule buffer remain; validate estimates before committing.",
+            "Estimated cost exceeds budget by $1,270.00. Obtain scope/rate approval."
+          ],
+          "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+        },
+        "execution": {
+          "prompt_version": "planner-v1",
+          "model_calls": 0,
+          "reported_tokens": 0,
+          "model": null,
+          "max_model_calls": 3,
+          "max_output_tokens_per_call": 4000
+        }
+      },
+      "decisions": [
+        {
+          "agent": "Demo fixture",
+          "message": "No LLM called. Reused fictional e-commerce work packages.",
+          "timestamp": "2026-10-23T02:56:31.575068+00:00"
+        },
+        {
+          "agent": "Deterministic reviewer",
+          "message": "{\"feasible\": false, \"findings\": [\"Only 1 days of schedule buffer remain; validate estimates before committing.\", \"Estimated cost exceeds budget by $1,270.00. Obtain scope/rate approval.\"], \"verified\": \"Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts.\"}",
+          "timestamp": "2026-10-23T02:56:31.575068+00:00"
+        }
+      ],
+      "trace": [
+        {
+          "tool": "validate_wbs",
+          "status": "ok",
+          "output": {
+            "order": [
+              "T1",
+              "T2",
+              "T3",
+              "T4",
+              "T5",
+              "T6",
+              "T7"
+            ],
+            "task_count": 7,
+            "dependency_count": 7
+          },
+          "duration_ms": 0.0
+        },
+        {
+          "tool": "schedule",
+          "status": "ok",
+          "output": {
+            "cpm_days": 45,
+            "days": 45,
+            "deadline": 46,
+            "feasible": true,
+            "slack_days": 1,
+            "critical_path": [
+              "T1",
+              "T3",
+              "T4",
+              "T5",
+              "T6",
+              "T7"
+            ],
+            "tasks": [
+              {
+                "id": "T1",
+                "start": 0,
+                "end": 4,
+                "early_start": 0,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T2",
+                "start": 4,
+                "end": 11,
+                "early_start": 4,
+                "float": 1,
+                "critical": false
+              },
+              {
+                "id": "T3",
+                "start": 4,
+                "end": 12,
+                "early_start": 4,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T4",
+                "start": 12,
+                "end": 26,
+                "early_start": 12,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T5",
+                "start": 26,
+                "end": 34,
+                "early_start": 26,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T6",
+                "start": 34,
+                "end": 41,
+                "early_start": 34,
+                "float": 0,
+                "critical": true
+              },
+              {
+                "id": "T7",
+                "start": 41,
+                "end": 45,
+                "early_start": 41,
+                "float": 0,
+                "critical": true
+              }
+            ],
+            "milestones": [
+              {
+                "title": "Scope agreed",
+                "day": 4
+              },
+              {
+                "title": "Storefront built",
+                "day": 26
+              },
+              {
+                "title": "Launch ready",
+                "day": 45
+              }
+            ],
+            "daily_people": [
+              1,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              1,
+              1,
+              1,
+              1
+            ],
+            "method": "CPM lower bound + greedy pooled-resource leveling; elapsed planning days"
+          },
+          "duration_ms": 0.0
+        },
+        {
+          "tool": "budget",
+          "status": "ok",
+          "output": {
+            "items": [
+              {
+                "task_id": "T1",
+                "labor": 800.0,
+                "fixed": 0.0,
+                "total": 800.0
+              },
+              {
+                "task_id": "T2",
+                "labor": 1540.0,
+                "fixed": 0.0,
+                "total": 1540.0
+              },
+              {
+                "task_id": "T3",
+                "labor": 1280.0,
+                "fixed": 400.0,
+                "total": 1680.0
+              },
+              {
+                "task_id": "T4",
+                "labor": 6160.0,
+                "fixed": 300.0,
+                "total": 6460.0
+              },
+              {
+                "task_id": "T5",
+                "labor": 1920.0,
+                "fixed": 250.0,
+                "total": 2170.0
+              },
+              {
+                "task_id": "T6",
+                "labor": 2520.0,
+                "fixed": 0.0,
+                "total": 2520.0
+              },
+              {
+                "task_id": "T7",
+                "labor": 800.0,
+                "fixed": 300.0,
+                "total": 1100.0
+              }
+            ],
+            "total": 16270.0,
+            "limit": 15000.0,
+            "remaining": -1270.0,
+            "feasible": false,
+            "currency": "USD",
+            "basis": "duration × people × estimated daily rate + fixed costs"
+          },
+          "duration_ms": 0.0
+        },
+        {
+          "tool": "resources",
+          "status": "ok",
+          "output": {
+            "person_days": 73,
+            "capacity_person_days": 184,
+            "deadline_utilization": 0.3967,
+            "peak_people": 2,
+            "team_size": 4,
+            "assumption": "Interchangeable team members; skill availability is not modeled"
+          },
+          "duration_ms": 0.0
+        },
+        {
+          "tool": "review",
+          "status": "ok",
+          "output": {
+            "feasible": false,
+            "findings": [
+              "Only 1 days of schedule buffer remain; validate estimates before committing.",
+              "Estimated cost exceeds budget by $1,270.00. Obtain scope/rate approval."
+            ],
+            "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+          },
+          "duration_ms": 0.0
+        }
+      ],
+      "sources": [],
+      "provider": "demo"
+    }
+  ],
+  "status": "planned"
+}
