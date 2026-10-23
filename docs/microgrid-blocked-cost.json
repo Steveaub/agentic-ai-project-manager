@@ -1,0 +1,135 @@
+{
+  "scenario": "Haiti ten solar microgrids",
+  "goal": "Plan the deployment of 10 solar microgrids in Haiti with a $2.5 million budget, a 365-day deadline, and a 12-person team.",
+  "confirmed_constraints": {
+    "days": 365,
+    "budget": 2500000.0,
+    "team_size": 12
+  },
+  "confirmation": "automated regression fixture; not human confirmation",
+  "ui_default_conflicts": [
+    {
+      "field": "budget",
+      "kind": "form_differs",
+      "request_value": 2500000.0,
+      "form_value": 20000
+    },
+    {
+      "field": "days",
+      "kind": "form_differs",
+      "request_value": 365,
+      "form_value": 60
+    },
+    {
+      "field": "team_size",
+      "kind": "form_differs",
+      "request_value": 12,
+      "form_value": 4
+    }
+  ],
+  "status": "blocked",
+  "code": "http_413",
+  "message": "Required specialist/reviewer unavailable; acceptance blocked. Retry or clarify; no plan saved.",
+  "invocations": [
+    {
+      "id": "fa3c8e8c180343f2bc549f68a5218781",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "requirements",
+      "timestamp": "2026-10-23T06:59:38.645044+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "2wXbatmjN_u-xdIP4ZCQgQY",
+      "input_tokens": 680,
+      "output_tokens": 247,
+      "total_tokens": 927,
+      "duration_ms": 1453.0
+    },
+    {
+      "id": "d862b0087cb74519afb714dff81095e2",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "estimation",
+      "timestamp": "2026-10-23T06:59:40.094551+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "3QXbauXqEvnl5NoP08yO8QY",
+      "input_tokens": 165,
+      "output_tokens": 56,
+      "total_tokens": 221,
+      "duration_ms": 875.0
+    },
+    {
+      "id": "7f6e437e6d6349eba6e86d894f604e25",
+      "provider": "groq",
+      "model": "openai/gpt-oss-120b",
+      "role": "planning",
+      "timestamp": "2026-10-23T06:59:40.974558+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "chatcmpl-7fc523b8-8879-482e-9177-238c8a6fb11e",
+      "input_tokens": 2784,
+      "output_tokens": 4207,
+      "total_tokens": 6991,
+      "duration_ms": 9578.0
+    },
+    {
+      "role": "acceptance",
+      "status": "rejected",
+      "inference_attempted": false,
+      "validation": "failed",
+      "error_code": "requirements_validation",
+      "error": "Fixed-cost categories do not reconcile to task fixed_cost",
+      "duration_ms": 0
+    },
+    {
+      "id": "75de5a70f2214cbc93116c665553b623",
+      "provider": "groq",
+      "model": "openai/gpt-oss-120b",
+      "role": "repair",
+      "timestamp": "2026-10-23T06:59:50.548138+00:00",
+      "status": "error",
+      "validation": "not_run",
+      "inference_attempted": true,
+      "error_code": "http_413",
+      "error": "Provider context limit exceeded. Reduce project/document context. Category: rate_limit_exceeded.",
+      "duration_ms": 219.0
+    }
+  ],
+  "payload_observations": [
+    {
+      "role": "requirements",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "4073e04b4e704bd1bab5a032f2a2b542"
+    },
+    {
+      "role": "estimation",
+      "budget_withheld": true
+    },
+    {
+      "role": "planning",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "4073e04b4e704bd1bab5a032f2a2b542"
+    },
+    {
+      "role": "repair",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "4073e04b4e704bd1bab5a032f2a2b542"
+    }
+  ]
+}

@@ -1,0 +1,771 @@
+{
+  "scenario": "Haiti ten solar microgrids",
+  "goal": "Plan the deployment of 10 solar microgrids in Haiti with a $2.5 million budget, a 365-day deadline, and a 12-person team.",
+  "confirmed_constraints": {
+    "days": 365,
+    "budget": 2500000.0,
+    "team_size": 12
+  },
+  "confirmation": "automated regression fixture; not human confirmation",
+  "ui_default_conflicts": [
+    {
+      "field": "budget",
+      "kind": "form_differs",
+      "request_value": 2500000.0,
+      "form_value": 20000
+    },
+    {
+      "field": "days",
+      "kind": "form_differs",
+      "request_value": 365,
+      "form_value": 60
+    },
+    {
+      "field": "team_size",
+      "kind": "form_differs",
+      "request_value": 12,
+      "form_value": 4
+    }
+  ],
+  "status": "invalidated",
+  "project_id": "eeaa56a325684526a7eb9e30d6d2faf6",
+  "tasks": 13,
+  "site_count": 10,
+  "implementation_overlap": true,
+  "results": {
+    "validate_wbs": {
+      "order": [
+        "T1",
+        "T2",
+        "T10",
+        "T11",
+        "T12",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8",
+        "T9",
+        "T13"
+      ],
+      "task_count": 13,
+      "dependency_count": 21
+    },
+    "schedule": {
+      "cpm_days": 160,
+      "days": 200,
+      "deadline": 365,
+      "feasible": true,
+      "slack_days": 165,
+      "critical_path": [
+        "T1",
+        "T2",
+        "T10",
+        "T11",
+        "T12",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8",
+        "T9",
+        "T13"
+      ],
+      "tasks": [
+        {
+          "id": "T1",
+          "start": 0,
+          "end": 30,
+          "early_start": 0,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T2",
+          "start": 30,
+          "end": 90,
+          "early_start": 30,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T10",
+          "start": 90,
+          "end": 130,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T11",
+          "start": 90,
+          "end": 130,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T12",
+          "start": 90,
+          "end": 130,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T3",
+          "start": 90,
+          "end": 130,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T4",
+          "start": 90,
+          "end": 130,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T5",
+          "start": 90,
+          "end": 130,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T6",
+          "start": 130,
+          "end": 170,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T7",
+          "start": 130,
+          "end": 170,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T8",
+          "start": 130,
+          "end": 170,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T9",
+          "start": 130,
+          "end": 170,
+          "early_start": 90,
+          "float": 0,
+          "critical": true
+        },
+        {
+          "id": "T13",
+          "start": 170,
+          "end": 200,
+          "early_start": 130,
+          "float": 0,
+          "critical": true
+        }
+      ],
+      "milestones": [
+        {
+          "title": "Design Complete",
+          "day": 30
+        },
+        {
+          "title": "Procurement Complete",
+          "day": 90
+        },
+        {
+          "title": "All Implementations Complete",
+          "day": 130
+        },
+        {
+          "title": "Project Handover Complete",
+          "day": 200
+        }
+      ],
+      "daily_people": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        8,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ],
+      "method": "CPM lower bound + greedy pooled-resource leveling; elapsed planning days",
+      "verified_delivery_commitment": false
+    },
+    "budget": {
+      "items": [
+        {
+          "task_id": "T1",
+          "labor": 30000.0,
+          "fixed": 10000.0,
+          "total": 40000.0
+        },
+        {
+          "task_id": "T2",
+          "labor": 60000.0,
+          "fixed": 1600000.0,
+          "total": 1660000.0
+        },
+        {
+          "task_id": "T3",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T4",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T5",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T6",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T7",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T8",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T9",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T10",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T11",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T12",
+          "labor": 20000.0,
+          "fixed": 15000.0,
+          "total": 35000.0
+        },
+        {
+          "task_id": "T13",
+          "labor": 30000.0,
+          "fixed": 20000.0,
+          "total": 50000.0
+        }
+      ],
+      "total": 2100000.0,
+      "limit": 2500000.0,
+      "categories": {
+        "equipment": 1455000.0,
+        "materials": 144000.0,
+        "logistics": 96000.0,
+        "permitting": 15000.0,
+        "contingency": 70000.0,
+        "labor": 320000.0
+      },
+      "unclassified_fixed": 0,
+      "category_exclusions": [],
+      "estimate_status": "Unverified estimates; independent quotes and site specifications required",
+      "remaining": 400000.0,
+      "feasible": true,
+      "currency": "USD",
+      "basis": "duration \u00d7 people \u00d7 estimated daily rate + fixed costs"
+    },
+    "resources": {
+      "person_days": 1280,
+      "capacity_person_days": 4380,
+      "deadline_utilization": 0.2922,
+      "peak_people": 12,
+      "team_size": 12,
+      "assumption": "Interchangeable team members; skill availability is not modeled"
+    },
+    "review": {
+      "feasible": true,
+      "findings": [],
+      "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+    },
+    "independent_review": {
+      "source": "ai_opinion",
+      "status": "passed",
+      "coverage_gaps": [],
+      "estimate_concerns": [
+        ", ",
+        ", ",
+        ", ",
+        ", ",
+        "], "
+      ],
+      "recommendations": [],
+      "findings": []
+    },
+    "confirmed_requirements": {
+      "id": "d05f2e24dcf24bd5acd40945b5149704",
+      "goal": {
+        "objective": "Plan the deployment of 10 solar microgrids in Haiti with a $2.5 million budget, a 365-day deadline, and a 12-person team."
+      },
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "scope": {
+        "asset": "solar microgrids",
+        "quantity": 10,
+        "location": "Haiti",
+        "site_ids": [
+          "SITE-01",
+          "SITE-02",
+          "SITE-03",
+          "SITE-04",
+          "SITE-05",
+          "SITE-06",
+          "SITE-07",
+          "SITE-08",
+          "SITE-09",
+          "SITE-10"
+        ],
+        "deliverables": [
+          {
+            "id": "R1",
+            "description": "Design and scope definition for solar microgrids",
+            "mandatory": true
+          },
+          {
+            "id": "R2",
+            "description": "Procurement and delivery for solar microgrids",
+            "mandatory": true
+          },
+          {
+            "id": "R3",
+            "description": "Implementation of all 10 solar microgrids",
+            "mandatory": true
+          },
+          {
+            "id": "R4",
+            "description": "Verification, commissioning and handover",
+            "mandatory": true
+          }
+        ]
+      },
+      "confirmed_at": "2026-10-23T07:01:27.231438+00:00",
+      "provenance": {
+        "extraction": {
+          "budget": {
+            "source": "explicit_request",
+            "evidence": [
+              "$2.5 million"
+            ]
+          },
+          "days": {
+            "source": "explicit_request",
+            "evidence": [
+              "365-day"
+            ]
+          },
+          "team_size": {
+            "source": "explicit_request",
+            "evidence": [
+              "12-person"
+            ]
+          }
+        },
+        "resolution": "",
+        "draft_id": "b79a30bf5df74daaa26ff39a31d9e275",
+        "confirmed_by": "automated_regression_fixture_not_human"
+      },
+      "unresolved_questions": [
+        "Site capacities, load profiles and engineering specifications are not yet verified.",
+        "Confirm local permits, site access, vendor quotes and operating/handover responsibilities."
+      ]
+    },
+    "requirements_validation": {
+      "status": "passed",
+      "confirmed_requirements_id": "d05f2e24dcf24bd5acd40945b5149704",
+      "mandatory_deliverables": 4,
+      "site_count": 10,
+      "checks": [
+        "constraints",
+        "scope",
+        "coverage",
+        "site coverage",
+        "independent labor rate",
+        "fixed-cost reconciliation",
+        "parallel-site dependencies"
+      ],
+      "limits": "Coverage links and estimates also require semantic model review and human validation."
+    },
+    "estimation": {
+      "daily_rate": 250.0,
+      "basis": "Preliminary blended USD labor rate per person-day for implementing solar microgrids in Haiti, assuming a mix of local technicians and international engineers, without verified salary surveys or vendor quotes.",
+      "source": "unverified_model_estimate",
+      "budget_withheld": true,
+      "status": "unsupported preliminary model estimate; obtain independent quotes"
+    },
+    "review_history": [
+      {
+        "coverage_gaps": [],
+        "estimate_concerns": [
+          ", ",
+          ", ",
+          ", ",
+          ", ",
+          "], "
+        ],
+        "recommendations": [],
+        "findings": []
+      }
+    ],
+    "acceptance": {
+      "status": "invalidated",
+      "repair_attempts": 0,
+      "rejected_reasons": [],
+      "independent_review_required": true,
+      "verified_delivery_commitment": false
+    },
+    "execution": {
+      "model_calls": 4,
+      "budgeted_attempts": 4,
+      "reported_tokens": 14322,
+      "invocations": [
+        {
+          "id": "4dd170e942604c068b59966eab1c1ca6",
+          "provider": "gemini",
+          "model": "gemini-3.5-flash-lite",
+          "role": "requirements",
+          "timestamp": "2026-10-23T07:01:27.231438+00:00",
+          "status": "ok",
+          "validation": "pydantic_valid",
+          "inference_attempted": true,
+          "request_id": "SAbbao3jHZii5NoPjZqrkQc",
+          "input_tokens": 675,
+          "output_tokens": 164,
+          "total_tokens": 839,
+          "duration_ms": 1625.0
+        },
+        {
+          "id": "632c510d773b4de88a3b447fe9f01e82",
+          "provider": "gemini",
+          "model": "gemini-3.5-flash-lite",
+          "role": "estimation",
+          "timestamp": "2026-10-23T07:01:28.855250+00:00",
+          "status": "ok",
+          "validation": "pydantic_valid",
+          "inference_attempted": true,
+          "request_id": "Sgbbaui2A63QiLMP5ZzN4AY",
+          "input_tokens": 164,
+          "output_tokens": 60,
+          "total_tokens": 224,
+          "duration_ms": 906.0
+        },
+        {
+          "id": "9339dd9a90754133b411dc2f2499268e",
+          "provider": "gemini",
+          "model": "gemini-3.5-flash-lite",
+          "role": "planning",
+          "timestamp": "2026-10-23T07:01:29.773573+00:00",
+          "status": "ok",
+          "validation": "pydantic_valid",
+          "inference_attempted": true,
+          "request_id": "Sgbbaqj2O-uw5NoPzs3ckAc",
+          "input_tokens": 1632,
+          "output_tokens": 5077,
+          "total_tokens": 6709,
+          "duration_ms": 10203.0
+        },
+        {
+          "id": "d680cc9e044f4c33955e5f128381262e",
+          "provider": "openrouter",
+          "model": "nvidia/nemotron-3.5-super-vl:free",
+          "role": "review",
+          "timestamp": "2026-10-23T07:01:39.973142+00:00",
+          "status": "ok",
+          "validation": "pydantic_valid",
+          "inference_attempted": true,
+          "request_id": "gen-1792738901-ssWW275NJxquwpC1H3qR",
+          "input_tokens": 6500,
+          "output_tokens": 50,
+          "total_tokens": 6550,
+          "duration_ms": 1562.0
+        }
+      ],
+      "max_model_calls": 6,
+      "max_output_tokens_per_call": 6500,
+      "workflow_timeout_seconds": 300,
+      "free_only": true,
+      "model": "gemini-3.5-flash-lite",
+      "prompt_version": "planner-v3-confirmed",
+      "duration_ms": 14296.0,
+      "role_assignments": {
+        "requirements": "gemini",
+        "planning": "gemini",
+        "review": "openrouter"
+      },
+      "workflow_outcome": "completed"
+    }
+  },
+  "payload_observations": [
+    {
+      "role": "requirements",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "d05f2e24dcf24bd5acd40945b5149704"
+    },
+    {
+      "role": "estimation",
+      "budget_withheld": true
+    },
+    {
+      "role": "planning",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "d05f2e24dcf24bd5acd40945b5149704"
+    },
+    {
+      "role": "review",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "d05f2e24dcf24bd5acd40945b5149704"
+    }
+  ],
+  "code": "review_quality",
+  "message": "Punctuation-only reviewer concerns detected during audit; this provisional test project was removed and is not an accepted result."
+}

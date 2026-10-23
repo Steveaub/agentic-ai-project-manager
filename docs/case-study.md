@@ -19,7 +19,7 @@ Failed runs retain sanitized metadata without mutating project state.
 ## Engineering decisions
 
 The existing working tools and persistence were preserved. A small explicit orchestrator made
-permissions and four-call limits inspectable without a workflow framework. Server-only dotenv
+permissions and six-call limits inspectable without a workflow framework. Server-only dotenv
 loading avoids manual credential copying. Free-tier account confirmation and OpenRouter zero
 price ceilings protect the $0 task constraint. No paid fallback, billing upgrade or public hosting
 was enabled. Single-provider modes avoid unnecessary quota usage; multi-mode demonstrates a

@@ -1,3 +1,5 @@
+> Historical v0.2 evidence below predates confirmed-requirements acceptance checks. Current behavior and regression evidence: [requirements validation](requirements-validation.md). Historical saved plans are labeled unvalidated in the UI.
+
 # Real live validation — October 23, 2026
 
 Six successful fictional workflows were executed locally using the owner's confirmed free-tier

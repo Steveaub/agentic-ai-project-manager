@@ -1,0 +1,146 @@
+{
+  "scenario": "Haiti ten solar microgrids",
+  "goal": "Plan the deployment of 10 solar microgrids in Haiti with a $2.5 million budget, a 365-day deadline, and a 12-person team.",
+  "confirmed_constraints": {
+    "days": 365,
+    "budget": 2500000.0,
+    "team_size": 12
+  },
+  "confirmation": "automated regression fixture; not human confirmation",
+  "ui_default_conflicts": [
+    {
+      "field": "budget",
+      "kind": "form_differs",
+      "request_value": 2500000.0,
+      "form_value": 20000
+    },
+    {
+      "field": "days",
+      "kind": "form_differs",
+      "request_value": 365,
+      "form_value": 60
+    },
+    {
+      "field": "team_size",
+      "kind": "form_differs",
+      "request_value": 12,
+      "form_value": 4
+    }
+  ],
+  "status": "blocked",
+  "code": "requirements_clarification",
+  "message": "Critical plan validation after one repair remains unresolved. Clarify requirements; no plan saved.",
+  "invocations": [
+    {
+      "id": "63a4f69a92734cdf8ce13a896205e474",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "requirements",
+      "timestamp": "2026-10-23T06:57:55.745491+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "dQXbatDzA5ik5NoP1OqCwAQ",
+      "input_tokens": 674,
+      "output_tokens": 116,
+      "total_tokens": 790,
+      "duration_ms": 1141.0
+    },
+    {
+      "id": "c35ac98b183c433c8017e2dcb01700b0",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "estimation",
+      "timestamp": "2026-10-23T06:57:56.890122+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "dgXbauWFDtaco_UPgfvI6AU",
+      "input_tokens": 162,
+      "output_tokens": 54,
+      "total_tokens": 216,
+      "duration_ms": 1047.0
+    },
+    {
+      "id": "e1257ae2edc74feabadac0f798d484fc",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "planning",
+      "timestamp": "2026-10-23T06:57:57.947319+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "dwXbasnQDYSoxdIPopWs0As",
+      "input_tokens": 1556,
+      "output_tokens": 5233,
+      "total_tokens": 6789,
+      "duration_ms": 10234.0
+    },
+    {
+      "role": "acceptance",
+      "status": "rejected",
+      "inference_attempted": false,
+      "validation": "failed",
+      "error_code": "requirements_validation",
+      "error": "Explicit exclusions (or none) and unsupported-estimate notes are required",
+      "duration_ms": 0
+    },
+    {
+      "id": "f0c93441b87047a3b0d8b0e0ee59562e",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "repair",
+      "timestamp": "2026-10-23T06:58:08.173413+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "gQXbav6sG_6h5NoPtuSEiQg",
+      "input_tokens": 5595,
+      "output_tokens": 5391,
+      "total_tokens": 10986,
+      "duration_ms": 10813.0
+    },
+    {
+      "role": "acceptance",
+      "status": "rejected",
+      "inference_attempted": false,
+      "validation": "failed",
+      "error_code": "requirements_validation",
+      "error": "Model implementation separately per site to permit parallel execution",
+      "duration_ms": 0
+    }
+  ],
+  "payload_observations": [
+    {
+      "role": "requirements",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "4379b51bd6fe4cbbac7c1709aeddb101"
+    },
+    {
+      "role": "estimation",
+      "budget_withheld": true
+    },
+    {
+      "role": "planning",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "4379b51bd6fe4cbbac7c1709aeddb101"
+    },
+    {
+      "role": "repair",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "4379b51bd6fe4cbbac7c1709aeddb101"
+    }
+  ]
+}

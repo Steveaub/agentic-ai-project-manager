@@ -26,11 +26,19 @@
       <div class="form-grid"><label>Target days<input id="days" type="number" min="1" max="3650" value="60" required></label><label>Budget · USD<input id="budget" type="number" min="1" max="1000000000" value="20000" required></label><label>Team members<input id="team" type="number" min="1" max="100" value="4" required></label></div>
       <label>Planning workflow<select id="provider"><option value="demo">Offline Demo · fixed fictional e-commerce template</option><option value="multi">Live AI · configured specialist team</option><option value="groq">Live AI · Groq only</option><option value="gemini">Live AI · Gemini only</option><option value="openrouter">Live AI · OpenRouter free only</option></select></label>
       <p id="provider-info" class="hint" role="status">Offline Demo makes no external model calls.</p>
-      <p class="hint">Demo uses fixed estimates, not AI inference. Numeric fields control calculations; prose does not override them. Live mode sends the goal and retrieved passages to your configured model.</p>
+      <p class="hint">Live planning first extracts requirements for confirmation. Explicit request values replace differing form proposals. Missing information needs your input. Demo uses fixed fictional estimates.</p>
       <button class="primary" type="submit">Build execution plan <span>↗</span></button>
     </form>
   </section>
   <section id="project-view" hidden><div id="revision-bar"></div><div id="content"></div></section>
+  <dialog id="requirements-dialog"><form id="confirmation-form">
+    <h2>Confirm project requirements</h2><p>These values and deliverables will govern every specialist and calculation. Estimates remain preliminary.</p><p id="confirmation-error" role="alert" hidden></p>
+    <div id="requirements-summary"></div>
+    <div class="form-grid"><label>Confirmed target days<input id="confirmed-days" type="number" min="1" max="3650" required></label><label>Confirmed budget · USD<input id="confirmed-budget" type="number" min="1" max="1000000000" required></label><label>Confirmed team members<input id="confirmed-team" type="number" min="1" max="100" required></label></div>
+    <label>Resolve contradictions or explain changes<textarea id="confirmation-resolution" maxlength="2000" rows="2"></textarea></label>
+    <label><input type="checkbox" id="requirements-agreed" required> I confirm these constraints and the listed scope, deliverables and open questions.</label>
+    <div class="actions"><button type="submit" class="primary">Confirm and generate plan</button><button type="button" id="cancel-confirmation" class="secondary">Cancel</button></div>
+  </form></dialog>
   <footer>Transparent estimates. Deterministic calculations. Human decisions.</footer>
 </main>
 </body></html>

@@ -103,7 +103,7 @@ def test_openrouter_changed_price_blocks_before_inference(configured):
 
 def test_shared_execution_budget(configured):
     session = WorkflowSession()
-    session.calls = 4
+    session.calls = session.max_calls
     with pytest.raises(ProviderError, match="budget"):
         session.call("groq", "requirements", Requirements, "Extract", {})
 

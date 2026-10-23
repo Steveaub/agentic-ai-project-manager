@@ -1,0 +1,38 @@
+/* Confirmation UI regression; all provider inference is intercepted. */
+const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const assert=require('node:assert/strict');
+(async()=>{
+  const browser=await chromium.launch({headless:true,channel:process.env.BROWSER_CHANNEL||'chrome'});
+  const page=await browser.newPage({viewport:{width:1440,height:1000}});
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  let submissions=0;
+  await page.route('**/api/projects',async route=>{
+    if(route.request().method()!=='POST')return route.continue();
+    submissions++;
+    const body=route.request().postDataJSON();
+    assert.deepEqual(body.constraints,{days:365,budget:2500000,team_size:12});
+    assert(body.confirmation_id);
+    await route.fulfill({status:422,contentType:'application/json',body:JSON.stringify({detail:'Test: critical inconsistency remains; clarify requirements. No plan saved.'})});
+  });
+  await page.goto('http://127.0.0.1:8000');
+  await page.locator('#provider').selectOption('multi');
+  await page.locator('#goal').fill('Plan the deployment of 10 solar microgrids in Haiti with a $2.5 million budget, a 365-day deadline, and a 12-person team.');
+  await page.getByRole('button',{name:'Build execution plan'}).click();
+  await page.locator('#requirements-dialog[open]').waitFor();
+  assert.equal(await page.locator('#confirmed-days').inputValue(),'365');
+  assert.equal(await page.locator('#confirmed-budget').inputValue(),'2500000');
+  assert.equal(await page.locator('#confirmed-team').inputValue(),'12');
+  assert.match(await page.locator('#requirements-summary').innerText(),/10 solar microgrids.*Haiti/);
+  assert.match(await page.locator('#requirements-summary').innerText(),/form_differs/);
+  assert.equal(submissions,0);
+  await page.screenshot({path:'docs/screenshots/requirements-confirmation.png',fullPage:true});
+  await page.locator('#requirements-agreed').check();
+  await page.getByRole('button',{name:'Confirm and generate plan'}).click();
+  await page.locator('#error').waitFor({state:'visible'});
+  assert.match(await page.locator('#error').innerText(),/No plan saved/);
+  assert.equal(submissions,1);
+  assert(await page.locator('#create-view').isVisible());
+  assert.deepEqual(errors,[]);
+  await browser.close();
+  console.log(JSON.stringify({status:'passed',assertions:10,pageErrors:0,liveInferenceRequests:0}));
+})().catch(error=>{console.error(error.message);process.exit(1);});

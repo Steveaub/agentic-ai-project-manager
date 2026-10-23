@@ -81,6 +81,7 @@ def schedule(plan: AgentExecutionPlan, constraints: ProjectConstraint) -> dict:
         "milestones": [{"title": m.title, "day": ends[m.task_id]} for m in plan.milestones],
         "daily_people": [usage[d] for d in range(days)],
         "method": "CPM lower bound + greedy pooled-resource leveling; elapsed planning days",
+        "verified_delivery_commitment": False,
     }
 
 
@@ -91,7 +92,13 @@ def budget(plan: AgentExecutionPlan, constraints: ProjectConstraint) -> dict:
         items.append(BudgetItem(task_id=t.id, labor=labor, fixed=t.fixed_cost,
                                 total=round(labor + t.fixed_cost, 2)).model_dump())
     total = round(sum(i["total"] for i in items), 2)
+    categories = {k: round(sum(getattr(t.cost_breakdown, k) for t in plan.tasks if t.cost_breakdown), 2)
+                  for k in ["equipment", "materials", "logistics", "permitting", "contingency"]}
+    categories["labor"] = round(sum(i["labor"] for i in items), 2)
     return {"items": items, "total": total, "limit": constraints.budget,
+            "categories": categories, "unclassified_fixed": round(sum(t.fixed_cost for t in plan.tasks if not t.cost_breakdown), 2),
+            "category_exclusions": [e.model_dump() for e in plan.cost_category_exclusions],
+            "estimate_status": "Unverified estimates; independent quotes and site specifications required",
             "remaining": round(constraints.budget - total, 2), "feasible": total <= constraints.budget,
             "currency": "USD", "basis": "duration × people × estimated daily rate + fixed costs"}
 

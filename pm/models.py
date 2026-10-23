@@ -27,10 +27,59 @@ class ProjectConstraint(Contract):
     team_size: int = Field(ge=1, le=100, default=4)
 
 
+class ScopeRequirement(Contract):
+    id: str = Field(pattern=r"^R[0-9]+$")
+    description: str = Field(min_length=1, max_length=1000)
+    mandatory: bool = True
+
+
+class ProjectScope(Contract):
+    asset: str = Field(min_length=1, max_length=200)
+    quantity: int = Field(ge=1, le=1000)
+    location: str = Field(max_length=200)
+    site_ids: list[str] = Field(max_length=1000)
+    deliverables: list[ScopeRequirement] = Field(min_length=1, max_length=30)
+
+
+class ConfirmedRequirements(Contract):
+    id: str = Field(default_factory=uid)
+    goal: ProjectGoal
+    constraints: ProjectConstraint
+    scope: ProjectScope
+    confirmed_at: str = Field(default_factory=now)
+    provenance: dict = Field(default_factory=dict)
+    unresolved_questions: list[str] = Field(default_factory=list)
+
+
+class RequirementExtraction(Contract):
+    goal: ProjectGoal
+    form_constraints: ProjectConstraint | None = None
+
+
+class RequirementConfirmation(Contract):
+    draft_id: str
+    confirmed: Literal[True]
+    constraints: ProjectConstraint
+    scope: ProjectScope
+    resolution: str = Field(default="", max_length=2000)
+
+
 class ProjectRequest(Contract):
     goal: ProjectGoal
     constraints: ProjectConstraint = Field(default_factory=ProjectConstraint)
     provider: Literal["demo", "openai", "gemini", "groq", "openrouter", "multi"] = "demo"
+    confirmation_id: str | None = None
+
+
+class FixedCostBreakdown(Contract):
+    equipment: float = Field(ge=0, default=0)
+    materials: float = Field(ge=0, default=0)
+    logistics: float = Field(ge=0, default=0)
+    permitting: float = Field(ge=0, default=0)
+    contingency: float = Field(ge=0, default=0)
+    includes_labor: bool = False
+    basis: str = Field(default="", max_length=500)
+    evidence: Literal["unverified_estimate", "user_provided"] = "unverified_estimate"
 
 
 class Task(Contract):
@@ -42,11 +91,32 @@ class Task(Contract):
     daily_rate: float = Field(ge=0, le=100000)
     fixed_cost: float = Field(ge=0, le=1e8)
     source: Literal["demo_estimate", "ai_estimate", "user"]
+    site_ids: list[str] = Field(default_factory=list, max_length=1000)
+    phase: Literal["planning", "procurement", "implementation", "verification", "support"] = "support"
+    cost_breakdown: FixedCostBreakdown | None = None
 
 
 class Dependency(Contract):
     predecessor: str
     successor: str
+    justification: Literal["none", "technical", "shared_equipment", "regulatory"] = "none"
+
+
+class RequirementCoverage(Contract):
+    requirement_id: str
+    task_ids: list[str] = Field(max_length=80)
+    exclusion_reason: str = Field(max_length=1000)
+
+
+class LaborEstimate(Contract):
+    daily_rate: float = Field(gt=0, le=10000)
+    basis: str = Field(min_length=10, max_length=1000)
+    source: Literal["unverified_model_estimate"]
+
+
+class CostCategoryExclusion(Contract):
+    category: Literal["equipment", "materials", "logistics", "permitting", "contingency"]
+    reason: str = Field(min_length=1, max_length=500)
 
 
 class Milestone(Contract):
@@ -90,6 +160,12 @@ class AgentExecutionPlan(Contract):
     questions: list[str] = Field(max_length=20)
     risks: list[Risk] = Field(max_length=30)
     operations: list[ToolInvocation] = Field(min_length=5, max_length=5)
+    confirmed_constraints: ProjectConstraint | None = None
+    scope: ProjectScope | None = None
+    requirement_coverage: list[RequirementCoverage] = Field(default_factory=list, max_length=30)
+    exclusions: list[str] = Field(default_factory=list, max_length=30)
+    estimation_notes: list[str] = Field(default_factory=list, max_length=30)
+    cost_category_exclusions: list[CostCategoryExclusion] = Field(default_factory=list, max_length=5)
 
     @model_validator(mode="after")
     def required_operations(self):
@@ -138,6 +214,7 @@ class ProjectScenario(Contract):
     change: str = Field(default="Constraint scenario", max_length=2000)
     provider: Literal["demo", "openai", "gemini", "groq", "openrouter", "multi"] = "demo"
     expected_revision: int = Field(ge=1)
+    confirmation_id: str | None = None
 
 
 class DocumentInput(Contract):

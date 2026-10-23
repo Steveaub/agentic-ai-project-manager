@@ -1,4 +1,4 @@
-# Northstar · Agentic AI Project Manager
+# Northstar Â· Agentic AI Project Manager
 
 An independent LLM Engineering capstone with **verified live multi-provider planning**, deterministic project calculations, retrieval, persistent revisions and a responsive dashboard.
 
@@ -46,17 +46,18 @@ The backend loads only this repository's `.env`; process environment takes prece
 
 `PM_REQUIREMENTS_PROVIDER`, `PM_PLANNING_PROVIDER` and `PM_REVIEW_PROVIDER` configure roles (`none` disables review). Single-provider UI choices bypass multi-role assignments. Models are server-side allowlisted settings.
 
-`PM_FREE_ONLY=true` and `PM_ALLOW_PAID_CALLS=false` block the retained OpenAI adapter. Groq/Gemini require operator confirmation of free-tier billing: their model names alone do not prevent charges. OpenRouter verifies current zero pricing and structured-output support before inference, uses a named `:free` model, enforces zero price ceilings and disables provider fallback. Optional explicit role fallbacks may use only verified free providers, default `none`, and share the four-call budget. No paid route, purchase or billing upgrade was enabled.
+`PM_FREE_ONLY=true` and `PM_ALLOW_PAID_CALLS=false` block the retained OpenAI adapter. Groq/Gemini require operator confirmation of free-tier billing: their model names alone do not prevent charges. OpenRouter verifies current zero pricing and structured-output support before inference, uses a named `:free` model, enforces zero price ceilings and disables provider fallback. Optional explicit role fallbacks may use only verified free providers, default `none`, and share the six-call budget. No paid route, purchase or billing upgrade was enabled.
 
 Actual tests informed defaults: Gemini 3.8 Flash timed out; Flash-Lite completed workflows. The older Nemotron 3 Super free route returned 404; 3.5 Super VL completed reviews with optional reasoning disabled. These are observations, not universal availability guarantees. [Configuration, research and error handling](docs/free-models.md).
 
 ## Agentic workflow and architecture
 
-1. Requirements specialist extracts typed requirements, assumptions and questions from the goal, numeric constraints and untrusted retrieved passages.
-2. Planner consumes that handoff, returning typed tasks, dependencies, milestones, estimates, risks and authorized operations.
-3. Orchestrator validates schemas, provenance, references and DAGs, then invokes real WBS, CPM/resource-leveling, cost, resource and feasibility tools.
-4. Invalid output permits one bounded repair. Optional independent review offers **AI opinions**, never overrides arithmetic, and may fail without discarding a valid calculated plan.
-5. SQLite stores revisions, decisions, tool outputs and provider metadata. Sanitized failed-execution metadata is stored separately; failed planning does not mutate the project.
+1. Extract explicit budget, duration, team size, site quantity/location and mandatory deliverables. Review proposed scope and conflicts in the confirmation dialog. Missing values stay blank; request values replace differing UI defaults. Contradictory prose and changes to explicit requirements require an explanation.
+2. Persist an immutable confirmed requirements record. Live creation and constraint amendments require a matching confirmation ID. The same values reach specialists, tools, results and exports. Historical live plans display a validation warning.
+3. A requirements specialist expands assumptions/questions. A separate labor-rate call receives scope/location with the budget withheld. The planner uses that rate and separates equipment, materials, logistics, permitting and contingency from calculated labor.
+4. Validate confirmed scope/constraints, mandatory coverage, every site's installation/verification, verification dependencies, fixed-cost reconciliation, labor provenance and DAG/capacity. Site installation packages can overlap; shared procurement is separate. Durations and costs remain unverified estimates.
+5. In the configured specialist workflow, OpenRouter returns severity, finding type and corrections. Critical requirements/semantic findings trigger one shared repair and re-review. Unresolved critical findings, meaningless review text or required-review outages block saving. Subjective estimate concerns remain labeled opinions; honest budget/schedule overruns remain visible calculated exceptions.
+6. SQLite stores accepted revision snapshots and sanitized failure metadata. Live amendments retain baseline work/rates/costs and require confirmation bound to that project, revision and change request. Single-provider mode runs the deterministic gate without an independent provider review.
 
 ```mermaid
 flowchart LR
@@ -69,9 +70,9 @@ flowchart LR
     O --> V[WBS + DAG validation]
     V --> T[CPM / resources / costs / feasibility]
     V -->|one repair| P
-    T --> REVIEW[Optional OpenRouter opinion]
-    T --> STATE[(SQLite revisions + traces)]
-    REVIEW --> STATE
+    T --> REVIEW[Required configured independent review]
+    REVIEW -->|accepted| STATE[(SQLite revisions + traces)]
+    REVIEW -->|critical, one repair| P
     STATE --> API
     API --> UI
     API -->|ingestion| DB
@@ -79,7 +80,7 @@ flowchart LR
 
 `config.py` loads settings; `providers.py` encapsulates adapters/budgets; `agents.py` coordinates roles/tools; `tools.py` owns deterministic math; `models.py` contracts; `store.py` memory/retrieval; `api.py` serves native JavaScript/CSS. No separate React/Next build or agent framework is needed.
 
-Free workflows allow **four inference attempts total**, including repairs/fallbacks, 1,100 requested output tokens for requirements/review and 3,500 for planning/repair, up to 60 seconds per request and a boundary-checked 180-second workflow deadline. No automatic HTTP/SDK retries. Missing token usage is unavailable, not zero. These limits are not a service-wide quota.
+Free workflows allow **six inference attempts total**, including the budget-blind rate estimate, repairs, reviews and explicit free fallbacks. Requested output caps are 1,800 tokens for requirements/rate estimation, 3,500 for review and 6,500 for planning/repair; requests time out after at most 60 seconds, with a boundary-checked 300-second workflow deadline. There is one shared repair, no automatic HTTP/SDK retries, and no paid route. A provider's free quota can still block a workflow. Missing token usage is unavailable, not zero.
 
 Constraint-only revisions preserve baseline IDs, titles, grouping, effort, rates and fixed costs. Models revise risks/tradeoffs while Python recalculates feasibility; they cannot silently shrink estimates to fit a budget. Scope changes and task-level editing remain future work.
 
@@ -131,6 +132,12 @@ Local single-user software: no authentication, tenant isolation, HTTPS, at-rest 
 
 Finish-to-start CPM plus stable greedy resource leveling is not optimal scheduling. Days are elapsed; resources are interchangeable, without skill calendars/holidays. No task-level editor, semantic embeddings or arbitrary-depth WBS exists. Human validation of estimates/review is essential. Direct Python dependencies are pinned, not every transitive. GitHub action runtime-migration warnings remain informational.
 
-[Security](SECURITY.md) · [Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md) · [Live demo script](docs/demo-script.md) · [LinkedIn draft](docs/linkedin.md) · [Case study](docs/case-study.md)
+[Security](SECURITY.md) Â· [Architecture](docs/architecture.md) Â· [Evaluation](docs/evaluation.md) Â· [Live demo script](docs/demo-script.md) Â· [LinkedIn draft](docs/linkedin.md) Â· [Case study](docs/case-study.md)
 
 This independent capstone is not represented as a formally required or graded course assignment.
+
+## Requirements consistency regression
+
+The Haiti regression and acceptance policy are documented in [requirements validation results](docs/requirements-validation.md). Run `python -m pytest -q` and `BROWSER_CHANNEL=chrome node tests/browser-requirements.cjs` for offline checks. `python evaluations/live_microgrids.py` explicitly consumes free inference quota and records the exact 10-site / $2.5M / 365-day / 12-person scenario. Its confirmation is an automated test fixture, not a human confirmation.
+
+Extraction is deliberately conservative: supported numeric/word day, week and year durations, USD budget amounts, team counts, named site quantities and `must include` clauses. Unsupported phrasing remains an open question; review the full goal and proposed deliverables before confirming. Cost estimates and model semantic judgments require human engineering/commercial validation.

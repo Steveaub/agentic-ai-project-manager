@@ -15,7 +15,7 @@ async function api(path, data) {
 async function action(fn) {
   $('#error').hidden = true; $('#busy').hidden = false;
   document.querySelectorAll('button').forEach(b=>b.disabled=true);
-  try { await fn(); } catch (err) { $('#error').textContent=err.message; $('#error').hidden=false; }
+  try { await fn(); } catch (err) { $('#error').textContent=err.message; $('#error').hidden=false; $('#confirmation-error').textContent=err.message; $('#confirmation-error').hidden=false; }
   finally { $('#busy').hidden=true; document.querySelectorAll('button').forEach(b=>b.disabled=false); }
 }
 async function loadProjects() {
@@ -61,22 +61,62 @@ function render() {
     html=`<section class="panel"><h2>Live provider invocations</h2><p class="subtitle">Actual completed requests · ${Math.round(execution.duration_ms/1000)} seconds · ${e(execution.workflow_outcome)}. Token counts are provider-reported; missing counts are unavailable.</p>${execution.invocations.map(i=>`<article class="trace"><h3>${e(i.role)} · ${e(i.provider)}</h3><p>${e(i.model)} · ${e(i.status)} · ${i.duration_ms} ms</p><p>Validation: ${e(i.validation)} · Input ${i.input_tokens??'unavailable'} / output ${i.output_tokens??'unavailable'} tokens</p>${i.error?`<p>${e(i.error)}</p>`:''}<small>Request ${e(i.request_id||'unavailable')}</small></article>`).join('')}<button class="secondary" id="load-failures">Show failed execution history</button><div id="failed-executions"></div></section>`+html;
   }
   if(view==='Risks' && r.results.independent_review) html+=`<section class="panel"><h2>Independent model opinion</h2><p class="subtitle">AI review does not override deterministic feasibility calculations.</p><pre>${e(JSON.stringify(r.results.independent_review,null,2))}</pre></section>`;
+  if(r.provider!=='demo') {
+    const authority=r.results.confirmed_requirements;
+    html=(authority?`<section class="panel"><h2>Confirmed requirements</h2><p>${authority.constraints.days} days · ${money(authority.constraints.budget)} · ${authority.constraints.team_size} people · ${authority.scope.quantity} ${e(authority.scope.asset)} · ${e(authority.scope.location)}</p><p>Acceptance: ${e(r.results.acceptance?.status)}. Preliminary estimates; delivery is not verified.</p></section>`:'<div class="callout warning">Historical live plan: confirmed requirements and current acceptance checks were not recorded. Create a newly confirmed plan before relying on it.</div>')+html;
+  }
+  if(view==='Budget & resources') html+=`<section class="panel"><h2>Cost categories and estimate evidence</h2><pre>${e(JSON.stringify({categories:b.categories,unclassified_fixed:b.unclassified_fixed,category_exclusions:b.category_exclusions,labor_estimate:r.results.estimation},null,2))}</pre>${list(r.plan.estimation_notes||[])}</section>`;
+  if(view==='Work breakdown') html+=`<section class="panel"><h2>Coverage and explicit exclusions</h2><pre>${e(JSON.stringify(r.plan.requirement_coverage||[],null,2))}</pre>${list(r.plan.exclusions?.length?r.plan.exclusions:['No exclusions declared; confirm scope boundaries before execution.'])}<p>Coverage links are checked deterministically; substantive coverage also receives independent review in the specialist workflow.</p></section>`;
   $('#content').innerHTML=html;
 }
 function sourcesHTML(sources) { return sources.length?sources.map(s=>`<article class="source"><strong>${e(s.name)} · chunk ${s.chunk+1}</strong><small> · similarity ${s.score}</small><p>${e(s.text)}</p></article>`).join(''):'<p class="empty">No matching source passages for this revision.</p>'; }
 function scenarioHTML(value) {const a=value.baseline, b=value.scenario;return `<section class="panel"><h2>Scenario comparison</h2><table><thead><tr><th>MEASURE</th><th>SAVED BASELINE</th><th>PROPOSED</th></tr></thead><tbody><tr><td>Target days</td><td>${a.constraints.days}</td><td>${b.constraints.days}</td></tr><tr><td>Calculated days</td><td>${a.results.schedule.days}</td><td>${b.results.schedule.days}</td></tr><tr><td>Budget limit</td><td>${money(a.constraints.budget)}</td><td>${money(b.constraints.budget)}</td></tr><tr><td>Estimated cost</td><td>${money(a.results.budget.total)}</td><td>${money(b.results.budget.total)}</td></tr><tr><td>Within constraints</td><td>${a.results.review.feasible?'Yes':'No'}</td><td>${b.results.review.feasible?'Yes':'No'}</td></tr></tbody></table><div class="callout warning">${b.results.review.findings.length?b.results.review.findings.map(e).join('<br>'):'Within stated constraints; estimates still require human review.'}</div><p class="hint">Original tasks retain stable IDs. Tighter constraints alone do not reduce effort or costs.</p></section>`;}
 function scenarioInput() {return {constraints:{days:+$('#scenario-days').value,budget:+$('#scenario-budget').value,team_size:+$('#scenario-team').value},change:$('#change').value,provider:project.revisions.at(-1).provider,expected_revision:project.revisions.length};}
-$('#create-form').addEventListener('submit',ev=>{ev.preventDefault();action(async()=>{const p=await api('/projects',{goal:{objective:$('#goal').value},constraints:{days:+$('#days').value,budget:+$('#budget').value,team_size:+$('#team').value},provider:$('#provider').value});view='Overview';showProject(p);await loadProjects();});});
+let pendingConfirmation = null;
+function presentConfirmation(draft, finish) {
+  $('#confirmation-error').hidden=true;
+  pendingConfirmation={draft,finish};
+  $('#requirements-summary').innerHTML=`<h3>${e(draft.scope.quantity)} ${e(draft.scope.asset)} · ${e(draft.scope.location)}</h3>${list(draft.scope.deliverables.map(r=>r.id+' · '+r.description+(r.mandatory?' (mandatory)':'')))}<h3>Conflicts to review</h3><pre>${e(JSON.stringify(draft.conflicts,null,2))}</pre><h3>Open questions</h3>${list(draft.questions)}<details><summary>Extraction evidence</summary><pre>${e(JSON.stringify(draft.provenance,null,2))}</pre></details>`;
+  $('#confirmed-days').value=draft.proposed_constraints.days??'';
+  $('#confirmed-budget').value=draft.proposed_constraints.budget??'';
+  $('#confirmed-team').value=draft.proposed_constraints.team_size??'';
+  $('#confirmation-resolution').value=''; $('#requirements-agreed').checked=false;
+  $('#requirements-dialog').showModal();
+}
+$('#cancel-confirmation').addEventListener('click',()=>{$('#requirements-dialog').close();pendingConfirmation=null;});
+$('#confirmation-form').addEventListener('submit',ev=>{ev.preventDefault();action(async()=>{
+  const pending=pendingConfirmation;
+  const authority=await api('/requirements/confirm',{draft_id:pending.draft.id,confirmed:true,
+    constraints:{days:+$('#confirmed-days').value,budget:+$('#confirmed-budget').value,team_size:+$('#confirmed-team').value},
+    scope:pending.draft.scope,resolution:$('#confirmation-resolution').value});
+  $('#requirements-dialog').close();pendingConfirmation=null;
+  await pending.finish(authority);
+});});
+$('#create-form').addEventListener('submit',ev=>{ev.preventDefault();action(async()=>{
+  const body={goal:{objective:$('#goal').value},constraints:{days:+$('#days').value,budget:+$('#budget').value,team_size:+$('#team').value},provider:$('#provider').value};
+  const finish=async authority=>{if(authority){body.constraints=authority.constraints;body.confirmation_id=authority.id;}
+    const p=await api('/projects',body);view='Overview';showProject(p);await loadProjects();};
+  if(body.provider==='demo') await finish(null);
+  else presentConfirmation(await api('/requirements/extract',{goal:body.goal,form_constraints:body.constraints}),finish);
+});});
+async function submitScenario(persist) {
+  const body=scenarioInput();
+  const finish=async authority=>{if(authority){body.constraints=authority.constraints;body.confirmation_id=authority.id;}
+    const result=await api(`/projects/${project.id}/${persist?'revisions':'scenarios'}`,body);
+    if(persist){showProject(result);await loadProjects();}else{scenario=result;$('#scenario-result').innerHTML=scenarioHTML(result);}};
+  if(body.provider==='demo') await finish(null);
+  else presentConfirmation(await api(`/projects/${project.id}/requirements/extract`,body),finish);
+}
 $('#new-project').addEventListener('click',()=>{$('#create-view').hidden=false;$('#project-view').hidden=true;$('#heading').textContent='Turn ambition into a plan.';$('#mode').textContent='NO-COST DEMO';$('#goal').focus();});
 document.addEventListener('click',ev=>{
   const navigation=ev.target.closest('[data-view]'); if(navigation){view=navigation.dataset.view;if(project){$('#create-view').hidden=true;$('#project-view').hidden=false;render();}return;}
   const link=ev.target.closest('[data-project]'); if(link){action(async()=>showProject(await api('/projects/'+link.dataset.project)));return;}
   if(ev.target.id==='load-failures') action(async()=>{const failures=await api(`/projects/${project.id}/failures`);$('#failed-executions').textContent=failures.length?JSON.stringify(failures,null,2):'No failed revisions recorded for this project.';});
-  if(ev.target.id==='commit-scenario' && $('#scenario-form').reportValidity()) action(async()=>{showProject(await api(`/projects/${project.id}/revisions`,scenarioInput()));await loadProjects();});
+  if(ev.target.id==='commit-scenario' && $('#scenario-form').reportValidity()) action(async()=>{await submitScenario(true);});
 });
 document.addEventListener('change',ev=>{if(ev.target.id==='revision-select'){revisionIndex=+ev.target.value;render();}});
 document.addEventListener('submit',ev=>{
-  if(ev.target.id==='scenario-form'){ev.preventDefault();action(async()=>{scenario=await api(`/projects/${project.id}/scenarios`,scenarioInput());$('#scenario-result').innerHTML=scenarioHTML(scenario);});}
+  if(ev.target.id==='scenario-form'){ev.preventDefault();action(async()=>{await submitScenario(false);});}
   if(ev.target.id==='document-form'){ev.preventDefault();action(async()=>{const file=$('#document-file').files[0];if(file.size>400000)throw new Error('File too large. Maximum 100,000 UTF-8 characters.');if(!/\.(txt|md)$/i.test(file.name))throw new Error('Only .txt and .md files are supported.');const text=await file.text();const result=await api(`/projects/${project.id}/documents`,{name:file.name,text});$('#document-status').textContent=`Indexed ${result.chunks} chunks with ${result.embedding}.`;});}
   if(ev.target.id==='search-form'){ev.preventDefault();action(async()=>{const result=await api(`/projects/${project.id}/search`,{query:$('#query').value});$('#search-result').innerHTML=sourcesHTML(result.matches);});}
 });

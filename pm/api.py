@@ -10,7 +10,9 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .agents import ProviderError, run
 from .config import public_config
-from .models import DocumentInput, Project, ProjectRequest, ProjectScenario, SearchInput
+from .models import (DocumentInput, Project, ProjectRequest, ProjectScenario, SearchInput,
+                     RequirementExtraction, RequirementConfirmation, ConfirmedRequirements)
+from .requirements import extract, confirm
 from .store import ConflictError, Store
 
 WEB = Path(__file__).resolve().parent.parent / "web"
@@ -76,10 +78,51 @@ def create_app(db_path=None):
 
     @app.post("/api/projects", status_code=201)
     def create(body: ProjectRequest):
-        revision = run(body.goal, body.constraints, body.provider)
+        authority = require_confirmation(body, body.goal)
+        revision = run(body.goal, body.constraints, body.provider, authority=authority)
         project = Project(goal=body.goal, revisions=[revision])
         store.save(project)
         return project
+
+    @app.post("/api/requirements/extract")
+    def extract_requirements(body: RequirementExtraction):
+        draft = extract(body.goal, body.form_constraints)
+        store.save_requirements(draft, "draft")
+        return draft
+
+    @app.post("/api/requirements/confirm")
+    def confirm_requirements(body: RequirementConfirmation):
+        authority = confirm(store.get_requirements(body.draft_id, "draft"), body)
+        store.save_requirements(authority.model_dump(), "confirmed")
+        return authority
+
+    def require_confirmation(body, goal):
+        if body.provider in {"demo", "openai"}:
+            return None
+        if not body.confirmation_id:
+            raise HTTPException(428, "Extract and explicitly confirm requirements before live planning")
+        authority = ConfirmedRequirements.model_validate(store.get_requirements(body.confirmation_id, "confirmed"))
+        if authority.goal != goal or authority.constraints != body.constraints:
+            raise HTTPException(409, "Goal or constraints changed after confirmation; confirm again")
+        return authority
+
+    @app.post("/api/projects/{project_id}/requirements/extract")
+    def extract_amendment(project_id: str, body: ProjectScenario):
+        project = store.get(project_id)
+        if body.expected_revision != len(project.revisions):
+            raise ConflictError("Project changed; reload before confirming")
+        baseline = project.revisions[-1]
+        if "confirmed_requirements" not in baseline.results:
+            raise HTTPException(428, "Historical live baseline lacks confirmed scope; create a newly confirmed plan")
+        draft = extract(type(project.goal)(objective=body.change if len(body.change) >= 10 else "Constraint amendment"), body.constraints)
+        # Explicit amendment fields are proposed, never silently reconciled with contradictory change prose.
+        for key in draft["proposed_constraints"]:
+            if draft["proposed_constraints"][key] is None:
+                draft["proposed_constraints"][key] = getattr(body.constraints, key)
+        draft.update(goal=project.goal.model_dump(), scope=baseline.results["confirmed_requirements"]["scope"])
+        draft["provenance"]["amendment"] = {"project_id": project_id, "revision": len(project.revisions), "change": body.change}
+        store.save_requirements(draft, "draft")
+        return draft
 
     @app.get("/api/projects/{project_id}")
     def get(project_id: str):
@@ -90,10 +133,15 @@ def create_app(db_path=None):
         if body.expected_revision != len(project.revisions):
             raise ConflictError("Project changed; reload before revising")
         previous = project.revisions[-1]
+        authority = require_confirmation(body, project.goal)
+        if authority:
+            amendment = authority.provenance["extraction"].get("amendment", {})
+            if amendment != {"project_id": project_id, "revision": len(project.revisions), "change": body.change}:
+                raise HTTPException(409, "Confirmation is not bound to this amendment and baseline")
         sources = store.search(project_id, project.goal.objective + " " + body.change)
         try:
             revision = run(project.goal, body.constraints, body.provider, previous.plan,
-                           sources, len(project.revisions) + 1, body.change)
+                           sources, len(project.revisions) + 1, body.change, authority=authority)
         except ProviderError as exc:
             execution_id = store.record_failure(exc.code, exc.events, project_id)
             raise HTTPException(exc.status, {"message": str(exc), "code": exc.code,

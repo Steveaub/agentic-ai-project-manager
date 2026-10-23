@@ -42,6 +42,8 @@ def wire_schema(model):
                       for k, v in value.items() if k not in unsupported}
             if "const" in result:
                 result["enum"] = [result.pop("const")]
+            if "properties" in result:
+                result["required"] = list(result["properties"])
             return result
         return value
     return clean(model.model_json_schema())
@@ -190,8 +192,8 @@ class WorkflowSession:
     """One workflow budget shared across agents, repairs and explicit free fallbacks."""
     def __init__(self):
         self.events, self.calls, self.tokens = [], 0, 0
-        self.deadline = time.monotonic() + 180
-        self.max_calls = 4
+        self.deadline = time.monotonic() + 300
+        self.max_calls = 6
 
     def call(self, provider, role, schema, instructions, payload):
         fallback = os.getenv(f"PM_{role.upper()}_FALLBACK_PROVIDER", "none")
@@ -209,7 +211,7 @@ class WorkflowSession:
                 event["model"] = adapter.model
                 self.calls += 1
                 event["inference_attempted"] = True
-                tokens = 3500 if role in {"planning", "repair"} else 1100
+                tokens = 6500 if role in {"planning", "repair"} else 3500 if role == "review" else 1800
                 parsed, meta = adapter.generate(schema, instructions, payload,
                                                 min(60, self.deadline - time.monotonic()), tokens)
                 event.update(meta)
@@ -238,6 +240,6 @@ class WorkflowSession:
     def summary(self):
         return {"model_calls": sum(bool(e.get("inference_attempted")) for e in self.events),
                 "budgeted_attempts": self.calls, "reported_tokens": self.tokens, "invocations": self.events,
-                "max_model_calls": self.max_calls, "max_output_tokens_per_call": 3500,
-                "workflow_timeout_seconds": 180, "free_only": True,
+                "max_model_calls": self.max_calls, "max_output_tokens_per_call": 6500,
+                "workflow_timeout_seconds": 300, "free_only": True,
                 "model": next((e["model"] for e in self.events if e["role"] == "planning"), None)}

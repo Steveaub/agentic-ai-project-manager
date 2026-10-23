@@ -45,10 +45,22 @@ class Store:
                     created_at TEXT NOT NULL, embedding TEXT NOT NULL);
                 CREATE INDEX IF NOT EXISTS chunks_project ON chunks(project_id);
                 CREATE TABLE IF NOT EXISTS executions (id TEXT PRIMARY KEY, project_id TEXT, body TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS requirements (id TEXT PRIMARY KEY, kind TEXT NOT NULL, body TEXT NOT NULL);
             """)
 
     def connect(self):
         return sqlite3.connect(self.path, timeout=10)
+
+    def save_requirements(self, body, kind):
+        with self.connect() as db:
+            db.execute("INSERT INTO requirements VALUES (?,?,?)", (body["id"], kind, json.dumps(body)))
+
+    def get_requirements(self, identifier, kind):
+        with self.connect() as db:
+            row = db.execute("SELECT body FROM requirements WHERE id=? AND kind=?", (identifier, kind)).fetchone()
+        if not row:
+            raise ValueError("Requirements record not found; extract and confirm again")
+        return json.loads(row[0])
 
     def record_failure(self, code, events, project_id=None):
         execution_id = uid()

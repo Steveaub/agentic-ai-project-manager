@@ -73,8 +73,8 @@ or an explicitly chosen free provider. Context errors and outages fail visibly w
 
 Local Pydantic validation applies even when the wire schema omits provider-incompatible numeric
 or length constraints. Invalid generated JSON, bad graphs or changed baseline estimates get at
-most one repair. Four total inference attempts and a boundary-checked 180-second workflow
-deadline include repairs/fallbacks/review. Optional review failure preserves a valid calculated plan.
+most one repair. Six total inference attempts and a boundary-checked 300-second workflow
+deadline include repairs/fallbacks/review. Configured independent review is required for acceptance: critical findings trigger one shared repair; review outages, invalid review text or unresolved critical defects block saving. Subjective estimate concerns remain opinions. See requirements-validation.md for the current workflow and evidence.
 
 Successful revisions retain model/role/request IDs, duration, usage and validation. Failed runs
 store only sanitized codes/events, never raw provider bodies or failed generations. Providers

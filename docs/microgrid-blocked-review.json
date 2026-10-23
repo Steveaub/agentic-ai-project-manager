@@ -1,0 +1,196 @@
+{
+  "scenario": "Haiti ten solar microgrids",
+  "goal": "Plan the deployment of 10 solar microgrids in Haiti with a $2.5 million budget, a 365-day deadline, and a 12-person team.",
+  "confirmed_constraints": {
+    "days": 365,
+    "budget": 2500000.0,
+    "team_size": 12
+  },
+  "confirmation": "automated regression fixture; not human confirmation",
+  "ui_default_conflicts": [
+    {
+      "field": "budget",
+      "kind": "form_differs",
+      "request_value": 2500000.0,
+      "form_value": 20000
+    },
+    {
+      "field": "days",
+      "kind": "form_differs",
+      "request_value": 365,
+      "form_value": 60
+    },
+    {
+      "field": "team_size",
+      "kind": "form_differs",
+      "request_value": 12,
+      "form_value": 4
+    }
+  ],
+  "status": "blocked",
+  "code": "requirements_clarification",
+  "message": "Critical plan validation after one repair remains unresolved. Clarify requirements; no plan saved.",
+  "invocations": [
+    {
+      "id": "9a9902854646403891e8eed2f2eac17e",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "requirements",
+      "timestamp": "2026-10-23T06:55:30.982659+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "5ATbapGwDPq4iLMPv7P1oAI",
+      "input_tokens": 681,
+      "output_tokens": 168,
+      "total_tokens": 849,
+      "duration_ms": 1937.0
+    },
+    {
+      "id": "7c4749dba5f740238ff6e4cd6b0061d4",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "estimation",
+      "timestamp": "2026-10-23T06:55:32.923877+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "5gTbaoW5Bvnl5NoPscyO8QY",
+      "input_tokens": 168,
+      "output_tokens": 65,
+      "total_tokens": 233,
+      "duration_ms": 953.0
+    },
+    {
+      "id": "68f317d1fe334900ab30f3ec448932b7",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "planning",
+      "timestamp": "2026-10-23T06:55:33.883977+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "5wTbav2WBdi7iLMPrKbakQY",
+      "input_tokens": 1568,
+      "output_tokens": 5084,
+      "total_tokens": 6652,
+      "duration_ms": 10375.0
+    },
+    {
+      "id": "4e7d04d4240f43e0aed5cde2ca67a796",
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-3.5-super-vl:free",
+      "role": "review",
+      "timestamp": "2026-10-23T06:55:44.258250+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "gen-1792738546-wh05WhD2nNIU4hFuaUL4",
+      "input_tokens": 5866,
+      "output_tokens": 288,
+      "total_tokens": 6154,
+      "duration_ms": 7047.0
+    },
+    {
+      "role": "acceptance",
+      "status": "rejected",
+      "inference_attempted": false,
+      "validation": "failed",
+      "error_code": "requirements_validation",
+      "error": "Independent critical findings: [{\"severity\": \"critical\", \"kind\": \"semantic_gap\", \"message\": \"Implementation assignments are scheduled serially for all sites\", \"recommended_correction\": \"Review schedule logic to enable parallel site execution.\"}, {\"severity\": \"critical\", \"kind\": \"semantic_gap\", \"message\": \"R4 depends solely on T12 and T13 dependencies\", \"recommended_correction\": \"Establish dependencies from T3 through T11 to T13 to reflect that verification cannot be complete until all implementations finish.\"}, {\"severity\": \"critical\", \"kind\": \"semantic_gap\", \"message\": \"Procurement cost of $1.5M is assumed without vendor quotes or site specs\", \"recommended_correction\": \"Obtain verified vendor quotes and engineering specifications before finalizing the budget.\"}, {\"severity\": \"critical\", \"kind\": \"semantic_gap\", \"message\": \"Long-term operations and maintenance are explicitly excluded despite potential handover expectations\", \"recommended_correction\": \"Clarify handover scope in R4 and either include O&M planning or document the exclusion formally with stakeholders.\"}]",
+      "duration_ms": 0
+    },
+    {
+      "id": "dcada2931bac40388223e0da5973fd6e",
+      "provider": "gemini",
+      "model": "gemini-3.5-flash-lite",
+      "role": "repair",
+      "timestamp": "2026-10-23T06:55:51.300888+00:00",
+      "status": "ok",
+      "validation": "pydantic_valid",
+      "inference_attempted": true,
+      "request_id": "-ATbat2RI_6h5NoPtuSEiQg",
+      "input_tokens": 5702,
+      "output_tokens": 5084,
+      "total_tokens": 10786,
+      "duration_ms": 9969.0
+    },
+    {
+      "id": "479fbf4ae52c48d9a34f311b6ce5c95f",
+      "provider": "openrouter",
+      "model": "nvidia/nemotron-3.5-super-vl:free",
+      "role": "review",
+      "timestamp": "2026-10-23T06:56:01.267925+00:00",
+      "status": "error",
+      "validation": "invalid",
+      "inference_attempted": true,
+      "error_code": "incomplete",
+      "error": "Provider response was truncated or refused; reduce plan size or retry later.",
+      "request_id": "gen-1792738562-LGSVOgRpbZFZWd4QRKo3",
+      "input_tokens": 5866,
+      "output_tokens": 1800,
+      "total_tokens": 7666,
+      "duration_ms": 24344.0
+    },
+    {
+      "role": "acceptance",
+      "status": "rejected",
+      "inference_attempted": false,
+      "validation": "failed",
+      "error_code": "requirements_validation",
+      "error": "Structured output invalid or incomplete",
+      "duration_ms": 0
+    }
+  ],
+  "payload_observations": [
+    {
+      "role": "requirements",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "691c254d5c98498e8a59e2359d74e815"
+    },
+    {
+      "role": "estimation",
+      "budget_withheld": true
+    },
+    {
+      "role": "planning",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "691c254d5c98498e8a59e2359d74e815"
+    },
+    {
+      "role": "review",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "691c254d5c98498e8a59e2359d74e815"
+    },
+    {
+      "role": "repair",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "691c254d5c98498e8a59e2359d74e815"
+    },
+    {
+      "role": "review",
+      "constraints": {
+        "days": 365,
+        "budget": 2500000.0,
+        "team_size": 12
+      },
+      "confirmation_id": "691c254d5c98498e8a59e2359d74e815"
+    }
+  ]
+}
