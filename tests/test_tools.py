@@ -110,4 +110,3 @@ def test_wrong_operation_order():
     data["operations"].reverse()
     with pytest.raises(ValidationError, match="Required tool order"):
         type(demo_plan()).model_validate(data)
-

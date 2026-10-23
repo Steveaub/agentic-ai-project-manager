@@ -112,4 +112,3 @@ def test_injected_document_cannot_authorize_tools(client):
     r = client.post(f"/api/projects/{p['id']}/revisions", json=body).json()["revisions"][-1]
     assert [t["tool"] for t in r["trace"]] == ["validate_wbs", "schedule", "budget", "resources", "review"]
     assert r["results"]["execution"]["model_calls"] == 0
-
