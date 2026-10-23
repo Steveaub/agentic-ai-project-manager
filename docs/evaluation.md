@@ -22,7 +22,7 @@ not general model quality scores or delivery guarantees.
 
 The initial API test attempt was blocked by Windows sandbox loopback restrictions. The suite
 passed with local networking permitted. The browser test uses installed Chrome because the
-bundled Playwright Chromium binary was absent. CI installs its own Chromium.
+bundled Playwright Chromium binary was absent. CI uses Chrome preinstalled on its Ubuntu runner.
 
 Fake-transport tests verify requirements-to-planner handoff and exactly one graph repair without
 calling a real provider. Deterministic malicious-document tests verify the fixed tool boundary;

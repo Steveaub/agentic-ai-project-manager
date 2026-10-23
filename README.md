@@ -112,7 +112,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-To use installed Chrome instead of a downloaded Chromium, set `BROWSER_CHANNEL=chrome`. `PLAYWRIGHT_MODULE` can select an existing Playwright package. GitHub Actions runs Python checks and a fresh Chromium workflow, retaining screenshots as artifacts.
+To use installed Chrome instead of a downloaded Chromium, set `BROWSER_CHANNEL=chrome`. `PLAYWRIGHT_MODULE` can select an existing Playwright package. GitHub Actions runs Python checks and the browser workflow using Chrome preinstalled on its [Ubuntu 24.04 runner](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md), retaining screenshots as artifacts.
 
 Actual local results: **30 Python tests passed** and **13 browser assertions passed, with zero page errors**. Tests cover known CPM/float values, cycles, missing references, resource contention, cost arithmetic, schema rejection, tool limits, specialist handoff/repair using a fake transport, persistence, revision conflicts, lexical retrieval/isolation, exports, origin checks and live-mode rejection. The browser checks creation, navigation, upload/search, preview/save, original-history restoration, reload, CSV download and 390px mobile overflow. Prompt-injection tests exercise deterministic confinement, not real-model prompt-injection resistance. See [evaluation record](docs/evaluation.md).
 

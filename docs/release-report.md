@@ -33,7 +33,7 @@ Paid calls require server-side opt-in. No live model, model quality score or cos
 The model is configured through OPENAI_MODEL; no default paid model was selected or invoked.
 
 Dockerfile and loopback-bound compose configuration are prepared but not executed. GitHub
-Actions is configured for Python tests/lint, JavaScript syntax and Chromium integration tests;
+Actions is configured for Python tests/lint, JavaScript syntax and Chrome integration tests;
 remote workflow results must be checked separately from local results.
 
 ## Actual verification
