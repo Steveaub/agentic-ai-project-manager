@@ -224,3 +224,8 @@ class DocumentInput(Contract):
 
 class SearchInput(Contract):
     query: str = Field(min_length=1, max_length=2000)
+
+
+class ProjectDeletion(Contract):
+    confirmed: Literal[True]
+    expected_revision: int = Field(ge=1)

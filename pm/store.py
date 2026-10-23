@@ -101,6 +101,36 @@ class Store:
         return [{"id": p.id, "title": p.revisions[-1].plan.title, "revisions": len(p.revisions)}
                 for (body,) in rows for p in [Project.model_validate_json(body)]]
 
+    def delete(self, project_id, expected):
+        # One transaction prevents partial cleanup or stale deletion after a revision.
+        with self.connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            rows = db.execute("SELECT id,body,revision FROM projects").fetchall()
+            target = next((row for row in rows if row[0] == project_id), None)
+            if target is None:
+                raise KeyError(project_id)
+            if target[2] != expected:
+                raise ConflictError("Project changed; reload and confirm deletion again")
+            def references(body):
+                ids = set()
+                for revision in json.loads(body)["revisions"]:
+                    authority = revision["results"].get("confirmed_requirements", {})
+                    ids.update(i for i in [authority.get("id"), authority.get("provenance", {}).get("draft_id")] if i)
+                return ids
+            candidates = references(target[1])
+            retained = set().union(*(references(body) for identifier, body, _ in rows if identifier != project_id))
+            for identifier, body in db.execute("SELECT id,body FROM requirements").fetchall():
+                record = json.loads(body)
+                provenance = record.get("provenance", {})
+                amendment = provenance.get("amendment", provenance.get("extraction", {}).get("amendment", {}))
+                if amendment.get("project_id") == project_id:
+                    candidates.add(identifier)
+            for identifier in candidates - retained:
+                db.execute("DELETE FROM requirements WHERE id=?", (identifier,))
+            db.execute("DELETE FROM chunks WHERE project_id=?", (project_id,))
+            db.execute("DELETE FROM executions WHERE project_id=?", (project_id,))
+            db.execute("DELETE FROM projects WHERE id=?", (project_id,))
+
     def ingest(self, project_id: str, document: DocumentInput):
         self.get(project_id)
         text = document.text.strip()

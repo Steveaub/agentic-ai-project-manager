@@ -1,30 +1,28 @@
 # LinkedIn draft — review before posting
 
-I upgraded Northstar, my independent LLM Engineering capstone, from a reproducible offline
-fixture into a locally verified multi-provider Agentic AI Project Manager.
+An AI application can produce valid structured output and pass automated tests while still solving the wrong problem.
 
-The live workflow coordinates Gemini for structured requirements, Groq for planning, and an
-OpenRouter free model for independent review. A bounded Python orchestrator validates the
-proposal and runs deterministic dependency, critical-path, resource and budget calculations.
-Pydantic schemas, explicit tool permissions and one bounded repair separate model suggestions
-from the application's authority. SQLite preserves revisions and real execution metadata.
+That was the most valuable lesson from building Northstar, my AI-assisted LLM Engineering capstone.
 
-I tested solar-powered municipal Wi-Fi deployment, a tighter deadline/budget revision, and an
-unrelated regional technology conference—including real browser-driven creation. The revised
-solar example kept its work estimates and exposed a $108,000 budget shortfall instead of
-silently shrinking the project to claim feasibility.
+In a realistic Haiti deployment test, the request specified ten solar microgrids, a $2.5M budget, 365 days and a 12-person team. The requirements model extracted those values, but planning still used the form's $20k / 60-day / four-person defaults. An independent reviewer noticed the conflict—and the application still accepted the plan.
 
-Verification: 57 Python tests, 13 offline-browser assertions and 15 live-dashboard assertions
-passed. The repository includes actual sanitized API receipts and authentic screenshots.
-The document pipeline uses lexical vector retrieval; semantic embeddings remain a next step.
+The fix was architectural discipline, not a more confident prompt:
 
-The failures were useful engineering evidence: timeouts led to a lighter Gemini default, malformed
-Groq JSON exercised bounded repair, and OpenRouter review needed an explicit reasoning/output
-budget. AI opinions can still be wrong; they never override the calculated feasibility results.
+• An explicit requirements-confirmation step creates one authoritative record.
+• Every planning/review boundary and deterministic tool uses that record.
+• Python checks site coverage, dependencies, resources and exact-cent cost reconciliation.
+• Critical review findings trigger bounded repair/re-review; unresolved defects block acceptance.
+• Explicit free-provider fallback shares the same call budget and records who actually answered.
 
-It is public source with a working local demo, not a publicly hosted production service. All live
-tests used confirmed free-tier accounts/free routes. No course grading or formal capstone requirement
-is claimed. Architecture, setup, results and limitations:
+Actual saved execution evidence includes Gemini planning with OpenRouter independent review, and separate Groq attempts that failed on free quota. Automatic Groq-to-Gemini fallback is tested end to end with mocked HTTP responses; I have not presented that as a successful live failover. Single-provider runs clearly identify that independent review was not run.
+
+Another useful finding: two preliminary Haiti plans differed by $521,800. The wage assumption was identical; changed effort, scope decomposition, hardware and logistics allowances explained the difference. Both totals reconciled. Neither was a vendor quote or a validated engineering estimate.
+
+Northstar now demonstrates confirmation, constrained planning, deterministic calculations, persistent revisions, safe deletion and readable execution evidence locally. The repository preserves failed receipts and limitations alongside successful ones.
+
+I used Codex extensively for implementation, testing and documentation. I supplied realistic requirements, inspected results, identified failures and directed corrections. This is a portfolio capstone, not autonomous infrastructure delivery or a production service. No paid inference or public hosting was enabled for this release.
+
+Code, evidence, screenshots and a short local demo:
 https://github.com/Steveaub/agentic-ai-project-manager
 
-#LLMEngineering #AgenticAI #Python #ProjectManagement #OpenSource
+#LLMEngineering #AIEngineering #Python #SoftwareTesting #OpenSource

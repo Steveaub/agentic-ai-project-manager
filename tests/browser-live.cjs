@@ -1,6 +1,6 @@
 /* Inspects saved REAL live runs without consuming additional inference quota. */
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
-const assert=require('node:assert/strict');
+const {assert,assertionCount}=require('./assertions.cjs');
 const fs=require('node:fs');
 (async()=>{
   const browser=await chromium.launch({headless:true,...(process.env.BROWSER_CHANNEL?{channel:process.env.BROWSER_CHANNEL}:{})});
@@ -9,6 +9,7 @@ const fs=require('node:fs');
   const projectId=process.env.LIVE_PROJECT_ID;
   assert(projectId,'Set LIVE_PROJECT_ID to a verified saved live run');
   await page.goto('http://127.0.0.1:8000');
+  await page.locator('#projects .project-link, #projects .hint').first().waitFor();
   await page.evaluate(id=>localStorage.setItem('northstar-project',id),projectId);
   await page.reload();
   await page.getByRole('heading',{name:'The path to launch'}).waitFor();
@@ -27,5 +28,5 @@ const fs=require('node:fs');
   await page.screenshot({path:'docs/screenshots/live-agent-activity.png',fullPage:true});
   assert.deepEqual(errors,[]);
   await browser.close();
-  console.log(JSON.stringify({status:'passed',assertions:15,pageErrors:0,liveInferenceRequests:0}));
+  console.log(JSON.stringify({status:'passed',assertions:assertionCount(),pageErrors:0,liveInferenceRequests:0}));
 })().catch(err=>{console.error(err);process.exit(1);});

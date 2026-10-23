@@ -1,10 +1,12 @@
 # Northstar · Agentic AI Project Manager
 
-An independent LLM Engineering capstone with **verified live multi-provider planning**, deterministic project calculations, retrieval, persistent revisions and a responsive dashboard.
+Northstar turns a natural-language project request into a confirmed scope, an estimated work plan, resource-leveled schedule, category budget and reviewable execution record. It is an **AI-assisted, local LLM Engineering capstone**, built around a practical lesson: schema-valid output can still solve the wrong problem.
 
-**Public source, local application. No public production deployment.** Original code and fictional examples are MIT licensed. No Wealth Advisor code or private assets were accessed.
+The engineering boundary is explicit: **request → requirements confirmation → LLM planning → deterministic tools → independent review when configured → validation/one repair → saved plan**. Models suggest estimates; Python checks declared scope, dependencies, capacity and exact-cent arithmetic. Passing requirements validation does not mean a plan fits the budget or constitutes a delivery commitment.
 
-![Live solar infrastructure plan from actual provider calls](docs/screenshots/live-solar.png)
+**Public source; local demonstration; no public hosting.** All release acceptance calls are mocked. Existing sanitized live receipts are preserved, including failures and provider substitutions. [Final release evidence](docs/portfolio-release.md) · [Why the Haiti estimates differ](docs/estimate-comparison.md) · [Architecture](docs/architecture.md) · [90-second demo](docs/demo-script.md) · [LinkedIn draft](docs/linkedin.md).
+
+![Saved expanded Haiti plan in an isolated local portfolio database](docs/screenshots/portfolio-overview.png)
 
 ## Live AI and Offline Demo
 
@@ -84,18 +86,14 @@ Free workflows allow **six inference attempts total**, including the budget-blin
 
 Constraint-only revisions preserve baseline IDs, titles, grouping, effort, rates and fixed costs. Models revise risks/tradeoffs while Python recalculates feasibility; they cannot silently shrink estimates to fit a budget. Scope changes and task-level editing remain future work.
 
-## Actual live validation
+## Saved live execution, accurately scoped
 
-| Scenario | Observed result |
-|---|---|
-| Solar / Gemini only | Seven infrastructure tasks; 75 days / $241k; $91k over the $150k budget |
-| Solar revision / Gemini | Same project/work; 60-day/$100k target; 15 days late and $141k over budget |
-| Conference / Groq only | Eight conference tasks; 72 days / $64,800 against 120 days/$75k |
-| Solar / three providers | Eight infrastructure tasks; 36 days / $208k; one malformed-JSON repair; OpenRouter review |
-| Solar revision / three providers | Same project/work; 60-day/$100k target; 36 days / $208k, $108k shortfall |
-| Conference / browser / three providers | Actual UI creation; nine tasks; 50 days / $120,400; $45,400 shortfall |
+| Confirmed Haiti input | Actual providers | Observed estimate |
+|---|---|---|
+| Short ten-site request | Gemini planning + OpenRouter review; one repair | 13 tasks, 200 days, $2,171,600 |
+| Expanded 100-household/equipment request | Gemini only; no independent review | 16 tasks, 380 days, $2,693,400; 15 days late and $193,400 over budget |
 
-Every successful row executed five tools, validated output, saved state and recorded actual request IDs. These are model estimates, not verified quotes/delivery predictions or quality scores. Independent review can be wrong and is labeled accordingly; it receives computed schedule/budget context. [Live evidence and failures](docs/live-validation.md).
+These are saved actual executions, not fresh release calls. Both use 365 days / $2.5M / 12 people; the cost differences reflect changed effort/scope assumptions. Neither is a vendor quote. [Comparison](docs/estimate-comparison.md) and [requirements/live evidence](docs/requirements-validation.md) explain the limits. Historical solar/conference experiments remain in [the development archive](docs/live-validation.md), not as currently validated portfolio examples. Groq failures and a rejected provisional review are preserved.
 
 ## Dashboard, retrieval and tests
 
@@ -116,17 +114,7 @@ npm run test:e2e
 
 Use `BROWSER_CHANNEL=chrome` for installed Chrome. CI runs mocked Python tests, lint, credential-pattern/history checks, syntax and offline browser tests using runner Chrome. **CI never receives provider keys or invokes live models.**
 
-Local verification: **57 Python tests**, **13 offline browser assertions**, **15 saved-live-dashboard assertions**, plus real browser-driven live creation. Explicit live evaluators consume free quotas and never run automatically:
-
-```sh
-python evaluations/live_smoke.py solar --provider multi
-python evaluations/live_smoke.py revision --provider multi --project-id <saved-id>
-python evaluations/live_smoke.py conference --provider groq
-# Optional real UI creation:
-node evaluations/browser_live_create.cjs
-```
-
-## Limits and hosting
+Release verification: **92 Python tests** and **110 browser assertions** across six executed scripts. CI runs the 80 assertions that need no preloaded saved database; 30 saved-live assertions are additionally run locally. See [release evidence](docs/portfolio-release.md). Use mocked tests and saved receipts for routine demonstrations. `evaluations/live_microgrids.py` is an explicit optional free-quota-consuming evaluator, not part of CI; its confirmation is a labeled automated fixture. No live quota was consumed for this release.
 
 Local single-user software: no authentication, tenant isolation, HTTPS, at-rest encryption, global quotas, streaming jobs, cancellation or production monitoring. Do not expose it to the internet. Public hosting requires separate approval and production controls. Docker/loopback compose configuration is supplied but unexecuted.
 
@@ -141,3 +129,11 @@ This independent capstone is not represented as a formally required or graded co
 The Haiti regression and acceptance policy are documented in [requirements validation results](docs/requirements-validation.md). Run `python -m pytest -q` and `BROWSER_CHANNEL=chrome node tests/browser-requirements.cjs` for offline checks. `python evaluations/live_microgrids.py` explicitly consumes free inference quota and records the exact 10-site / $2.5M / 365-day / 12-person scenario. Its confirmation is an automated test fixture, not a human confirmation.
 
 Extraction is deliberately conservative: supported numeric/word day, week and year durations, USD budget amounts, team counts, named site quantities and `must include` clauses. Unsupported phrasing remains an open question; review the full goal and proposed deliverables before confirming. Cost estimates and model semantic judgments require human engineering/commercial validation.
+
+## Release reliability and project management
+
+PR #1 retains the current project's budget in scenarios; the final release also retains its current deadline/team and uses neutral change text. Any change is explicit before confirmation. Delete buttons act on one selected project only, with a permanent-deletion dialog and stale-revision protection. Names are not deduplicated: repeated Demo titles represent distinct creation records. Associated data is removed transactionally; shared confirmations are retained while referenced.
+
+Fallback is opt-in: set `PM_PLANNING_FALLBACK_PROVIDER=gemini` in your local environment to allow a free Gemini alternative to Groq planning and repair. `PM_REPAIR_FALLBACK_PROVIDER=none` explicitly disables repair fallback. No setting was silently enabled for this release. Every attempt consumes the existing six-attempt budget; fallback does not guarantee enough capacity remains for repair/re-review. Actual successful planner metadata is recorded separately from configured roles. End-to-end mocked HTTP tests verify success, failure, budget exhaustion and paid-route rejection; automatic failover has not been newly verified against live quotas.
+
+Older solar/conference screenshots and receipts are historical development evidence. Use the portfolio screenshots and the two explicitly confirmed Haiti snapshots for the current showcase. The $2.17M short request and $2.69M expanded request are not interchangeable scope baselines. No unsupported cost estimate is presented as a quotation.

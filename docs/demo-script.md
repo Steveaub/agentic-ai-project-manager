@@ -1,28 +1,20 @@
-# Live demonstration — 75 to 90 seconds
+# Local portfolio demo — about 90 seconds, zero inference required
 
-Before recording, restart the backend, check `/api/providers`, confirm free account quotas and
-open the local application. Use fictional data; never show `.env`, keys or raw provider errors.
-All three defaults have completed real calls. Keep the saved verified solar project available
-in case free quotas prevent a new run; label replayed saved history as such.
+Use saved receipts in a separate local portfolio database (`data/portfolio-release.sqlite3`), not a fresh model call. Clearly say “saved execution replay.” Never display `.env` or credentials. Do not delete actual projects just to clean screenshots. Portfolio screenshots are copied saved plans in isolated local data, not a hosted site.
 
-**0–15s:** “Northstar is my independent LLM Engineering capstone. Live mode uses real free-tier
-provider APIs; Offline Demo is a separate fictional fixture.” Select Live AI / multi-provider and
-enter the 20-site solar Wi-Fi objective, deadline, budget and team capacity.
+**0–15s — The failure:** “Northstar taught me that valid JSON can still solve the wrong problem. The original Haiti test lost the user's constraints between requirements extraction and planning.”
 
-**15–35s:** Generate. “Gemini structures requirements. Groq consumes the handoff and proposes
-the plan. Python validates the graph and calculates schedules, resources and costs. OpenRouter
-reviews assumptions independently.” Actual response time varies; do not show simulated progress.
+**15–30s — Confirmation:** Select Live AI, paste the expanded Haiti request from `examples/live-haiti-expanded.json`, and click Build. Show 365 days / $2.5M / 12 people / ten sites in confirmation, then **Cancel**. Extraction/confirmation display is local; do not click Confirm and generate during a zero-call recording.
 
-**35–55s:** Open Timeline, Budget and Agent activity. “These are actual provider/model IDs,
-request records, tokens, validation and tool outputs. Estimates require review; arithmetic is
-deterministic. A model review is an opinion, not authority over the calculated results.”
+**30–50s — Saved plan:** Open the expanded saved Haiti plan. “This is the actual saved Gemini-only run. It is 15 days late and $193,400 over budget. Requirements validation passing does not mean feasibility or a delivery guarantee.” Show Timeline and Budget category/rate evidence. The model's unverified assumptions remain visible.
 
-**55–80s:** Preview or save a 60-day/$100k scenario. “Constraint-only revisions preserve work
-and cost assumptions. This saved run remains $208,000 and reports a $108,000 shortfall rather
-than inventing a cheaper plan. Original revisions remain available.”
+**50–65s — Independent review:** Open the shorter saved Haiti plan's Agent activity and Risks. “This different input used Gemini planning and OpenRouter review. The receipt contains real provider/model IDs and a rejected review followed by bounded repair. Groq free-quota failures are preserved separately. I am replaying saved history, not claiming new calls.”
 
-**80–90s:** Export JSON/CSV. “I also tested an unrelated technology-conference goal, so live
-planning is not the e-commerce fixture. Code, real evaluation evidence and limitations are public.”
+**65–80s — Reliability:** Show the scenario form retaining the current budget/deadline/team, the estimate-comparison document, and the mocked fallback test evidence. Do not preview/save a live revision during this recording. Explain that fallback remains explicit, free-only and bounded by six attempts.
 
-Screenshots include actual live solar/conference dashboards and provider activity. Never claim
-a replayed saved run is a fresh API invocation. Public production hosting is not deployed.
+**80–90s — Close:** Show JSON/CSV export links and the GitHub release results. “AI-assisted development, human-directed acceptance testing, a working local capstone, and honest limits on engineering estimates.” Optionally demonstrate deletion only on a newly created Offline Demo project, with its permanent-delete confirmation; cancel if uncertain.
+
+Screenshots: `docs/screenshots/portfolio-*.png`. No public production deployment is part of this demo.
+
+
+Prepare a fresh replay database with `python tools/prepare_portfolio.py` (refuses to overwrite existing files). Start the local server with `PM_DATABASE` pointing at that file, using your shell's environment-variable syntax. This copies the two saved JSON snapshots and makes no inference calls. Use your normal database again afterward. Browser screenshots in the release were captured at desktop 1440×1000 and mobile 390×844.

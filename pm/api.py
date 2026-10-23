@@ -11,7 +11,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from .agents import ProviderError, run
 from .config import public_config
 from .models import (DocumentInput, Project, ProjectRequest, ProjectScenario, SearchInput,
-                     RequirementExtraction, RequirementConfirmation, ConfirmedRequirements)
+                     RequirementExtraction, RequirementConfirmation, ConfirmedRequirements, ProjectDeletion)
 from .requirements import extract, confirm
 from .providers import failure_summary
 from .store import ConflictError, Store
@@ -128,6 +128,11 @@ def create_app(db_path=None):
     @app.get("/api/projects/{project_id}")
     def get(project_id: str):
         return store.get(project_id)
+
+    @app.delete("/api/projects/{project_id}", status_code=204)
+    def delete_project(project_id: str, body: ProjectDeletion):
+        store.delete(project_id, body.expected_revision)
+        return Response(status_code=204)
 
     def revise(project_id, body, persist):
         project = store.get(project_id)

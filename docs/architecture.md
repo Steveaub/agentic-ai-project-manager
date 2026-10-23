@@ -1,32 +1,30 @@
-# Architecture and decisions
+# Architecture and engineering decisions
 
-The existing FastAPI/native-browser/SQLite architecture is preserved. New modules are
-`config.py` (explicit repository dotenv loading and server-only safe settings) and
-`providers.py` (provider adapters, free guards and shared execution budgets). Existing Pydantic
-contracts, CPM/resource-leveling, budget arithmetic and project snapshots remain authoritative.
+```mermaid
+flowchart LR
+ N[Natural-language request] --> C[Extract and confirm requirements]
+ C --> R[Requirements specialist]
+ R --> E[Budget-blind labor estimate]
+ E --> P[LLM planning]
+ P --> V[Deterministic contract / scope / DAG validation]
+ V --> T[Schedule / resource / cost tools]
+ T --> I[Independent review when configured]
+ I --> G[Acceptance gate]
+ G -->|one shared repair| P
+ G -->|unresolved defect or service failure| F[Block; retain failure evidence]
+ G -->|valid structure and scope| S[SQLite revision snapshot]
+```
 
-Gemini uses native generateContent with JSON Schema; Groq and OpenRouter use compatible
-chat-completion APIs. Model-specific endpoints, payloads, parsing, timeouts and errors stay
-inside adapters. Wire schemas use a portable subset; complete Pydantic constraints still apply
-locally. The existing OpenAI Responses path remains blocked by default free-only policy.
+Confirmed requirements are immutable records, bound to goal and constraints. Amendment confirmations also bind to project, baseline revision and change request. Explicit request constraints cannot be replaced by form defaults. Labor estimation deliberately receives scope/location without the available budget. Pydantic schemas constrain structure; separate validation checks scope, site coverage, verification dependencies, provenance and exact-cent cost reconciliation. Python owns finish-to-start CPM, greedy pooled-resource leveling and cost arithmetic. A feasible calculation is not a verified engineering commitment; an infeasible estimate can be saved honestly as needing a decision.
 
-Requirements output is handed to planning. A validated plan proposes only five operations,
-in exact order. Python owns permission enforcement and arithmetic. Optional independent review
-receives calculated results but cannot change them. The README contains the accurate diagram.
-Single-provider modes require only one configured provider; multi-mode assigns roles explicitly.
+The service is FastAPI, Pydantic, SQLite and native JavaScript/CSS. Provider adapters isolate fixed HTTPS endpoints, wire schemas and sanitized errors. Gemini uses native generateContent; Groq and OpenRouter use chat-completion interfaces. Configured specialist roles normally use Gemini/Groq/OpenRouter respectively. Actual per-attempt provider/model records, rather than configured role labels, identify substitutions. Single-provider mode does not run independent provider review and says so in the UI.
 
-One free workflow permits four inference attempts including repair and configured fallback,
-one plan repair, per-request timeouts and a boundary-checked overall deadline. Fallbacks are
-off by default and never include paid providers. OpenRouter also verifies zero catalog pricing
-and sends zero price ceilings, preventing paid routing if a free endpoint disappears.
+One WorkflowSession shares six budgeted attempts across roles, fallback and repair. Each configured provider attempt counts, including configuration/catalog failures; actual inference attempts are reported separately. There is at most one plan repair. Requests have a 60-second cap within a boundary-checked 300-second workflow deadline. Fallback is off by default. Explicit `PM_PLANNING_FALLBACK_PROVIDER=gemini` also applies to repair unless `PM_REPAIR_FALLBACK_PROVIDER` explicitly overrides it (including `none`). Model allowlists, confirmed free-tier billing and OpenRouter zero-price catalog/routing checks apply to every attempt. No paid fallback or automatic billing change is permitted. Fallback plus repair/re-review can exhaust six attempts; failure then blocks saving rather than expanding the budget.
 
-Revision snapshots use optimistic SQL updates. Failed execution metadata lives in a separate
-table without mutating projects. Constraint-only revisions preserve baseline work and estimates,
-so tighter constraints reveal infeasibility instead of fabricated reductions. General scope/task
-editing needs a later explicit design. SQLite document chunks remain separate from project
-memory and use lexical hashing/cosine retrieval, not semantic embedding inference.
+Independent review returns a substantive summary, verdict, typed severity/findings and corrections. Critical requirement/semantic defects or an explicit repair verdict can trigger one repair/re-review. Empty or meaningless output is not a pass. Subjective estimate concerns remain opinions, separate from deterministic failures. Sources and generated content are untrusted data. Tools are restricted to five fixed operations; no model-proposed code executes.
 
-The frontend adds live/single/multi controls, provider readiness, invocation metadata, independent
-opinions and failed-revision history without replacing existing views. No streaming is simulated.
-The service remains local and single-user; per-run safeguards do not establish multi-tenant auth,
-global spend control or production readiness. Docker configuration remains unexecuted.
+Revision updates use optimistic compare-and-swap. Failed calls never append accepted revisions. Deletion requires explicit confirmation and expected revision, then atomically removes one project's snapshots, chunks, associated failure history and exclusive requirement records. Shared confirmations remain while another project references them. Unbound initial failure/draft records cannot safely be attributed to a deleted project and are retained. There is no title-based deletion or bulk cleanup.
+
+The sidebar scrolls independently on desktop and remains accessible on mobile. Lists, tables and review cards are primary; JSON is collapsed audit detail. Portfolio replay uses separate local SQLite data copied from saved receipts, preserving real development history. Document retrieval uses lexical word-hash vectors and project-scoped cosine search, not semantic embeddings.
+
+Local single-user software only: no authentication/tenant isolation, durable job queue, global quota, secret vault, skill-calendar scheduling or public production hosting. SDK/HTTP automatic retries are disabled. Provider availability and model semantic judgments remain fallible.

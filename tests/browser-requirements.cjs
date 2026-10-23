@@ -1,6 +1,6 @@
 /* Confirmation UI regression; all provider inference is intercepted. */
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
-const assert=require('node:assert/strict');
+const {assert,assertionCount}=require('./assertions.cjs');
 (async()=>{
   const browser=await chromium.launch({headless:true,channel:process.env.BROWSER_CHANNEL||'chrome'});
   const page=await browser.newPage({viewport:{width:1440,height:1000}});
@@ -39,5 +39,5 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('#days').isDisabled(),false);
   assert.deepEqual(errors,[]);
   await browser.close();
-  console.log(JSON.stringify({status:'passed',assertions:14,pageErrors:0,liveInferenceRequests:0}));
+  console.log(JSON.stringify({status:'passed',assertions:assertionCount(),pageErrors:0,liveInferenceRequests:0}));
 })().catch(error=>{console.error(error.message);process.exit(1);});
