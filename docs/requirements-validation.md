@@ -67,3 +67,12 @@ The latest recorded failed request (`973d04174962465e9900f3c81da723b9`) failed w
 The descriptive phrase “10 solar-powered community microgrids” now extracts all ten sites rather than a generic one-project scope. Explicit “Each microgrid must…” requirements are also included for confirmation.
 
 Follow-up verification: **81 Python tests passed**, plus 13 offline, 14 confirmation/toggle and 14 saved-Haiti browser assertions with zero page errors. Previous live receipts above are unchanged historical evidence. The browser confirmation screenshot reflects the simplified form.
+
+
+## Readable model output follow-up
+
+Cost categories now render as a currency table with labor-rate basis, budget-withholding status, estimate notes and category exclusions in plain language. Requirements handoffs use requirement/assumption/question lists; deterministic findings state calculated feasibility; independent reviews use severity/correction cards; coverage uses requirement-to-task rows. JSON remains available under collapsed Technical details sections and in exports. Failed execution history also uses readable cards.
+
+The confirmed-requirements banner distinguishes requirements validation from budget/deadline feasibility, and explicitly states when the selected single-provider workflow did not run independent review. The user's existing Haiti project remains over budget and deadline; this presentation change does not alter its estimates or saved data.
+
+Verification: 17 new presentation assertions cover readable budget/requirements/review/coverage, collapsed JSON, expandable audit data, and escaped model content. The 13 offline, 14 confirmation and 14 saved-Haiti checks also passed with zero page errors. No model calls were made. The presentation check is included in CI. [Cost evidence screenshot](screenshots/readable-cost-evidence.png) and [agent activity screenshot](screenshots/readable-agent-activity.png) show the existing user-created Haiti plan.

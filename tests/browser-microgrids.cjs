@@ -20,8 +20,8 @@ const fs=require('node:fs');
     assert((await page.locator('#content').innerText()).length>100);
   }
   await page.locator('[data-view="Risks"]').click();
-  assert.match(await page.locator('#content').innerText(),/subjective_estimate/);
-  assert.match(await page.locator('#content').innerText(),/consistent/);
+  assert.match(await page.locator('#content').innerText(),/Subjective estimate/);
+  assert.match(await page.locator('#content').innerText(),/Consistent/);
   await page.screenshot({path:'docs/screenshots/live-microgrid-review.png',fullPage:true});
   assert.deepEqual(errors,[]);
   await browser.close();
