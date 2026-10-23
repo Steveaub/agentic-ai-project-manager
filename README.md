@@ -1,4 +1,4 @@
-# Northstar Â· Agentic AI Project Manager
+# Northstar · Agentic AI Project Manager
 
 An independent LLM Engineering capstone with **verified live multi-provider planning**, deterministic project calculations, retrieval, persistent revisions and a responsive dashboard.
 
@@ -132,7 +132,7 @@ Local single-user software: no authentication, tenant isolation, HTTPS, at-rest 
 
 Finish-to-start CPM plus stable greedy resource leveling is not optimal scheduling. Days are elapsed; resources are interchangeable, without skill calendars/holidays. No task-level editor, semantic embeddings or arbitrary-depth WBS exists. Human validation of estimates/review is essential. Direct Python dependencies are pinned, not every transitive. GitHub action runtime-migration warnings remain informational.
 
-[Security](SECURITY.md) Â· [Architecture](docs/architecture.md) Â· [Evaluation](docs/evaluation.md) Â· [Live demo script](docs/demo-script.md) Â· [LinkedIn draft](docs/linkedin.md) Â· [Case study](docs/case-study.md)
+[Security](SECURITY.md) · [Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md) · [Live demo script](docs/demo-script.md) · [LinkedIn draft](docs/linkedin.md) · [Case study](docs/case-study.md)
 
 This independent capstone is not represented as a formally required or graded course assignment.
 
