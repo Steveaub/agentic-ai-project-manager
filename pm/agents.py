@@ -307,7 +307,9 @@ def run_free(goal, constraints, provider, previous=None, sources=None, number=1,
                     raise ValueError("Independent review contains non-substantive text; meaningful coverage summary and findings required")
                 blocking = [f for f in review.findings if f.severity == "critical" and f.kind != "subjective_estimate"]
                 if blocking or review.verdict == "requires_repair":
-                    raise ValueError("Independent critical findings: " + json.dumps([f.model_dump() for f in blocking]))
+                    raise ValueError("Independent requested corrections: " + json.dumps({
+                        "findings": [f.model_dump() for f in (blocking or review.findings)],
+                        "recommendations": review.recommendations, "summary": review.summary}))
                 results["independent_review"] = {"source": "ai_opinion", "status": "passed", **review.model_dump()}
             break
         except (ValueError, OutputError) as exc:

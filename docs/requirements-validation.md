@@ -51,7 +51,7 @@ Rejected/invalidated evidence is retained rather than counted as accepted succes
 
 ## Regression results
 
-- **77 Python tests passed**, including the existing demo/tools/API/provider/retrieval tests. Added tests cover exact defaults conflict, missing/contradictory inputs, explicit override explanations, scope/site omissions, mandatory exclusions, labor/fixed double counting, category reconciliation, missing categories, parallel capacity, commissioning dependencies, all-agent propagation, critical review repair/blocking, unavailable review, punctuation-only review, and amendment binding/baseline preservation.
+- **78 Python tests passed**, including the existing demo/tools/API/provider/retrieval tests. Added tests cover exact defaults conflict, missing/contradictory inputs, explicit override explanations, scope/site omissions, mandatory exclusions, labor/fixed double counting, category reconciliation, missing categories, parallel capacity, commissioning dependencies, all-agent propagation, critical review repair/blocking, explicit review-verdict correction handoff, unavailable review, punctuation-only review, and amendment binding/baseline preservation.
 - **13 existing offline browser assertions**, **15 historical saved-live assertions**, **10 confirmation/blocking UI assertions**, and **14 saved Haiti assertions** passed, with zero page errors. Browser checks made no additional inference calls. The new confirmation test is included in CI.
 - Ruff and JavaScript syntax checks passed. Scoped credential scanning checks tracked/staged files, reachable historical blobs and actual `.env` secret values in memory; no values are printed. `.env` remains ignored.
 

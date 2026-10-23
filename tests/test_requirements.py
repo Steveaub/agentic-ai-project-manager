@@ -414,3 +414,28 @@ def test_punctuation_only_independent_review_blocks_acceptance(monkeypatch):
     monkeypatch.setattr("pm.agents.WorkflowSession", BadReview)
     with pytest.raises(ProviderError, match="Clarify requirements"):
         run(ProjectGoal(objective="Deploy solar Wi-Fi"), ProjectConstraint(), "multi")
+
+
+def test_explicit_review_verdict_passes_noncritical_corrections_to_repair(monkeypatch):
+    class VerdictReview(FakeSession):
+        reviews = 0
+
+        def call(self, provider, role, schema, instructions, payload):
+            if role == "repair":
+                assert "Add operating handover clarification" in payload["repair_instruction"]
+            if schema is IndependentReview:
+                self.reviews += 1
+                self.calls += 1
+                return IndependentReview(
+                    summary="Reviewed all confirmed scope and constraints with substantive coverage.",
+                    verdict="requires_repair" if self.reviews == 1 else "consistent",
+                    coverage_gaps=[],
+                    estimate_concerns=[],
+                    recommendations=["Add operating handover clarification"] if self.reviews == 1 else [],
+                    findings=[],
+                )
+            return super().call(provider, role, schema, instructions, payload)
+
+    monkeypatch.setattr("pm.agents.WorkflowSession", VerdictReview)
+    result = run(ProjectGoal(objective="Deploy solar Wi-Fi"), ProjectConstraint(), "multi")
+    assert result.results["acceptance"]["repair_attempts"] == 1
