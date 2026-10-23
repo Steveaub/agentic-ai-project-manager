@@ -76,7 +76,10 @@ let pendingConfirmation = null;
 function presentConfirmation(draft, finish) {
   $('#confirmation-error').hidden=true;
   pendingConfirmation={draft,finish};
-  $('#requirements-summary').innerHTML=`<h3>${e(draft.scope.quantity)} ${e(draft.scope.asset)} · ${e(draft.scope.location)}</h3>${list(draft.scope.deliverables.map(r=>r.id+' · '+r.description+(r.mandatory?' (mandatory)':'')))}<h3>Conflicts to review</h3><pre>${e(JSON.stringify(draft.conflicts,null,2))}</pre><h3>Open questions</h3>${list(draft.questions)}<details><summary>Extraction evidence</summary><pre>${e(JSON.stringify(draft.provenance,null,2))}</pre></details>`;
+  const labels={days:'Target days',budget:'Budget',team_size:'Team members'};
+  const formatted=(field,value)=>field==='budget'?money(value):String(value);
+  const conflicts=draft.conflicts.map(c=>c.kind==='form_differs'?`${labels[c.field]}: request ${formatted(c.field,c.request_value)}; form proposal ${formatted(c.field,c.form_value)}. The request value is proposed for confirmation.`:`${labels[c.field]}: conflicting request values ${c.values.map(v=>formatted(c.field,v)).join(' or ')}. Choose a value and explain the resolution.`);
+  $('#requirements-summary').innerHTML=`<h3>${e(draft.scope.quantity)} ${e(draft.scope.asset)} · ${e(draft.scope.location)}</h3>${list(draft.scope.deliverables.map(r=>r.id+' · '+r.description+(r.mandatory?' (mandatory)':'')))}<h3>Conflicts to review</h3>${conflicts.length?list(conflicts):'<p>No conflicting values detected.</p>'}<h3>Open questions</h3>${list(draft.questions)}<details><summary>Extraction evidence</summary><pre>${e(JSON.stringify(draft.provenance,null,2))}</pre></details>`;
   $('#confirmed-days').value=draft.proposed_constraints.days??'';
   $('#confirmed-budget').value=draft.proposed_constraints.budget??'';
   $('#confirmed-team').value=draft.proposed_constraints.team_size??'';

@@ -23,7 +23,7 @@ const assert=require('node:assert/strict');
   assert.equal(await page.locator('#confirmed-budget').inputValue(),'2500000');
   assert.equal(await page.locator('#confirmed-team').inputValue(),'12');
   assert.match(await page.locator('#requirements-summary').innerText(),/10 solar microgrids.*Haiti/);
-  assert.match(await page.locator('#requirements-summary').innerText(),/form_differs/);
+  assert.match(await page.locator('#requirements-summary').innerText(),/form proposal/);
   assert.equal(submissions,0);
   await page.screenshot({path:'docs/screenshots/requirements-confirmation.png',fullPage:true});
   await page.locator('#requirements-agreed').check();
