@@ -1,27 +1,11 @@
-# Evaluation
+# Evaluation evidence
 
-Current results (October 23, 2026): **57 Python tests**, **13 offline-browser assertions**,
-**15 saved-live-dashboard assertions**, and a browser-created live conference workflow passed.
-Ruff and JavaScript syntax checks passed. [Actual live receipts and failures](live-validation.md).
+Current portfolio release: **92 Python tests**, Ruff, JavaScript syntax checks and **110 browser assertions** across six executed scripts. Full results and exact commands are in [portfolio-release.md](portfolio-release.md). Older counts in archived reports describe their original commits, not the current release.
 
-The Python suite verifies known CPM/float results, invalid DAGs, pooled resource contention,
-budget arithmetic, typed boundaries, operation authorization, execution limits, dotenv precedence,
-credential-safe status, all three adapter formats, quota/outage/timeout errors, malformed JSON,
-role handoff, one bounded repair, free-only fallbacks, failed-revision preservation, optimistic
-concurrency, retrieval isolation, exports and local origin checks. Mocked tests never call models.
+Python coverage includes real provider adapters over httpx.MockTransport, confirmed Haiti propagation, independent cost calculation, critical review/repair, unchanged-baseline revisions, free-only policy, fallback success/failure/exhaustion, sanitized errors, deletion isolation/transactions/shared records, origin boundaries, lexical retrieval and exports. Mocked success is not represented as successful live failover.
 
-Live evidence covers solar infrastructure generation/revision with Gemini alone and a three-model
-workflow, conference planning with Groq, and conference creation through the real browser/API
-with all three providers. Saved calculations are deterministic; their input estimates are unverified.
-Independent review may be mistaken and never overrides tools. Failed usage can be unavailable.
+Browser coverage: Offline Demo 13; requirements confirmation 16; human-readable presentation and escaping 18; deletion/scenario defaults/desktop/mobile 33; saved confirmed Haiti 14; historical saved-live rendering 16. CI runs the first four scripts (80 assertions) without API keys or live requests. The two saved-database scripts were run locally against copied receipts in an isolated QA database. The historical renderer's initial startup race was corrected by waiting for initial project-list loading, then rerun successfully.
 
-CI gets no API keys and runs only mocked/unit/integration and offline-browser tests. Manual live
-scripts are opt-in. Chrome was used locally; CI uses the runner's installed Chrome. Windows
-sandbox loopback restrictions require permitted local networking for API/browser tests.
+Actual prior live evidence is retained separately. The confirmed short Haiti run used Gemini and OpenRouter; the expanded Haiti run used Gemini only. Other Groq successes and quota failures are historical provider observations, not a release live-fallback test. No new live inference was performed for release validation. Do not infer that an estimate is commercially reliable because its arithmetic or JSON schema is valid.
 
-Earlier v0.1 dependency checks reported no known runtime vulnerabilities and no npm advisories.
-The earlier Codex Security report concerned a changing v0.1 snapshot, not this v0.2 patch; it
-must not be presented as a new security certification. Current publication uses a scoped
-credential scan of working/staged content, reachable history and commit metadata. No secrets
-were detected in the checks performed. Full live prompt-injection testing, container execution,
-formal accessibility audit and public-service security validation remain incomplete.
+The exact-cent guards and scope/graph checks remain active. Independent semantic review can be mistaken. Tests do not prove engineering feasibility, price completeness, global optimum scheduling, adversarial-model robustness, multi-user security or production readiness. Containers and public hosting were not exercised/enabled. Credential checks inspect staged/tracked files, reachable history and actual local secret values in memory without printing them; the final report records the result.

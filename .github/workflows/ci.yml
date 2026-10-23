@@ -28,6 +28,7 @@ jobs:
           BROWSER_CHANNEL=chrome npm run test:e2e
           BROWSER_CHANNEL=chrome node tests/browser-requirements.cjs
           BROWSER_CHANNEL=chrome node tests/browser-presentation.cjs
+          BROWSER_CHANNEL=chrome node tests/browser-release.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

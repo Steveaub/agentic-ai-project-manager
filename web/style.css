@@ -4,3 +4,11 @@
 dialog{width:min(850px,92vw);max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:28px}dialog::backdrop{background:#10282a80}dialog input[type=checkbox]{display:inline;width:auto;margin-right:8px}#confirmation-error{color:#ae4a27}
 
 .utilization{max-width:100%;overflow-x:auto}
+
+/* Keep navigation independent of document length and constrain shrinking columns. */
+.sidebar{height:100dvh;overflow-y:auto;overscroll-behavior:contain;flex-shrink:0;z-index:2}
+.sidebar>*{flex-shrink:0}.project-row{display:flex;align-items:center;min-width:0}.project-row .project-link{min-width:0;flex:1}.delete-project{padding:5px 9px;margin-left:3px}
+main,.panel,.metrics>*{min-width:0}.revision-bar>span{overflow-wrap:anywhere;min-width:0}.trace,.risk{overflow-wrap:anywhere}header h1{overflow-wrap:anywhere}
+@media(max-width:650px){.sidebar{height:auto;max-height:none;overflow:visible}.saved{display:block;margin-top:12px;max-height:160px;overflow:auto}header{flex-wrap:wrap}.form-grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.metric strong{font-size:22px}.section-head{flex-wrap:wrap}.revision-bar select{max-width:100%}dialog{padding:18px}.creation form{min-width:0}}
+
+.project-request{min-width:0;flex:1}.project-request p{overflow-wrap:anywhere;max-width:100ch}

@@ -218,7 +218,8 @@ class WorkflowSession:
         self.max_calls = 6
 
     def call(self, provider, role, schema, instructions, payload):
-        fallback = os.getenv(f"PM_{role.upper()}_FALLBACK_PROVIDER", "none")
+        fallback = os.getenv(f"PM_{role.upper()}_FALLBACK_PROVIDER",
+                             os.getenv("PM_PLANNING_FALLBACK_PROVIDER", "none") if role == "repair" else "none")
         choices = [provider] + ([fallback] if fallback != "none" and fallback != provider else [])
         if any(p not in FREE_MODELS for p in choices):
             raise ProviderError("Role assignments and fallbacks must use verified free providers.", "configuration")
@@ -228,10 +229,11 @@ class WorkflowSession:
             started = time.monotonic()
             event = {"id": uid(), "provider": name, "model": model_for(name), "role": role,
                      "timestamp": now(), "status": "error", "validation": "not_run"}
+            self.calls += 1
+            event["inference_attempted"] = False
             try:
                 adapter = ChatAdapter(name)
                 event["model"] = adapter.model
-                self.calls += 1
                 event["inference_attempted"] = True
                 tokens = 6500 if role in {"planning", "repair"} else 3500 if role == "review" else 1800
                 parsed, meta = adapter.generate(schema, instructions, payload,
@@ -264,4 +266,4 @@ class WorkflowSession:
                 "budgeted_attempts": self.calls, "reported_tokens": self.tokens, "invocations": self.events,
                 "max_model_calls": self.max_calls, "max_output_tokens_per_call": 6500,
                 "workflow_timeout_seconds": 300, "free_only": True,
-                "model": next((e["model"] for e in self.events if e["role"] == "planning"), None)}
+                "model": next((e["model"] for e in reversed(self.events) if e["role"] in {"planning", "repair"} and e["status"] == "ok"), None)}

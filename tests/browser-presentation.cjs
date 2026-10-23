@@ -1,6 +1,6 @@
 /* Saved model fixture only: no inference or persisted project changes. */
 const {chromium}=require('playwright');
-const assert=require('node:assert/strict');
+const {assert,assertionCount}=require('./assertions.cjs');
 const fs=require('node:fs');
 (async()=>{
   const project=JSON.parse(fs.readFileSync('examples/live-microgrids.json','utf8'));
@@ -42,5 +42,5 @@ const fs=require('node:fs');
   assert.equal(await page.locator('#content pre:visible').count(),0);
   assert.deepEqual(errors,[]);
   await browser.close();
-  console.log(JSON.stringify({status:'passed',assertions:18,pageErrors:0,liveInferenceRequests:0}));
+  console.log(JSON.stringify({status:'passed',assertions:assertionCount(),pageErrors:0,liveInferenceRequests:0}));
 })().catch(e=>{console.error(e.message);process.exit(1);});
