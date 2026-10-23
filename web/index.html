@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Transparent AI-assisted project planning, schedules, budgets and revisions.">
+  <title>Northstar · Agentic AI Project Manager</title>
+  <link rel="stylesheet" href="/assets/style.css"><script src="/assets/app.js" defer></script>
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="Northstar home"><span class="brand-icon">✳</span> northstar<span class="brand-dot">.</span></a>
+  <p class="eyebrow">PROJECT INTELLIGENCE</p>
+  <button id="new-project" class="primary">＋ New project</button>
+  <nav aria-label="Project views" id="nav"></nav>
+  <div class="saved"><p class="eyebrow">SAVED PROJECTS</p><div id="projects"></div></div>
+  <div class="sidebar-footer"><span class="status-dot"></span> Local workspace<br><small>Independent LLM Engineering capstone</small></div>
+</aside>
+<main>
+  <header><div><span class="eyebrow">WORKSPACE / PROJECT PLANNING</span><h1 id="heading">Turn ambition into a plan.</h1></div><span id="mode" class="badge">NO-COST DEMO</span></header>
+  <div id="error" role="alert" hidden></div>
+  <div id="busy" role="status" hidden><span class="spinner"></span> Planning and validating… The completed trace will appear when finished.</div>
+  <section id="create-view" class="panel creation">
+    <div class="intro"><span class="tag">FROM GOAL TO EXECUTION</span><h2>A clear path.<br>Every decision visible.</h2><p>Define the outcome. Inspect the work, challenge the assumptions, and understand what it takes to deliver.</p><div class="steps"><span>01 &nbsp; Define</span><span>02 &nbsp; Plan</span><span>03 &nbsp; Evaluate</span></div></div>
+    <form id="create-form">
+      <label for="goal">What do you want to achieve?</label><textarea id="goal" required minlength="10" maxlength="6000" rows="4">Plan the launch of an e-commerce website in 60 days with a budget of $20,000 and four available team members.</textarea>
+      <div class="form-grid"><label>Target days<input id="days" type="number" min="1" max="3650" value="60" required></label><label>Budget · USD<input id="budget" type="number" min="1" max="1000000000" value="20000" required></label><label>Team members<input id="team" type="number" min="1" max="100" value="4" required></label></div>
+      <label>Planning provider<select id="provider"><option value="demo">Demo · fictional e-commerce template · free</option><option value="openai">OpenAI · requires operator configuration & paid-call opt-in</option></select></label>
+      <p class="hint">Demo uses fixed estimates, not AI inference. Numeric fields control calculations; prose does not override them. Live mode sends the goal and retrieved passages to your configured model.</p>
+      <button class="primary" type="submit">Build execution plan <span>↗</span></button>
+    </form>
+  </section>
+  <section id="project-view" hidden><div id="revision-bar"></div><div id="content"></div></section>
+  <footer>Transparent estimates. Deterministic calculations. Human decisions.</footer>
+</main>
+</body></html>

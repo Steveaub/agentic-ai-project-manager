@@ -1,0 +1,10 @@
+{
+  "name": "agentic-ai-project-manager-browser-tests",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "check": "node --check web/app.js",
+    "test:e2e": "node tests/browser.cjs"
+  },
+  "devDependencies": {"playwright": "1.58.2"}
+}
