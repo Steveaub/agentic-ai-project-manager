@@ -24,7 +24,8 @@
     <form id="create-form">
       <label for="goal">What do you want to achieve?</label><textarea id="goal" required minlength="10" maxlength="6000" rows="4">Plan the launch of an e-commerce website in 60 days with a budget of $20,000 and four available team members.</textarea>
       <div class="form-grid"><label>Target days<input id="days" type="number" min="1" max="3650" value="60" required></label><label>Budget · USD<input id="budget" type="number" min="1" max="1000000000" value="20000" required></label><label>Team members<input id="team" type="number" min="1" max="100" value="4" required></label></div>
-      <label>Planning provider<select id="provider"><option value="demo">Demo · fictional e-commerce template · free</option><option value="openai">OpenAI · requires operator configuration & paid-call opt-in</option></select></label>
+      <label>Planning workflow<select id="provider"><option value="demo">Offline Demo · fixed fictional e-commerce template</option><option value="multi">Live AI · configured specialist team</option><option value="groq">Live AI · Groq only</option><option value="gemini">Live AI · Gemini only</option><option value="openrouter">Live AI · OpenRouter free only</option></select></label>
+      <p id="provider-info" class="hint" role="status">Offline Demo makes no external model calls.</p>
       <p class="hint">Demo uses fixed estimates, not AI inference. Numeric fields control calculations; prose does not override them. Live mode sends the goal and retrieved passages to your configured model.</p>
       <button class="primary" type="submit">Build execution plan <span>↗</span></button>
     </form>

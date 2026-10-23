@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .agents import ProviderError, run
+from .config import public_config
 from .models import DocumentInput, Project, ProjectRequest, ProjectScenario, SearchInput
 from .store import ConflictError, Store
 
@@ -16,7 +17,7 @@ WEB = Path(__file__).resolve().parent.parent / "web"
 
 
 def create_app(db_path=None):
-    app = FastAPI(title="Agentic AI Project Manager", version="0.1.0")
+    app = FastAPI(title="Agentic AI Project Manager", version="0.2.0")
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "testserver"])
     store = Store(db_path or os.getenv("PM_DATABASE", "data/projects.sqlite3"))
     app.state.store = store
@@ -53,11 +54,21 @@ def create_app(db_path=None):
 
     @app.exception_handler(ProviderError)
     async def provider_failure(_, exc):
-        return JSONResponse({"detail": str(exc)}, status_code=503)
+        execution_id = store.record_failure(exc.code, exc.events)
+        return JSONResponse({"detail": str(exc), "code": exc.code, "execution_id": execution_id}, status_code=exc.status)
 
     @app.get("/api/health")
     def health():
-        return {"status": "ok", "default_provider": "demo", "live_enabled": os.getenv("PM_ALLOW_PAID_CALLS") == "true"}
+        settings = public_config()
+        return {"status": "ok", "default_provider": "demo", "live_enabled": any(p["ready"] for p in settings["providers"])}
+
+    @app.get("/api/providers")
+    def providers():
+        return public_config()
+
+    @app.get("/api/projects/{project_id}/failures")
+    def failures(project_id: str):
+        return store.failures(project_id)
 
     @app.get("/api/projects")
     def projects():
@@ -80,8 +91,13 @@ def create_app(db_path=None):
             raise ConflictError("Project changed; reload before revising")
         previous = project.revisions[-1]
         sources = store.search(project_id, project.goal.objective + " " + body.change)
-        revision = run(project.goal, body.constraints, body.provider, previous.plan,
-                       sources, len(project.revisions) + 1, body.change)
+        try:
+            revision = run(project.goal, body.constraints, body.provider, previous.plan,
+                           sources, len(project.revisions) + 1, body.change)
+        except ProviderError as exc:
+            execution_id = store.record_failure(exc.code, exc.events, project_id)
+            raise HTTPException(exc.status, {"message": str(exc), "code": exc.code,
+                                            "execution_id": execution_id}) from None
         if persist:
             project.revisions.append(revision)
             store.save(project, expected=body.expected_revision)

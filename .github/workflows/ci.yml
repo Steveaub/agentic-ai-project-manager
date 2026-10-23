@@ -8,6 +8,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -15,8 +17,9 @@ jobs:
         with:
           node-version: '24'
       - run: python -m pip install -r requirements-dev.txt
-      - run: python -m ruff check pm tests
+      - run: python -m ruff check pm tests tools evaluations
       - run: python -m pytest -q
+      - run: python tools/check_secrets.py
       - run: node --check web/app.js
       - run: npm ci
       - run: |

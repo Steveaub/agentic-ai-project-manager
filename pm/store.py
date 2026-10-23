@@ -44,10 +44,26 @@ class Store:
                     ordinal INTEGER NOT NULL, text TEXT NOT NULL, vector TEXT NOT NULL,
                     created_at TEXT NOT NULL, embedding TEXT NOT NULL);
                 CREATE INDEX IF NOT EXISTS chunks_project ON chunks(project_id);
+                CREATE TABLE IF NOT EXISTS executions (id TEXT PRIMARY KEY, project_id TEXT, body TEXT NOT NULL);
             """)
 
     def connect(self):
         return sqlite3.connect(self.path, timeout=10)
+
+    def record_failure(self, code, events, project_id=None):
+        execution_id = uid()
+        body = {"id": execution_id, "project_id": project_id, "status": "failed", "error_code": code,
+                "created_at": now(), "invocations": events}
+        with self.connect() as db:
+            db.execute("INSERT INTO executions VALUES (?,?,?)", (execution_id, project_id, json.dumps(body)))
+        return execution_id
+
+    def failures(self, project_id):
+        self.get(project_id)
+        with self.connect() as db:
+            rows = db.execute("SELECT body FROM executions WHERE project_id=? ORDER BY rowid DESC LIMIT 20",
+                              (project_id,)).fetchall()
+        return [json.loads(row[0]) for row in rows]
 
     def save(self, project: Project, expected: int | None = None):
         with self.connect() as db:

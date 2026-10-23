@@ -30,7 +30,7 @@ class ProjectConstraint(Contract):
 class ProjectRequest(Contract):
     goal: ProjectGoal
     constraints: ProjectConstraint = Field(default_factory=ProjectConstraint)
-    provider: Literal["demo", "openai"] = "demo"
+    provider: Literal["demo", "openai", "gemini", "groq", "openrouter", "multi"] = "demo"
 
 
 class Task(Contract):
@@ -122,7 +122,7 @@ class ProjectRevision(Contract):
     decisions: list[AgentDecision]
     trace: list[ToolResult]
     sources: list[dict]
-    provider: Literal["demo", "openai"]
+    provider: Literal["demo", "openai", "gemini", "groq", "openrouter", "multi"]
 
 
 class Project(Contract):
@@ -136,7 +136,7 @@ class Project(Contract):
 class ProjectScenario(Contract):
     constraints: ProjectConstraint
     change: str = Field(default="Constraint scenario", max_length=2000)
-    provider: Literal["demo", "openai"] = "demo"
+    provider: Literal["demo", "openai", "gemini", "groq", "openrouter", "multi"] = "demo"
     expected_revision: int = Field(ge=1)
 
 
