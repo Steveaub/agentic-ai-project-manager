@@ -21,6 +21,28 @@ class OutputError(ProviderError):
     pass
 
 
+def failure_summary(error):
+    """User-facing context from allowlisted metadata, never raw provider bodies."""
+    event = next((e for e in reversed(error.events) if e.get("status") == "error"), {})
+    name = {"groq": "Groq", "gemini": "Gemini", "openrouter": "OpenRouter"}.get(event.get("provider"), "The AI provider")
+    stage = {"requirements": "extracting requirements", "estimation": "estimating labor rates",
+             "planning": "building the plan", "repair": "repairing the plan", "review": "reviewing the plan"}.get(event.get("role"), "processing the request")
+    code = error.code
+    if code == "http_429" or "Category: rate_limit_exceeded." in event.get("error", ""):
+        return f"{name} reached its free usage limit while {stage}. No plan was saved. Wait for the free limit to reset, then try again. Your project request is still in the form; changing its requirements will not fix this limit."
+    causes = {"timeout": "did not respond in time", "connection": "could not be reached",
+              "http_401": "rejected the configured credentials", "http_403": "denied access to this model",
+              "http_404": "could not provide the configured model", "http_402": "requested payment; paid fallback is disabled",
+              "http_413": "could not fit this request within its context limit",
+              "http_400": "rejected the model request or structured-output format",
+              "budget": "could not finish within the workflow's call or time limit"}
+    if code in causes:
+        return f"{name} {causes[code]} while {stage}. No plan was saved. " + (
+            "Try again later; your project request is still in the form." if code in {"timeout", "connection", "budget"}
+            else "Check the selected free workflow and its local configuration before retrying. Do not share API keys.")
+    return str(error)
+
+
 ENDPOINTS = {
     "groq": "https://api.groq.com/openai/v1/chat/completions",
     "gemini": "https://generativelanguage.googleapis.com/v1beta/models/",

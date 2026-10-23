@@ -80,7 +80,7 @@ def extract(goal, form_constraints=None):
     site_match = re.search(
         r"\b("
         + NUMBER
-        + r")\s+((?:solar[- ](?:powered\s+)?)?(?:microgrids?|wi[-‑ ]?fi\s+hotspots?|hotspots?|sites?))\b",
+        + r")\s+((?:[a-z]+(?:-[a-z]+)?\s+){0,4}?(?:microgrids?|wi[-‑ ]?fi\s+hotspots?|hotspots?|sites?))\b",
         text,
         re.I,
     )
@@ -100,6 +100,10 @@ def extract(goal, form_constraints=None):
     ]
     for match in re.finditer(r"(?:must include|required deliverables?\s*:)\s*([^.;]+)", text, re.I):
         mandatory.extend(s.strip() for s in re.split(r",|\band\b", match[1]) if s.strip())
+    mandatory.extend(
+        m.group(0).strip()
+        for m in re.finditer(r"\bEach\s+(?:microgrid|site|hotspot)\s+must\s+[^\n.;]+", text, re.I)
+    )
     scope = ProjectScope(
         asset=asset,
         quantity=quantity,

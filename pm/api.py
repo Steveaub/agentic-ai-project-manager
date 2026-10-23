@@ -13,6 +13,7 @@ from .config import public_config
 from .models import (DocumentInput, Project, ProjectRequest, ProjectScenario, SearchInput,
                      RequirementExtraction, RequirementConfirmation, ConfirmedRequirements)
 from .requirements import extract, confirm
+from .providers import failure_summary
 from .store import ConflictError, Store
 
 WEB = Path(__file__).resolve().parent.parent / "web"
@@ -57,7 +58,7 @@ def create_app(db_path=None):
     @app.exception_handler(ProviderError)
     async def provider_failure(_, exc):
         execution_id = store.record_failure(exc.code, exc.events)
-        return JSONResponse({"detail": str(exc), "code": exc.code, "execution_id": execution_id}, status_code=exc.status)
+        return JSONResponse({"detail": failure_summary(exc), "code": exc.code, "execution_id": execution_id}, status_code=exc.status)
 
     @app.get("/api/health")
     def health():
@@ -144,7 +145,7 @@ def create_app(db_path=None):
                            sources, len(project.revisions) + 1, body.change, authority=authority)
         except ProviderError as exc:
             execution_id = store.record_failure(exc.code, exc.events, project_id)
-            raise HTTPException(exc.status, {"message": str(exc), "code": exc.code,
+            raise HTTPException(exc.status, {"message": failure_summary(exc), "code": exc.code,
                                             "execution_id": execution_id}) from None
         if persist:
             project.revisions.append(revision)

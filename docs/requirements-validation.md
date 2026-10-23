@@ -56,3 +56,14 @@ Rejected/invalidated evidence is retained rather than counted as accepted succes
 - Ruff and JavaScript syntax checks passed. Scoped credential scanning checks tracked/staged files, reachable historical blobs and actual `.env` secret values in memory; no values are printed. `.env` remains ignored.
 
 Run the offline suite with `python -m pytest -q`. Against the local server, run `BROWSER_CHANNEL=chrome node tests/browser-requirements.cjs`. Saved Haiti rendering uses `node tests/browser-microgrids.cjs` with the saved project in the local database. The explicit live evaluator `python evaluations/live_microgrids.py` consumes free quota; it is not part of CI. To reproduce the accepted larger-plan provider choice, set `PM_PLANNING_PROVIDER=gemini` only for that process. Free-provider availability, quotas and model output are nondeterministic; failures must remain blocked.
+
+
+## Browser feedback follow-up
+
+Live creation now hides and disables the Demo-only 60-day/$20,000/four-person controls and does not send them to extraction. Constraints are shown once, in confirmation; missing values remain blank. Demo retains its labeled sample controls. Configuration status says configured rather than implying available free quota.
+
+The latest recorded failed request (`973d04174962465e9900f3c81da723b9`) failed when Groq returned HTTP 429 during plan repair. Provider failures now name the provider, stage, known cause and recovery step using allowlisted metadata. Quota failures explicitly explain that changing project requirements will not fix a service limit and no plan was saved. Raw provider responses and key values remain undisclosed. No additional live calls were made for this UI follow-up.
+
+The descriptive phrase “10 solar-powered community microgrids” now extracts all ten sites rather than a generic one-project scope. Explicit “Each microgrid must…” requirements are also included for confirmation.
+
+Follow-up verification: **81 Python tests passed**, plus 13 offline, 14 confirmation/toggle and 14 saved-Haiti browser assertions with zero page errors. Previous live receipts above are unchanged historical evidence. The browser confirmation screenshot reflects the simplified form.

@@ -14,6 +14,7 @@ const fs=require('node:fs');
   const responsePromise=page.waitForResponse(r=>r.url().endsWith('/api/projects')&&r.request().method()==='POST',{timeout:310000});
   await page.getByRole('button',{name:'Build execution plan'}).click();
   await page.locator('#requirements-dialog[open]').waitFor();
+  await page.locator('#confirmed-team').fill('5'); // Explicit automated fixture input, not a UI default.
   await page.locator('#requirements-agreed').check();
   await page.getByRole('button',{name:'Confirm and generate plan'}).click();
   const response=await responsePromise;

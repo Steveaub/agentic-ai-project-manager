@@ -96,11 +96,12 @@ $('#confirmation-form').addEventListener('submit',ev=>{ev.preventDefault();actio
   await pending.finish(authority);
 });});
 $('#create-form').addEventListener('submit',ev=>{ev.preventDefault();action(async()=>{
-  const body={goal:{objective:$('#goal').value},constraints:{days:+$('#days').value,budget:+$('#budget').value,team_size:+$('#team').value},provider:$('#provider').value};
+  const body={goal:{objective:$('#goal').value},provider:$('#provider').value};
+  if(body.provider==='demo') body.constraints={days:+$('#days').value,budget:+$('#budget').value,team_size:+$('#team').value};
   const finish=async authority=>{if(authority){body.constraints=authority.constraints;body.confirmation_id=authority.id;}
     const p=await api('/projects',body);view='Overview';showProject(p);await loadProjects();};
   if(body.provider==='demo') await finish(null);
-  else presentConfirmation(await api('/requirements/extract',{goal:body.goal,form_constraints:body.constraints}),finish);
+  else presentConfirmation(await api('/requirements/extract',{goal:body.goal}),finish);
 });});
 async function submitScenario(persist) {
   const body=scenarioInput();
@@ -110,7 +111,7 @@ async function submitScenario(persist) {
   if(body.provider==='demo') await finish(null);
   else presentConfirmation(await api(`/projects/${project.id}/requirements/extract`,body),finish);
 }
-$('#new-project').addEventListener('click',()=>{$('#create-view').hidden=false;$('#project-view').hidden=true;$('#heading').textContent='Turn ambition into a plan.';$('#mode').textContent='NO-COST DEMO';$('#goal').focus();});
+$('#new-project').addEventListener('click',()=>{$('#create-view').hidden=false;$('#project-view').hidden=true;$('#heading').textContent='Turn ambition into a plan.';providerInfo();$('#goal').focus();});
 document.addEventListener('click',ev=>{
   const navigation=ev.target.closest('[data-view]'); if(navigation){view=navigation.dataset.view;if(project){$('#create-view').hidden=true;$('#project-view').hidden=false;render();}return;}
   const link=ev.target.closest('[data-project]'); if(link){action(async()=>showProject(await api('/projects/'+link.dataset.project)));return;}
@@ -125,10 +126,14 @@ document.addEventListener('submit',ev=>{
 });
 function providerInfo() {
   const name=$('#provider').value;
+  $('#demo-constraints').hidden=name!=='demo';
+  $('#live-constraints-hint').hidden=name==='demo';
+  $('#demo-constraints').querySelectorAll('input').forEach(input=>{input.disabled=name!=='demo';input.required=name==='demo';});
+  if(!project || !$('#create-view').hidden) $('#mode').textContent=name==='demo'?'NO-COST DEMO':'LIVE AI · CONFIRM REQUIREMENTS';
   if(name==='demo') {$('#provider-info').textContent='Offline Demo makes no external model calls.';return;}
   const providers=providerSettings?.providers||[];
   const selected=name==='multi'?Object.entries(providerSettings?.roles||{}).map(([role,p])=>({role,...providers.find(item=>item.provider===p)})):providers.filter(p=>p.provider===name);
-  $('#provider-info').textContent=selected.map(p=>`${p.role?p.role+': ':''}${p.provider||'none'} / ${p.model||'not configured'} — ${p.ready?'ready':p.message||'disabled'}`).join(' · ');
+  $('#provider-info').textContent=selected.map(p=>`${p.role?p.role+': ':''}${p.provider||'none'} / ${p.model||'not configured'} — ${p.ready?'configured; free quota may limit requests':p.message||'disabled'}`).join(' · ');
 }
 $('#provider').addEventListener('change',providerInfo);
 action(async()=>{providerSettings=await api('/providers');providerInfo();await loadProjects();const saved=localStorage.getItem('northstar-project');if(saved){try{showProject(await api('/projects/'+saved));}catch{localStorage.removeItem('northstar-project');}}});

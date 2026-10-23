@@ -439,3 +439,46 @@ def test_explicit_review_verdict_passes_noncritical_corrections_to_repair(monkey
     monkeypatch.setattr("pm.agents.WorkflowSession", VerdictReview)
     result = run(ProjectGoal(objective="Deploy solar Wi-Fi"), ProjectConstraint(), "multi")
     assert result.results["acceptance"]["repair_attempts"] == 1
+
+
+def test_descriptive_microgrid_scope_and_per_site_requirement():
+    draft = extract(
+        ProjectGoal(
+            objective="Build a network of 10 solar-powered community microgrids serving rural communities in Haiti. Each microgrid must support approximately 100 households."
+        )
+    )
+    assert draft["scope"]["quantity"] == 10
+    assert "microgrids" in draft["scope"]["asset"]
+    assert len(draft["scope"]["site_ids"]) == 10
+    assert any("100 households" in r["description"] for r in draft["scope"]["deliverables"])
+
+
+def test_provider_limit_error_names_provider_stage_and_recovery():
+    from pm.providers import failure_summary
+
+    error = ProviderError(
+        "Generic message", "http_429", 429, [{"provider": "groq", "role": "repair", "status": "error"}]
+    )
+    message = failure_summary(error)
+    assert "Groq reached its free usage limit while repairing the plan" in message
+    assert "No plan was saved" in message
+    assert "reset" in message and "will not fix this limit" in message
+
+
+def test_provider_error_context_is_not_reflected_from_untrusted_metadata():
+    from pm.providers import failure_summary
+
+    error = ProviderError(
+        "Safe message",
+        "timeout",
+        504,
+        [
+            {
+                "provider": "private-placeholder",
+                "role": "private-placeholder",
+                "status": "error",
+                "error": "private-placeholder",
+            }
+        ],
+    )
+    assert "private-placeholder" not in failure_summary(error)
