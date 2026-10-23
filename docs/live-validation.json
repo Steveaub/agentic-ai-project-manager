@@ -1,0 +1,602 @@
+{
+  "date": "2026-10-23",
+  "scope": "Fictional local validation; only confirmed free tiers and zero-priced OpenRouter routes",
+  "records": [
+    {
+      "scenario": "solar",
+      "status": "failed",
+      "code": "timeout",
+      "message": "Provider timed out; retry later. No project change was saved.",
+      "execution": {
+        "invocations": [
+          {
+            "id": "1026b759fb8042a98c84bb518dd95cdb",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:24:49.699738+00:00",
+            "status": "error",
+            "validation": "not_run",
+            "inference_attempted": true,
+            "error_code": "timeout",
+            "error": "Provider timed out; retry later. No project change was saved.",
+            "duration_ms": 60141.0
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "solar",
+      "status": "failed",
+      "code": "timeout",
+      "message": "Provider timed out; retry later. No project change was saved.",
+      "execution": {
+        "invocations": [
+          {
+            "id": "ca6188a7463a4a228da70273370c42d8",
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:26:34.776644+00:00",
+            "status": "error",
+            "validation": "not_run",
+            "inference_attempted": true,
+            "error_code": "timeout",
+            "error": "Provider timed out; retry later. No project change was saved.",
+            "duration_ms": 60110.0
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "solar",
+      "status": "failed",
+      "code": "http_400",
+      "message": "Provider rejected the model, schema or context size. Check compatibility.",
+      "execution": {
+        "invocations": [
+          {
+            "id": "17b13eb2869e447bb1b15867149d2546",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:27:58.263231+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "chatcmpl-8a252572-cb07-4c90-8974-2a07587ebcfd",
+            "input_tokens": 292,
+            "output_tokens": 673,
+            "total_tokens": 965,
+            "duration_ms": 1828.0
+          },
+          {
+            "id": "601d9deb24d9460abee22f499ed1a529",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "role": "planning",
+            "timestamp": "2026-10-23T04:28:00.100310+00:00",
+            "status": "error",
+            "validation": "not_run",
+            "inference_attempted": true,
+            "error_code": "http_400",
+            "error": "Provider rejected the model, schema or context size. Check compatibility.",
+            "duration_ms": 3359.0
+          }
+        ]
+      }
+    },
+    {
+      "scenario": "solar",
+      "status": "passed",
+      "project_id": "9841765c921941bf9ee000aca250b5c2",
+      "revision": 1,
+      "title": "Solar-Powered Community Wi-Fi Hotspot Deployment",
+      "tasks": 7,
+      "days": 75,
+      "cost": 241000.0,
+      "review": {
+        "feasible": false,
+        "findings": [
+          "Estimated cost exceeds budget by $91,000.00. Obtain scope/rate approval."
+        ],
+        "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+      },
+      "execution": {
+        "model_calls": 2,
+        "reported_tokens": 2258,
+        "invocations": [
+          {
+            "id": "d5cba42fd2f24dc0b7b020aedf7509b7",
+            "provider": "gemini",
+            "model": "gemini-3.5-flash-lite",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:31:07.050920+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "DOPaap26DNKq5NoP1pjs6AY",
+            "input_tokens": 155,
+            "output_tokens": 206,
+            "total_tokens": 361,
+            "duration_ms": 1391.0
+          },
+          {
+            "id": "d62aeec1ee4f45f7b37aa3b6b84c53a0",
+            "provider": "gemini",
+            "model": "gemini-3.5-flash-lite",
+            "role": "planning",
+            "timestamp": "2026-10-23T04:31:08.435378+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "DePaas2kIZqyiLMPi67HkAY",
+            "input_tokens": 623,
+            "output_tokens": 1274,
+            "total_tokens": 1897,
+            "duration_ms": 3390.0
+          }
+        ],
+        "max_model_calls": 4,
+        "max_output_tokens_per_call": 3500,
+        "workflow_timeout_seconds": 180,
+        "free_only": true,
+        "model": "gemini-3.5-flash-lite",
+        "prompt_version": "planner-v2",
+        "duration_ms": 4781.0,
+        "role_assignments": {
+          "requirements": "gemini",
+          "planning": "gemini",
+          "review": "none"
+        },
+        "workflow_outcome": "completed"
+      }
+    },
+    {
+      "scenario": "revision",
+      "status": "passed",
+      "project_id": "9841765c921941bf9ee000aca250b5c2",
+      "revision": 2,
+      "title": "Solar-Powered Community Wi-Fi Hotspot Deployment - Revised",
+      "tasks": 7,
+      "days": 75,
+      "cost": 241000.0,
+      "review": {
+        "feasible": false,
+        "findings": [
+          "Schedule exceeds target by 15 days. Reduce scope or revise estimates.",
+          "Estimated cost exceeds budget by $141,000.00. Obtain scope/rate approval."
+        ],
+        "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+      },
+      "execution": {
+        "model_calls": 2,
+        "reported_tokens": 4193,
+        "invocations": [
+          {
+            "id": "0069a382abc945b09f05412c77e5c942",
+            "provider": "gemini",
+            "model": "gemini-3.5-flash-lite",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:32:01.773947+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "QuPaaratO7Lg0_gPrPqV4A0",
+            "input_tokens": 1067,
+            "output_tokens": 189,
+            "total_tokens": 1256,
+            "duration_ms": 1297.0
+          },
+          {
+            "id": "5f175bec24544047b4c7a94692442886",
+            "provider": "gemini",
+            "model": "gemini-3.5-flash-lite",
+            "role": "planning",
+            "timestamp": "2026-10-23T04:32:03.059137+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "ROPaat_qC7ePytMP1tSXyQQ",
+            "input_tokens": 1585,
+            "output_tokens": 1352,
+            "total_tokens": 2937,
+            "duration_ms": 3375.0
+          }
+        ],
+        "max_model_calls": 4,
+        "max_output_tokens_per_call": 3500,
+        "workflow_timeout_seconds": 180,
+        "free_only": true,
+        "model": "gemini-3.5-flash-lite",
+        "prompt_version": "planner-v2",
+        "duration_ms": 4672.0,
+        "role_assignments": {
+          "requirements": "gemini",
+          "planning": "gemini",
+          "review": "none"
+        },
+        "workflow_outcome": "completed"
+      }
+    },
+    {
+      "scenario": "conference",
+      "status": "passed",
+      "project_id": "6ce93ab6c0584eeab6d79cf4b1f6c168",
+      "revision": 1,
+      "title": "Regional Technology Conference Execution Plan",
+      "tasks": 8,
+      "days": 72,
+      "cost": 64800.0,
+      "review": {
+        "feasible": true,
+        "findings": [],
+        "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+      },
+      "execution": {
+        "model_calls": 2,
+        "reported_tokens": 4559,
+        "invocations": [
+          {
+            "id": "6b85d86303c44c11b4ae08470b9747ac",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:32:30.450345+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "chatcmpl-9a5c0c43-8cfb-4df7-b7e4-ffd602f7b898",
+            "input_tokens": 299,
+            "output_tokens": 486,
+            "total_tokens": 785,
+            "duration_ms": 1719.0
+          },
+          {
+            "id": "3fba300a3ff6486b923fe4da87c69171",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "role": "planning",
+            "timestamp": "2026-10-23T04:32:32.176214+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "chatcmpl-74a6eedc-68ce-446b-b49e-ce0a4970ea58",
+            "input_tokens": 1512,
+            "output_tokens": 2262,
+            "total_tokens": 3774,
+            "duration_ms": 5078.0
+          }
+        ],
+        "max_model_calls": 4,
+        "max_output_tokens_per_call": 3500,
+        "workflow_timeout_seconds": 180,
+        "free_only": true,
+        "model": "openai/gpt-oss-120b",
+        "prompt_version": "planner-v2",
+        "duration_ms": 6797.0,
+        "role_assignments": {
+          "requirements": "groq",
+          "planning": "groq",
+          "review": "none"
+        },
+        "workflow_outcome": "completed"
+      }
+    },
+    {
+      "scenario": "solar",
+      "status": "passed",
+      "project_id": "36905d032c6641c29f69ea82dba1f378",
+      "revision": 1,
+      "title": "Solar-Powered Community Wi\u2011Fi Hotspot Deployment",
+      "tasks": 8,
+      "days": 36,
+      "cost": 208000.0,
+      "review": {
+        "feasible": false,
+        "findings": [
+          "Estimated cost exceeds budget by $58,000.00. Obtain scope/rate approval."
+        ],
+        "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+      },
+      "execution": {
+        "model_calls": 4,
+        "reported_tokens": 4524,
+        "invocations": [
+          {
+            "id": "c00a5274df28494f99a76151a8c83ea8",
+            "provider": "gemini",
+            "model": "gemini-3.5-flash-lite",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:33:05.406470+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "guPaatbqJZ7QiLMPnKmVsAY",
+            "input_tokens": 155,
+            "output_tokens": 161,
+            "total_tokens": 316,
+            "duration_ms": 1266.0
+          },
+          {
+            "id": "09a156c2fe2e46bcb89e6bc1cfc62951",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "role": "planning",
+            "timestamp": "2026-10-23T04:33:06.677590+00:00",
+            "status": "error",
+            "validation": "invalid",
+            "inference_attempted": true,
+            "error_code": "invalid_output",
+            "error": "Provider rejected malformed generated JSON; one bounded repair is permitted.",
+            "duration_ms": 4875.0
+          },
+          {
+            "id": "25dcbc3c4bfd44519a92d6b184b73748",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "role": "repair",
+            "timestamp": "2026-10-23T04:33:11.556416+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "chatcmpl-95dbc435-b6c7-4a64-aa70-c9ad762f7951",
+            "input_tokens": 1232,
+            "output_tokens": 1417,
+            "total_tokens": 2649,
+            "duration_ms": 3953.0
+          },
+          {
+            "id": "886dbee505e94ce9a111484fa5bcb71e",
+            "provider": "openrouter",
+            "model": "nvidia/nemotron-3.5-super-vl:free",
+            "role": "review",
+            "timestamp": "2026-10-23T04:33:15.505928+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "gen-1792729996-sXBclIXKIdTZ5uujVK1B",
+            "input_tokens": 1445,
+            "output_tokens": 114,
+            "total_tokens": 1559,
+            "duration_ms": 1719.0
+          }
+        ],
+        "max_model_calls": 4,
+        "max_output_tokens_per_call": 3500,
+        "workflow_timeout_seconds": 180,
+        "free_only": true,
+        "model": "openai/gpt-oss-120b",
+        "prompt_version": "planner-v2",
+        "duration_ms": 11813.0,
+        "role_assignments": {
+          "requirements": "gemini",
+          "planning": "groq",
+          "review": "openrouter"
+        },
+        "workflow_outcome": "completed"
+      }
+    },
+    {
+      "scenario": "revision",
+      "status": "passed",
+      "project_id": "36905d032c6641c29f69ea82dba1f378",
+      "revision": 2,
+      "title": "Solar-Powered Community Wi\u2011Fi Hotspot Deployment \u2013 60\u2011Day / $100k Revision",
+      "tasks": 8,
+      "days": 36,
+      "cost": 208000.0,
+      "review": {
+        "feasible": false,
+        "findings": [
+          "Estimated cost exceeds budget by $108,000.00. Obtain scope/rate approval."
+        ],
+        "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+      },
+      "execution": {
+        "model_calls": 3,
+        "reported_tokens": 7035,
+        "invocations": [
+          {
+            "id": "513db6257a9c416794b73dfd367af339",
+            "provider": "gemini",
+            "model": "gemini-3.5-flash-lite",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:35:48.133466+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "JeTaavWUFcOi5NoPjbj2iAc",
+            "input_tokens": 1306,
+            "output_tokens": 208,
+            "total_tokens": 1514,
+            "duration_ms": 1469.0
+          },
+          {
+            "id": "257f3efbe0854280bc35d5e4b60cd8a4",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "role": "planning",
+            "timestamp": "2026-10-23T04:35:49.603857+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "chatcmpl-239277c7-d43e-487d-93fd-ec6518f16cf0",
+            "input_tokens": 2291,
+            "output_tokens": 1424,
+            "total_tokens": 3715,
+            "duration_ms": 3328.0
+          },
+          {
+            "id": "69ac5fa45d15439197cc88cd046bfb3b",
+            "provider": "openrouter",
+            "model": "nvidia/nemotron-3.5-super-vl:free",
+            "role": "review",
+            "timestamp": "2026-10-23T04:35:52.929744+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "gen-1792730154-qYGF0TxbcoNoR7G2XJZM",
+            "input_tokens": 1661,
+            "output_tokens": 145,
+            "total_tokens": 1806,
+            "duration_ms": 1984.0
+          }
+        ],
+        "max_model_calls": 4,
+        "max_output_tokens_per_call": 3500,
+        "workflow_timeout_seconds": 180,
+        "free_only": true,
+        "model": "openai/gpt-oss-120b",
+        "prompt_version": "planner-v2",
+        "duration_ms": 6781.0,
+        "role_assignments": {
+          "requirements": "gemini",
+          "planning": "groq",
+          "review": "openrouter"
+        },
+        "workflow_outcome": "completed"
+      }
+    },
+    {
+      "scenario": "conference_browser",
+      "status": "passed",
+      "project_id": "01834dfec0b94e559dc6f5c65d40ff30",
+      "revision": 1,
+      "title": "Regional Technology Conference Execution Plan",
+      "tasks": 9,
+      "days": 50,
+      "cost": 120400,
+      "review": {
+        "feasible": false,
+        "findings": [
+          "Estimated cost exceeds budget by $45,400.00. Obtain scope/rate approval."
+        ],
+        "verified": "Arithmetic and graph validity only; estimates and delivery outcomes are not verified facts."
+      },
+      "execution": {
+        "model_calls": 3,
+        "reported_tokens": 6216,
+        "invocations": [
+          {
+            "id": "1e28315ee64646d1a36d579013064efb",
+            "provider": "gemini",
+            "model": "gemini-3.5-flash-lite",
+            "role": "requirements",
+            "timestamp": "2026-10-23T04:38:53.736331+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "3uTaaqicNa2biLMPhoOU4QY",
+            "input_tokens": 161,
+            "output_tokens": 113,
+            "total_tokens": 274,
+            "duration_ms": 1437
+          },
+          {
+            "id": "ef2c3522a9a04a7b9f836c20978f4e1f",
+            "provider": "groq",
+            "model": "openai/gpt-oss-120b",
+            "role": "planning",
+            "timestamp": "2026-10-23T04:38:55.176602+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "chatcmpl-9a62fe84-a710-4112-97c9-fa596095ed96",
+            "input_tokens": 1189,
+            "output_tokens": 2269,
+            "total_tokens": 3458,
+            "duration_ms": 5109
+          },
+          {
+            "id": "1cfba14942a94bc996763a34d651b48c",
+            "provider": "openrouter",
+            "model": "nvidia/nemotron-3.5-super-vl:free",
+            "role": "review",
+            "timestamp": "2026-10-23T04:39:00.287649+00:00",
+            "status": "ok",
+            "validation": "pydantic_valid",
+            "inference_attempted": true,
+            "request_id": "gen-1792730341-KjBi7IlSnrUfbIqTdK9i",
+            "input_tokens": 2266,
+            "output_tokens": 218,
+            "total_tokens": 2484,
+            "duration_ms": 6500
+          }
+        ],
+        "max_model_calls": 4,
+        "max_output_tokens_per_call": 3500,
+        "workflow_timeout_seconds": 180,
+        "free_only": true,
+        "model": "openai/gpt-oss-120b",
+        "prompt_version": "planner-v2",
+        "duration_ms": 13046,
+        "role_assignments": {
+          "requirements": "gemini",
+          "planning": "groq",
+          "review": "openrouter"
+        },
+        "workflow_outcome": "completed"
+      },
+      "pageErrors": 0
+    }
+  ],
+  "probes": [
+    {
+      "provider": "groq",
+      "role": "planning",
+      "status": "error",
+      "code": "http_400",
+      "message": "Provider rejected the model, schema or context size. Check compatibility. Category: json_validate_failed.",
+      "metadata": {}
+    },
+    {
+      "provider": "gemini",
+      "role": "requirements",
+      "status": "error",
+      "code": "timeout",
+      "message": "Provider timed out; retry later. No project change was saved.",
+      "metadata": {}
+    },
+    {
+      "provider": "openrouter",
+      "role": "planning",
+      "status": "error",
+      "code": "http_404",
+      "message": "Model or API endpoint unavailable. Check current model availability.",
+      "metadata": {}
+    },
+    {
+      "provider": "groq",
+      "role": "planning",
+      "status": "error",
+      "code": "http_400",
+      "message": "Provider rejected the model, schema or context size. Check compatibility. Category: json_validate_failed. Local validation categories: json_invalid.",
+      "metadata": {}
+    },
+    {
+      "provider": "gemini",
+      "role": "requirements",
+      "status": "ok",
+      "metadata": {
+        "request_id": "2OLaasKyFvHRiLMP3cDV4AY",
+        "input_tokens": 106,
+        "output_tokens": 207,
+        "total_tokens": 313
+      }
+    },
+    {
+      "provider": "openrouter",
+      "role": "planning",
+      "status": "error",
+      "code": "incomplete",
+      "message": "Provider response was truncated or refused; reduce plan size or retry later.",
+      "metadata": {
+        "request_id": "gen-1792729817-nzegYnXdbuuSqzSszzC1",
+        "input_tokens": 413,
+        "output_tokens": 3500,
+        "total_tokens": 3913
+      }
+    }
+  ]
+}

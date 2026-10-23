@@ -1,43 +1,51 @@
 # Northstar technical case study
 
-## Problem
+## Problem and solution
 
-High-level project objectives hide dependencies, assumptions and constraint conflicts. A model
-can produce persuasive plans with incorrect arithmetic or silently alter scope to fit a deadline.
-The capstone explores a more inspectable process using fictional commerce-launch data.
+Project-planning prose can hide arithmetic errors, missing dependencies and unrealistic
+assumptions. Northstar separates structured model proposals from a deterministic execution
+boundary, preserving the evidence needed to inspect both. It is an independent LLM Engineering
+capstone using fictional data, with a reproducible fixture and a verified live path.
 
-## Solution and architecture
+## Architecture
 
-A FastAPI application serves a native browser dashboard and typed APIs. In optional live mode,
-a requirements agent feeds structured context to a planning agent. Pydantic constrains proposed
-tasks and operations; deterministic Python validates the DAG, computes CPM, levels pooled
-resources, totals costs and reviews feasibility. SQLite separates revision memory from document
-chunks/vectors. See the architecture diagram and run instructions in the README.
+A same-origin native browser frontend and FastAPI backend coordinate requirements → planning →
+validation/calculation → independent review. Provider adapters encapsulate native Gemini and
+compatible Groq/OpenRouter APIs, schema translation, error sanitization, quotas and timeouts.
+Pydantic validates boundaries; allowlisted Python functions own DAG validation, CPM, resource
+leveling and costs. SQLite stores immutable prior revisions and separate lexical document chunks.
+Failed runs retain sanitized metadata without mutating project state.
 
-## Decisions and challenges
+## Engineering decisions
 
-One same-origin service reduced integration overhead. Explicit orchestration gave tool control
-without a graph framework. Revision snapshots plus conditional writes preserve history while
-rejecting stale clients. A fixed demo enables reproducibility without API charges and is labeled
-as such. Local lexical retrieval avoids model downloads, but cannot claim semantic understanding.
+The existing working tools and persistence were preserved. A small explicit orchestrator made
+permissions and four-call limits inspectable without a workflow framework. Server-only dotenv
+loading avoids manual credential copying. Free-tier account confirmation and OpenRouter zero
+price ceilings protect the $0 task constraint. No paid fallback, billing upgrade or public hosting
+was enabled. Single-provider modes avoid unnecessary quota usage; multi-mode demonstrates a
+real requirements handoff and an independent model opinion.
 
-The reduced-constraint scenario illustrates the product's integrity: the estimates still require
-45 days and $16,270. A 46-day/$15,000 target leaves one day of schedule buffer and a $1,270
-shortfall. Arithmetic is deterministic; negotiating scope or rates remains a human decision.
+## Actual findings
 
-## Evaluation
+Gemini Flash-Lite completed solar generation/revision. Groq completed unrelated conference
+planning. A three-provider solar workflow executed a malformed-JSON repair, then all tools and
+independent review; its revision kept the original work at $208k and exposed a $108k deficit
+against $100k. A final conference run used the actual browser and HTTP API, all three models,
+tools and persistence. Real request receipts are published without credentials.
 
-Thirty Python tests passed, including known CPM/float values, invalid graphs, capacity contention,
-cost totals, typed boundaries, tool limits, live-path fake-transport handoff/repair, revision memory,
-retrieval isolation and exports. Thirteen Chrome browser assertions passed with zero page errors,
-including uploads, scenarios, saved history, downloads and a 390px mobile overflow check.
-Screenshots are captured from that local application. No real model output or paid inference was
-used, so live planning quality and prompt-injection robustness remain unverified.
+The earlier Gemini 3.8 default timed out; a lighter model worked. Groq strict JSON was not enough
+to eliminate malformed generations, so full local validation and a single repair were essential.
+OpenRouter routing/optional reasoning needed explicit configuration. One model review asserted
+an unsupported schedule concern, motivating richer calculated context and strict labeling as
+opinion. These are observed failures and fixes, not proof of model reliability in every project.
 
-## Tradeoffs and roadmap
+## Evaluation and limits
 
-The release is a working local vertical slice, not full production completion. Next steps are
-an authorized live-model evaluation, pretrained semantic embeddings with retrieval relevance
-metrics, task-level edits, skills/calendars, a second provider, stronger failure telemetry, global
-cost controls and authenticated hosting. Deployment requires separate approval. The repository
-documents these limits so reviewers can distinguish implemented tools from future ambitions.
+57 Python tests, 13 offline-browser assertions, 15 saved-live-dashboard assertions and real
+browser-driven conference creation passed. Different models estimated different scope costs
+and durations; no external site survey or vendor quotes verified them. Independent review can
+still err and cannot overwrite deterministic results. Lexical retrieval is functional; pretrained
+semantic embeddings, task editing, skill calendars, global quotas and authenticated production
+hosting remain future work. Public deployment requires separate authorization and security work.
+
+See README for the diagram and setup, and docs/live-validation.md for actual calls and receipts.

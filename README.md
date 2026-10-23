@@ -1,14 +1,20 @@
 # Northstar · Agentic AI Project Manager
 
-An independent LLM Engineering capstone that turns objectives and constraints into inspectable execution plans. Planning is separated from arithmetic, graph validation, tool authorization and persistence.
+An independent LLM Engineering capstone with **verified live multi-provider planning**, deterministic project calculations, retrieval, persistent revisions and a responsive dashboard.
 
-**Working local demo. Public source. Not a publicly deployed service.** No API key or paid call is needed for demo mode. The demo is a fixed fictional e-commerce fixture, clearly labeled throughout; it does not pretend to understand arbitrary goals.
+**Public source, local application. No public production deployment.** Original code and fictional examples are MIT licensed. No Wealth Advisor code or private assets were accessed.
 
-![Authentic local application screenshot](docs/screenshots/dashboard.png)
+![Live solar infrastructure plan from actual provider calls](docs/screenshots/live-solar.png)
 
-## Try it locally
+## Live AI and Offline Demo
 
-Python 3.12+ and Git are required. Node 24 is needed only for browser tests.
+- **Live AI / multi-provider:** Gemini extracts requirements, Groq consumes the handoff and proposes a typed plan, Python validates/executes five tools, and an OpenRouter model independently reviews coverage and estimates. Actual model/request IDs, timings, validation and token usage appear in Agent activity. No simulated activity is presented as inference.
+- **Live AI / single provider:** choose Gemini, Groq or OpenRouter for both requirements and planning. A second provider is not required. Gemini and Groq complete workflows were live-tested; OpenRouter was live-tested as the reviewer.
+- **Offline Demo:** fixed fictional e-commerce fixture, no external calls. Same deterministic tools and persistence; it does not understand arbitrary goals.
+
+## Run locally
+
+Python 3.12+ is required. Node 24 is needed for browser tests only.
 
 ```sh
 git clone https://github.com/Steveaub/agentic-ai-project-manager.git
@@ -23,112 +29,108 @@ python -m pip install -r requirements-dev.txt
 python -m uvicorn pm.api:app --host 127.0.0.1 --port 8000
 ```
 
-Open **http://127.0.0.1:8000**. The frontend and backend share that origin. Use the default project and click **Build execution plan**. Do not bind this unauthenticated local application to a public interface.
+Open **http://127.0.0.1:8000**. Offline Demo works immediately. If Python omits ensurepip, use `uv venv .venv` and `uv pip install --python .venv -r requirements-dev.txt`.
 
-If your Python distribution omits ensurepip, use `uv venv .venv` and `uv pip install --python .venv -r requirements-dev.txt` instead.
+For live mode, create `.env` from `.env.example` **only if `.env` does not already exist**. Add provider keys locally, confirm the corresponding account/project has paid billing disabled, then set `PM_GEMINI_FREE_TIER_CONFIRMED=true` and/or `PM_GROQ_FREE_TIER_CONFIRMED=true`. Restart the backend. Never paste keys into the frontend, chat, commits, CI or screenshots.
 
-Optional local container path: `docker compose up --build`. It binds the host port to loopback and saves SQLite in a named volume. Container configuration is supplied but was not executed during development. Public production deployment requires separate approval and additional controls.
+The backend loads only this repository's `.env`; process environment takes precedence and interpolation is disabled. `/api/providers` reports models/readiness without keys. Missing settings produce actionable configuration errors.
 
-## What works
+## Verified defaults and free-only policy
 
-- Project creation, persistence, reopening, and immutable prior revisions with optimistic concurrency checks.
-- Typed Pydantic contracts for goals, constraints, tasks, dependencies, milestones, resources, budgets, risks, decisions, invocations, results, scenarios and revisions.
-- Five real allowlisted tools: WBS/dependency validation, CPM and resource-leveled scheduling, budget arithmetic, pooled resource utilization and deterministic review.
-- Responsive dashboard, grouped WBS, timeline, budget/resources, risks, scenario comparison, knowledge, activity and JSON/CSV export.
-- UTF-8 text/Markdown ingestion, overlapping chunks, local embeddings, SQLite vector storage, cosine retrieval, project metadata and source excerpts.
-- An implemented OpenAI Responses structured-output path with a requirements-specialist → planning-specialist handoff, validated operations and one bounded repair.
-- Versioned prompts, completed execution traces, model-call/token metrics, deadlines, retries disabled at the SDK, and per-run limits.
+| Role | Provider | Model |
+|---|---|---|
+| Requirements | Gemini Developer API | `gemini-3.5-flash-lite` |
+| Planning / repair | Groq | `openai/gpt-oss-120b` |
+| Independent review | OpenRouter | `nvidia/nemotron-3.5-super-vl:free` |
+| Numerical calculations | Python | No model |
 
-**Verification boundary:** demo flows and fake-transport live orchestration were tested. No paid model request was made. Live model behavior, semantic retrieval, Anthropic and production hosting are not verified or complete.
+`PM_REQUIREMENTS_PROVIDER`, `PM_PLANNING_PROVIDER` and `PM_REVIEW_PROVIDER` configure roles (`none` disables review). Single-provider UI choices bypass multi-role assignments. Models are server-side allowlisted settings.
 
-## Core demonstration
+`PM_FREE_ONLY=true` and `PM_ALLOW_PAID_CALLS=false` block the retained OpenAI adapter. Groq/Gemini require operator confirmation of free-tier billing: their model names alone do not prevent charges. OpenRouter verifies current zero pricing and structured-output support before inference, uses a named `:free` model, enforces zero price ceilings and disables provider fallback. Optional explicit role fallbacks may use only verified free providers, default `none`, and share the four-call budget. No paid route, purchase or billing upgrade was enabled.
 
-1. Create the e-commerce project using **60 days, $20,000, 4 people**.
-2. Inspect seven work packages, dependencies, milestones, a **45-day schedule** and **$16,270 estimated cost**.
-3. Upload `examples/fictional-charter.md` in Knowledge; search `payment requirements`.
-4. In Scenarios, propose **46 days and $15,000**. Preview, then save a revision.
-5. The same task IDs and estimates remain. The schedule has only **one day of buffer** and cost exceeds the new budget by **$1,270**. The app does not silently cut scope or rates to claim feasibility.
-6. Switch saved revisions to inspect the original, then export full JSON or the latest tasks CSV.
+Actual tests informed defaults: Gemini 3.8 Flash timed out; Flash-Lite completed workflows. The older Nemotron 3 Super free route returned 404; 3.5 Super VL completed reviews with optional reasoning disabled. These are observations, not universal availability guarantees. [Configuration, research and error handling](docs/free-models.md).
 
-Numeric input fields are authoritative constraints. Demo mode does not parse constraints from natural language or incorporate uploaded requirements into its fixed estimates. Retrieved passages are attached for human review; live revisions inject them into requirements analysis.
+## Agentic workflow and architecture
 
-## What makes the live path agentic
-
-The requirements specialist extracts a structured handoff from the goal, constraints and retrieved excerpts. The planning specialist consumes that handoff and proposes typed work packages and authorized operations. The Python orchestrator independently enforces operation order and calls real calculation functions. Invalid graphs or invalid task provenance can trigger one repair; a second invalid plan fails without saving a revision. The deterministic reviewer observes computed results and flags constraints. It is a software reviewer, not a third LLM agent.
-
-The workflow is **plan → validate → execute → observe → evaluate → repair or finish**. It does not execute generated code, access arbitrary URLs, modify external projects, or autonomously perform the planned business work. Five tool steps, at most three model calls, 4,000 requested output tokens per call, 30-second per-call timeout and a boundary-checked 100-second workflow deadline limit each run. These are not a global spending cap or an exact dollar budget.
-
-## Architecture
+1. Requirements specialist extracts typed requirements, assumptions and questions from the goal, numeric constraints and untrusted retrieved passages.
+2. Planner consumes that handoff, returning typed tasks, dependencies, milestones, estimates, risks and authorized operations.
+3. Orchestrator validates schemas, provenance, references and DAGs, then invokes real WBS, CPM/resource-leveling, cost, resource and feasibility tools.
+4. Invalid output permits one bounded repair. Optional independent review offers **AI opinions**, never overrides arithmetic, and may fail without discarding a valid calculated plan.
+5. SQLite stores revisions, decisions, tool outputs and provider metadata. Sanitized failed-execution metadata is stored separately; failed planning does not mutate the project.
 
 ```mermaid
 flowchart LR
-    UI[Browser dashboard] --> API[FastAPI / typed boundary]
-    API --> R[Requirements specialist]
+    UI[Browser: Demo / Live / Scenarios] --> API[FastAPI + Pydantic]
+    API --> CFG[Server-only config / free guards]
+    CFG --> R[Requirements: Gemini]
     DB[(SQLite chunks + lexical vectors)] --> R
-    R -->|structured handoff| P[Planning specialist]
-    P --> O[Bounded Python orchestrator]
-    O --> V[WBS / DAG validation]
-    V --> S[CPM + resource leveling]
-    S --> B[Budget + resources]
-    B --> C[Deterministic review]
-    C -->|one invalid-plan repair| P
-    C --> STATE[(SQLite projects / revisions / traces)]
+    R -->|typed handoff| P[Planner: Groq]
+    P --> O[Bounded orchestrator]
+    O --> V[WBS + DAG validation]
+    V --> T[CPM / resources / costs / feasibility]
+    V -->|one repair| P
+    T --> REVIEW[Optional OpenRouter opinion]
+    T --> STATE[(SQLite revisions + traces)]
+    REVIEW --> STATE
     STATE --> API
     API --> UI
-    API -->|text ingestion| DB
+    API -->|ingestion| DB
 ```
 
-The no-cost fixture replaces both LLM specialists in demo mode; the same deterministic tools and storage still execute. `pm/models.py` owns contracts, `agents.py` prompts/providers/orchestration, `tools.py` calculations, `store.py` state/retrieval, and `api.py` HTTP. The frontend uses native JavaScript and CSS rather than a separate React/Next build, keeping the local vertical slice small and same-origin. There is no TypeScript compiler or ESLint step; JavaScript syntax and browser behavior are checked instead.
+`config.py` loads settings; `providers.py` encapsulates adapters/budgets; `agents.py` coordinates roles/tools; `tools.py` owns deterministic math; `models.py` contracts; `store.py` memory/retrieval; `api.py` serves native JavaScript/CSS. No separate React/Next build or agent framework is needed.
 
-## Retrieval and memory
+Free workflows allow **four inference attempts total**, including repairs/fallbacks, 1,100 requested output tokens for requirements/review and 3,500 for planning/repair, up to 60 seconds per request and a boundary-checked 180-second workflow deadline. No automatic HTTP/SDK retries. Missing token usage is unavailable, not zero. These limits are not a service-wide quota.
 
-Project memory stores complete typed revisions as JSON in a separate SQLite table from document chunks. Chunks are 1,000 characters with 200-character overlap, carry source name/ordinal/ID, and store normalized 512-dimensional word-hash vectors. Search ranks up to four chunks by cosine similarity.
+Constraint-only revisions preserve baseline IDs, titles, grouping, effort, rates and fixed costs. Models revise risks/tradeoffs while Python recalculates feasibility; they cannot silently shrink estimates to fit a budget. Scope changes and task-level editing remain future work.
 
-This is a functional **lexical retrieval-augmented planning path**, not pretrained semantic RAG. Hash collisions and vocabulary mismatch limit relevance. No embedding model or vector service is downloaded. A pretrained semantic embedding adapter and retrieval benchmark are explicit next steps. SQLite vector scans suit the enforced 500-chunk project limit, not a large knowledge base. All uploads and retrieved passages are untrusted; prompts cannot expand the tool allowlist.
+## Actual live validation
 
-## Optional live model configuration
+| Scenario | Observed result |
+|---|---|
+| Solar / Gemini only | Seven infrastructure tasks; 75 days / $241k; $91k over the $150k budget |
+| Solar revision / Gemini | Same project/work; 60-day/$100k target; 15 days late and $141k over budget |
+| Conference / Groq only | Eight conference tasks; 72 days / $64,800 against 120 days/$75k |
+| Solar / three providers | Eight infrastructure tasks; 36 days / $208k; one malformed-JSON repair; OpenRouter review |
+| Solar revision / three providers | Same project/work; 60-day/$100k target; 36 days / $208k, $108k shortfall |
+| Conference / browser / three providers | Actual UI creation; nine tasks; 50 days / $120,400; $45,400 shortfall |
 
-Paid calls are off by default. Do not enable them without your own cost authorization. Set these environment variables **on the server process**, then restart the server:
+Every successful row executed five tools, validated output, saved state and recorded actual request IDs. These are model estimates, not verified quotes/delivery predictions or quality scores. Independent review can be wrong and is labeled accordingly; it receives computed schedule/budget context. [Live evidence and failures](docs/live-validation.md).
 
-```text
-PM_ALLOW_PAID_CALLS=true
-OPENAI_API_KEY=<your server-side API key>
-OPENAI_MODEL=<a model available to your account that supports structured outputs>
-```
+## Dashboard, retrieval and tests
 
-Select OpenAI in project creation. The model is operator-configurable; no model was used for live inference during this build. `.env.example` lists safe placeholders; the application does **not** automatically load `.env`. Never put keys in the browser or commit them. Uploading documents for live revisions sends selected excerpts to the provider. Previewing and saving live scenarios are separate paid executions and can produce different results.
+Creation, overview, grouped WBS, timeline/dependency table, budgets/resources, risk register, scenarios, history, activity, text upload/search and JSON/CSV export work. Screenshots are authentic browser captures.
 
-Implementation reference: [OpenAI structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs). FastAPI selection follows its [official release notes](https://fastapi.tiangolo.com/release-notes/). Exact direct versions are pinned in requirements; all Python transitive dependencies are not locked. JavaScript browser-test dependencies have a lockfile.
-
-## Tests and evaluation
+Knowledge accepts UTF-8 `.txt`/`.md`: 1,000-character chunks with 200-character overlap, normalized 512-dimensional word-hash vectors, SQLite storage and project-scoped cosine retrieval of four passages. Live revisions inject excerpts; Demo attaches them for review. This is **lexical**, not pretrained semantic retrieval. Limits: 100k characters/document and 500 chunks/project.
 
 ```sh
 python -m pytest -q
-python -m ruff check pm tests
+python -m ruff check pm tests tools evaluations
+python tools/check_secrets.py
 node --check web/app.js
 npm ci
 npx playwright install chromium
-# With the server running in a separate terminal:
+# With the server running:
 npm run test:e2e
 ```
 
-To use installed Chrome instead of a downloaded Chromium, set `BROWSER_CHANNEL=chrome`. `PLAYWRIGHT_MODULE` can select an existing Playwright package. GitHub Actions runs Python checks and the browser workflow using Chrome preinstalled on its [Ubuntu 24.04 runner](https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md), retaining screenshots as artifacts.
+Use `BROWSER_CHANNEL=chrome` for installed Chrome. CI runs mocked Python tests, lint, credential-pattern/history checks, syntax and offline browser tests using runner Chrome. **CI never receives provider keys or invokes live models.**
 
-Actual local results: **30 Python tests passed** and **13 browser assertions passed, with zero page errors**. Tests cover known CPM/float values, cycles, missing references, resource contention, cost arithmetic, schema rejection, tool limits, specialist handoff/repair using a fake transport, persistence, revision conflicts, lexical retrieval/isolation, exports, origin checks and live-mode rejection. The browser checks creation, navigation, upload/search, preview/save, original-history restoration, reload, CSV download and 390px mobile overflow. Prompt-injection tests exercise deterministic confinement, not real-model prompt-injection resistance. See [evaluation record](docs/evaluation.md).
+Local verification: **57 Python tests**, **13 offline browser assertions**, **15 saved-live-dashboard assertions**, plus real browser-driven live creation. Explicit live evaluators consume free quotas and never run automatically:
 
-## Limits and next steps
+```sh
+python evaluations/live_smoke.py solar --provider multi
+python evaluations/live_smoke.py revision --provider multi --project-id <saved-id>
+python evaluations/live_smoke.py conference --provider groq
+# Optional real UI creation:
+node evaluations/browser_live_create.cjs
+```
 
-- Live API requests and real-model prompt robustness need an explicitly authorized paid evaluation. Provider refusals/incomplete structured responses fail visibly; schema parsing failures do not currently enter the graph-repair loop.
-- Only OpenAI plus the offline fixture are implemented. Anthropic/multi-model routing and semantic embeddings are not implemented.
-- Revision comparison preserves task IDs; live estimates can change. There is no task-level editing screen, conversational constraint parser, scope-approval workflow or document-before-initial-planning UI.
-- WBS has deliverable groups and leaf work packages, not arbitrary recursive summary tasks. Timeline uses bars and a dependency table, without arrow routing or drag editing.
-- CPM uses finish-to-start relationships; resource leveling is stable greedy, not optimal. People are interchangeable, rates are fictional, days are elapsed, and taxes, holidays and skills are not modeled.
-- Trace shows completed actions; there is no streaming, global token/dollar cap, persistent failed-run log, long-running job queue, cancellation or production monitoring.
-- Local single-user service: no authentication, tenant authorization, encryption at rest, aggregate storage quota or rate limiter. Host/origin checks do not make it safe for internet exposure. See [security guidance](SECURITY.md).
-- Docker configuration is unexecuted; production deployment and public hosting are not performed. Manual accessibility audit, Python transitive lock and broader browser coverage remain.
+## Limits and hosting
 
-## Portfolio
+Local single-user software: no authentication, tenant isolation, HTTPS, at-rest encryption, global quotas, streaming jobs, cancellation or production monitoring. Do not expose it to the internet. Public hosting requires separate approval and production controls. Docker/loopback compose configuration is supplied but unexecuted.
 
-[Architecture decisions](docs/architecture.md) · [Demo script](docs/demo-script.md) · [LinkedIn draft](docs/linkedin.md) · [Case study](docs/case-study.md) · [Release report](docs/release-report.md)
+Finish-to-start CPM plus stable greedy resource leveling is not optimal scheduling. Days are elapsed; resources are interchangeable, without skill calendars/holidays. No task-level editor, semantic embeddings or arbitrary-depth WBS exists. Human validation of estimates/review is essential. Direct Python dependencies are pinned, not every transitive. GitHub action runtime-migration warnings remain informational.
 
-Original project code and fictional assets: MIT. No existing startup repository or private asset was accessed or reused. This independent capstone is not represented as a formally required or graded course assignment.
+[Security](SECURITY.md) · [Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md) · [Live demo script](docs/demo-script.md) · [LinkedIn draft](docs/linkedin.md) · [Case study](docs/case-study.md)
+
+This independent capstone is not represented as a formally required or graded course assignment.

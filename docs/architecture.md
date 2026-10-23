@@ -1,30 +1,32 @@
-# Decisions and tradeoffs
+# Architecture and decisions
 
-The browser and API share one FastAPI process. Native browser JavaScript avoids a second
-build/runtime and makes offline demonstration straightforward. React/Next.js and TypeScript
-were preferred in the brief, not mandatory; their omission is explicit. Python/Pydantic own
-validation at request, provider and persistence boundaries. No agent framework is needed for
-five deterministic operations and one bounded feedback cycle.
+The existing FastAPI/native-browser/SQLite architecture is preserved. New modules are
+`config.py` (explicit repository dotenv loading and server-only safe settings) and
+`providers.py` (provider adapters, free guards and shared execution budgets). Existing Pydantic
+contracts, CPM/resource-leveling, budget arithmetic and project snapshots remain authoritative.
 
-The requirements specialist hands structured requirements to the planner. The planner owns
-proposals; the orchestrator owns allowed execution. Scheduling and costs never depend on
-model arithmetic. Infeasibility is a useful result: deadlines and budgets are constraints,
-not permission to fabricate cheaper or faster work.
+Gemini uses native generateContent with JSON Schema; Groq and OpenRouter use compatible
+chat-completion APIs. Model-specific endpoints, payloads, parsing, timeouts and errors stay
+inside adapters. Wire schemas use a portable subset; complete Pydantic constraints still apply
+locally. The existing OpenAI Responses path remains blocked by default free-only policy.
 
-The graph validator uses Kahn's topological sort. CPM calculates earliest/latest starts and
-total float over the DAG; critical_path returns all zero-float tasks and can include multiple
-parallel paths. Resource leveling then schedules the stable topological order against an
-integer pooled capacity. Its result is feasible with respect to that pool, not globally optimal.
+Requirements output is handed to planning. A validated plan proposes only five operations,
+in exact order. Python owns permission enforcement and arithmetic. Optional independent review
+receives calculated results but cannot change them. The README contains the accurate diagram.
+Single-provider modes require only one configured provider; multi-mode assigns roles explicitly.
 
-Full project revisions are SQLite JSON snapshots with compare-and-swap updates. This avoids
-premature ORM complexity while preserving original versions. It will need migrations and
-normalized relational entities for larger concurrent workloads. Document chunks/vectors live
-in a separate table and are project-filtered. Retrieval is normalized lexical hashing, not
-semantic inference. The embedding interface is replaceable, but only the local implementation ships.
+One free workflow permits four inference attempts including repair and configured fallback,
+one plan repair, per-request timeouts and a boundary-checked overall deadline. Fallbacks are
+off by default and never include paid providers. OpenRouter also verifies zero catalog pricing
+and sends zero price ceilings, preventing paid routing if a free endpoint disappears.
 
-API operations: create/list/get projects; preview scenarios; append revisions; ingest/search
-documents; export JSON/CSV; health. OpenAPI at /docs reflects the running server. There is no
-external business-task execution, multi-tenant auth or production hosting configuration.
+Revision snapshots use optimistic SQL updates. Failed execution metadata lives in a separate
+table without mutating projects. Constraint-only revisions preserve baseline work and estimates,
+so tighter constraints reveal infeasibility instead of fabricated reductions. General scope/task
+editing needs a later explicit design. SQLite document chunks remain separate from project
+memory and use lexical hashing/cosine retrieval, not semantic embedding inference.
 
-Version decisions were checked against official FastAPI and OpenAI documentation. Exact
-versions installed during development are pinned in requirements. No paid API call was made.
+The frontend adds live/single/multi controls, provider readiness, invocation metadata, independent
+opinions and failed-revision history without replacing existing views. No streaming is simulated.
+The service remains local and single-user; per-run safeguards do not establish multi-tenant auth,
+global spend control or production readiness. Docker configuration remains unexecuted.

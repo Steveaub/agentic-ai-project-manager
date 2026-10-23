@@ -4,9 +4,11 @@ This release is a local, single-user educational application using fictional dat
 Run on 127.0.0.1:8000. Public source publication does not authorize public hosting.
 Do not expose the API to an untrusted network or treat project IDs as access control.
 
-Provider credentials stay in the server environment. Demo mode never constructs a
-provider. Live mode requires explicit PM_ALLOW_PAID_CALLS=true plus model/key settings;
-each run is bounded, but repeated/concurrent requests are not a global spend limit.
+Provider credentials stay in the server environment or ignored repository-local .env.
+Demo never constructs a provider. Free live mode requires allowlisted models, configured keys
+and operator confirmation of free-tier billing for Groq/Gemini. OpenRouter enforces zero-price
+routes. PM_FREE_ONLY=true and PM_ALLOW_PAID_CALLS=false block OpenAI by default. Each free
+run is bounded, but repeated/concurrent requests are not a global quota or spending limit.
 
 Uploads are plain text/Markdown, stored as text rather than interpreted code. Retrieved
 passages and LLM outputs are untrusted. The allowlist exposes only deterministic planning

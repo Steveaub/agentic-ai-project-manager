@@ -1,5 +1,9 @@
 # Release report — October 22, 2026
 
+> Historical v0.1 report. The October 23 live multi-provider upgrade supersedes its live-inference
+> limitations. See [current live validation](live-validation.md), [provider configuration](free-models.md)
+> and README for v0.2 behavior. Its original security report does not certify the later patch.
+
 Repository: https://github.com/Steveaub/agentic-ai-project-manager (public).
 Product name: Northstar. Independent LLM Engineering capstone. Original code: MIT.
 
