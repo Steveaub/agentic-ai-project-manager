@@ -4,7 +4,7 @@ Northstar turns a natural-language project request into a confirmed scope, an es
 
 The engineering boundary is explicit: **request → requirements confirmation → LLM planning → deterministic tools → independent review when configured → validation/one repair → saved plan**. Models suggest estimates; Python checks declared scope, dependencies, capacity and exact-cent arithmetic. Passing requirements validation does not mean a plan fits the budget or constitutes a delivery commitment.
 
-**Public source; local demonstration; no public hosting.** All release acceptance calls are mocked. Existing sanitized live receipts are preserved, including failures and provider substitutions. [Final release evidence](docs/portfolio-release.md) · [Why the Haiti estimates differ](docs/estimate-comparison.md) · [Architecture](docs/architecture.md) · [90-second demo](docs/demo-script.md) · [LinkedIn draft](docs/linkedin.md).
+**Public source; local demonstration; no public hosting.** All release acceptance calls are mocked. Existing sanitized live receipts are preserved, including failures and provider substitutions. [Final release evidence](docs/portfolio-release.md) · [Why the Haiti estimates differ](docs/estimate-comparison.md) · [Architecture](docs/architecture.md) · [90-second demo](docs/demo-script.md).
 
 ![Saved expanded Haiti plan in an isolated local portfolio database](docs/screenshots/portfolio-overview.png)
 
@@ -120,7 +120,7 @@ Local single-user software: no authentication, tenant isolation, HTTPS, at-rest 
 
 Finish-to-start CPM plus stable greedy resource leveling is not optimal scheduling. Days are elapsed; resources are interchangeable, without skill calendars/holidays. No task-level editor, semantic embeddings or arbitrary-depth WBS exists. Human validation of estimates/review is essential. Direct Python dependencies are pinned, not every transitive. GitHub action runtime-migration warnings remain informational.
 
-[Security](SECURITY.md) · [Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md) · [Live demo script](docs/demo-script.md) · [LinkedIn draft](docs/linkedin.md) · [Case study](docs/case-study.md)
+[Security](SECURITY.md) · [Architecture](docs/architecture.md) · [Evaluation](docs/evaluation.md) · [Live demo script](docs/demo-script.md) · [Case study](docs/case-study.md)
 
 This independent capstone is not represented as a formally required or graded course assignment.
 
