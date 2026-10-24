@@ -49,7 +49,7 @@ The $2,171,600 and $2,693,400 totals differ by $521,800: labor +$316,800 (1,280 
 ## Portfolio artifacts
 
 - [README](../README.md), [architecture](architecture.md), [evaluation](evaluation.md), [live history](live-validation.md).
-- [90-second zero-call local demo](demo-script.md), [AI-transparent LinkedIn draft](linkedin.md).
+- [90-second zero-call local demo](demo-script.md).
 - Clean saved-replay screenshots: [overview](screenshots/portfolio-overview.png), [cost evidence](screenshots/portfolio-costs.png), [independent review](screenshots/portfolio-review.png), [activity](screenshots/portfolio-activity.png), [mobile](screenshots/portfolio-mobile.png).
 - [Short saved project](../examples/live-microgrids.json), [expanded saved project](../examples/live-haiti-expanded.json); the latter was copied from the existing user-created local record, not newly generated.
 - `python tools/prepare_portfolio.py` creates a new replay database only; `node evaluations/portfolio_capture.cjs` captures saved views without model calls.
